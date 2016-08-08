@@ -23,20 +23,37 @@
         };
 
 
-        //读取account的信息文件
+        //测试创建App
         $scope.createApp = function() {
             var api = 'http://m.xmgc360.com/pie/api/createApp';
             var dat = {
                 appName: 'test',
             }
             $.post(api, dat, function(res) {
-                console.log('GET', api, dat, res);
-
-
-
-
+                console.log('POST', api, dat, res);
             });
         };
         $scope.createApp();
+
+
+        //测试获取上传token
+        $scope.getUploadToken = function() {
+            var api = 'http://m.xmgc360.com/pie/api/getUploadToken';
+            var dat = {
+                fpath: 'test/index.html',
+            };
+            $.post(api, dat, function(res) {
+                console.log('POST', api, dat, res);
+            });
+        };
+        $scope.getUploadToken();
+
+
+
+
+
+
+
+        //end
     }
 })();

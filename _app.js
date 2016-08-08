@@ -21,6 +21,7 @@ var $sktio = global.$sktio = require('socket.io');
 var $qiniu = global.$qiniu = require('qiniu');
 
 //自定义库引入
+global._mime = require('./my_modules/mime.js');
 global._ctnu = require('./my_modules/ctnu.js');
 global._cfg = require('./my_modules/cfg.js');
 global._xcfg = require('../daimapai_xcfg.js');
@@ -28,11 +29,11 @@ global._fns = require('./my_modules/fns.js');
 global._mdwr = require('./my_modules/mdwr.js');
 global._rotr = require('./my_modules/rotr.js');
 global._rds = require('./my_modules/rds.js');
+global._qn = require('./my_modules/qn.js');
 
-//global._qn = require('./mymodules/qn.js');
 
 
-global._rds = require('./my_modules/pie.js');
+global._pie = require('./my_modules/pie.js');
 
 //服务器对象
 var koaSvr = _app.koaSvr = $koa();
@@ -50,7 +51,7 @@ var httpsSvr = _app.httpsSvr = $https.createServer(httpsOpt, koaSvr.callback());
  */
 (function () {
     _app.httpSvr.listen(_app.hostPort);
-    //_qn.start();
+    _qn.start();
     __infohdlr('Server is running on:' + _app.hostPort + '!');
 })();
 

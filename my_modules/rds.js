@@ -10,6 +10,18 @@ var cli = _rds.cli = $redis.createClient(6379, 'localhost', {});
 
 //全部key列表,所有映射map_开头,所有临时tmp_开头,所有对象直接写
 _rds.k = {
+    //应用
+    app: function(id) {
+        return 'app-' + id;
+    },
+
+    //用户的app列表zsort
+    usrApps: function(uid) {
+        return 'uApps-' + uid;
+    },
+
+
+
     //存储类的自增id
     map_cls2id: '_map:cls:id',
 
@@ -18,7 +30,6 @@ _rds.k = {
 
     //用户ukey到用户id的映射
     map_ukey2uid: '_map:usr.ukey:usr.id',
-
 
     //用户
     usr: function(id) {
@@ -35,6 +46,7 @@ _rds.k = {
         return '_tmp:phoneRstCode-' + phone;
     },
 };
+
 
 
 //导出模块
