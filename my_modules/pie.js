@@ -16,6 +16,10 @@ _rotr.apis.createApp = function() {
 
         var uid = yield _pie.getUidByCookieCo(ctx);
 
+        //数据库创建app-id键存app信息，创建uidapp放置用户的app列表
+
+
+
         var dat = {
             uid: uid,
         };
