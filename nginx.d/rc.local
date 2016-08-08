@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+
+
+
+
+/usr/sbin/ntpdate ntpupdate.tencentyun.com >/dev/null 2>&1 &
+#secu_agent init monitor, install at Sun Aug  7 23:54:01 CST 2016
+/usr/local/sa/agent/init_check.sh  > /dev/null 2>&1
+/usr/local/qcloud/rps/set_rps.sh >/tmp/setRps.log 2>&1
+/usr/local/qcloud/irq/net_smp_affinity.sh >/tmp/net_affinity.log 2>&1
+/usr/bin/redis-server /etc/redis.conf 2>&1
