@@ -10,12 +10,12 @@ var cli = _rds.cli = $redis.createClient(6379, 'localhost', {});
 
 //全部key列表,所有映射map_开头,所有临时tmp_开头,所有对象直接写
 _rds.k = {
-    //应用
+    //应用,hash
     app: function(id) {
         return 'app-' + id;
     },
 
-    //用户的app列表zsort
+    //用户的app列表,zsort
     usrApps: function(uid) {
         return 'uApps-' + uid;
     },

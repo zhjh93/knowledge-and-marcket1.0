@@ -218,7 +218,7 @@ function sendMail(tarmail, tit, cont) {
  * @param   {ctx} ctx请求的上下文
  * @returns {uid} 用户的id
  */
-_fns.getUidByCookieCo = function(ctx) {
+_fns.getUidByCtx = function(ctx) {
     var co = $co(function * () {
 
         //通过cookie从主服务器获取uid
@@ -249,6 +249,36 @@ _fns.getUidByCookieCo = function(ctx) {
     });
     return co;
 };
+
+/**
+ * 讲一个数组转化为对象
+ * @param   {array}   arr    需要转换的数组
+ * @param   {boolean} keyval 是否是[key,val,key,val]模式,默认为真
+ * @returns {Object}   转换结果，可能是空对象
+ */
+
+_fns.arr2obj = function(arr, keyval) {
+    if (keyval === undefined) keyval = true;
+    var res = {};
+    if (!arr || !Array.isArray(arr)) return res;
+    if (!keyval) {
+        for (var i = 0; i < arr.length; i++) {
+            res[String(i)] = arr[i];
+        };
+    } else {
+        for (var i = 0; i < arr.length; i += 2) {
+            if ((i + 1) < arr.length) {
+                res[String(arr[i])] = arr[i + 1];
+            }
+        };
+    };
+    return res;
+}
+
+
+
+
+
 
 
 

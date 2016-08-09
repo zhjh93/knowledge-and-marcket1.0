@@ -1,0 +1,55 @@
+{
+    "name": "pie",
+    "path": "pie/",
+    "author": "zhyuzh",
+    "time": "2016-08-09 10:00",
+    "apis": [{
+        "name": "createApp",
+        "desc": "创建App，并在七牛创建对应的目录，存储一个模板index.html文件，返回App的信息",
+        "method": ["POST","GET"],
+        "reqDat":{
+            "appName": "app名称，app名称格式，3~32字母或数字"
+        },
+        "respDat": {
+            "id": "app的id",
+            "name": "app名称",
+            "uid":"app创建者的id",
+            "time":"app创建时间",
+            "url":"app的目录绝对地址，实际由七牛空间地址和id，appName拼接而成"
+        },
+        "tip": "App创建后就不能改名或者删除了",
+        "author": "zhyuzh"
+    },{
+        "name": "getUploadToken",
+        "desc": "获取上传token的接口,存储锁定uid/...每个用户单独的路径以用户id为编号，格式'../455/'",
+        "method": ["POST","GET"],
+        "reqDat":{
+            "fpath": "存储的路径，不包含uid部分"
+        },
+        "respDat": {
+            "uid": "上传者id",
+            "path": "修正后的fapath，增加uid/前缀",
+            "domain":"上传的空间名",
+            "url":"上传的完整地址",
+            "uptoken":"许可"
+        },
+        "tip": "这个接口每次上传之前都要调用；如果需要防止覆盖，请在前端先检查该文件地址是否存在",
+        "author": "zhyuzh"
+    },{
+        "name": "getUploadToken",
+        "desc": "获取上传token的接口,存储锁定uid/...每个用户单独的路径以用户id为编号，格式'../455/'",
+        "method": ["POST","GET"],
+        "reqDat":{
+            "fpath": "存储的路径，不包含uid部分"
+        },
+        "respDat": {
+            "uid": "上传者id",
+            "path": "修正后的fapath，增加uid/前缀",
+            "domain":"上传的空间名",
+            "url":"上传的完整地址",
+            "uptoken":"许可"
+        },
+        "tip": "这个接口每次上传之前都要调用；如果需要防止覆盖，请在前端先检查该文件地址是否存在",
+        "author": "zhyuzh"
+    }]
+}

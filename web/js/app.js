@@ -120,12 +120,13 @@ var _app = {}; //最高全局变量，angular
     _app.controller('appCtrlr', appCtrlr);
 
     //整体控制器代码，与 $rootscope 类似，只是不能被其他控制器自由调用
-    function appCtrlr($rootScope, $scope) {
+    function appCtrlr($rootScope, $scope, $mdToast) {
         $scope.xargs = {
             id: 'app',
         };
         _fns.initCtrlr($scope, undefined, 'appCtrlr', true);
 
+        //自动调整屏幕高度宽度
         $scope.scrHei = $(window).height();
         $scope.scrWid = $(window).width();
         window.onresize = function() {
@@ -133,7 +134,29 @@ var _app = {}; //最高全局变量，angular
                 $scope.scrHei = $(window).height();
                 $scope.scrWid = $(window).width();
             })
-        }
+        };
+
+        //自动登陆获取自己信息记录到$root
+        $rootScope.getMyInfo = function() {
+            var api = 'http://m.xmgc360.com/start/api/getMyInfo';
+            $.post(api, undefined, function(res) {
+                console.log('POST', api, undefined, res);
+                if (res.code == 1) {
+                    $rootScope.myInfo = res.data;
+                } else {
+                    //提示错误
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('您还没有登陆和注册，很多功能将无法使用' )
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                };
+            });
+        };
+        $rootScope.getMyInfo();
+
+
     };
 
     //filter：显示为html样式
@@ -146,6 +169,24 @@ var _app = {}; //最高全局变量，angular
         }
     );
 
+    //directive:上传文件的指令
+    //<file name="image" ng-model="inputFile" accept="image/png,image/jpg,image/jpeg" />
+    _app.directive('file', function() {
+        return {
+            restrict: 'E',
+            template: '<input type="file" />',
+            replace: true,
+            require: 'ngModel',
+            link: function(scope, element, attr, ctrl) {
+                var listener = function() {
+                    scope.$apply(function() {
+                        attr.multiple ? ctrl.$setViewValue(element[0].files) : ctrl.$setViewValue(element[0].files[0]);
+                    });
+                }
+                element.bind('change', listener);
+            }
+        }
+    });
 
 
 

@@ -1,0 +1,92 @@
+<script>
+    _fns.addCtrlrJs('pie_temp');
+</script>
+
+<!--控制器界面部分-->
+<div id='pie_temp' ng-controller='pie_temp' class='container-fluid pie_temp doc_ctrlr'>
+    <style>
+        /*内部样式，以.doc_devWeb开头*/
+    </style>
+
+
+    <div style='margin-top:2rem'>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>token</label>
+            <input ng-model="uploader.token" />
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <file name="image" ng-model="uploader.file" />
+            <small>选择上传文件</small>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click='uploadFile()' aria-label='uploadFile' aria-label='btn'>上传文件</md-button>
+    </div>
+
+    <div style='margin-top:2rem'>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>data</label>
+            <input ng-model="uploader.data" />
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click='uploadData()' aria-label='uploadFile' aria-label='btn'>上传数据</md-button>
+    </div>
+
+    <div style="margin-top:2rem">
+        <md-button ng-repeat='item in apis' class="md-primary" ng-click='goto(item.name)' ng-bind='item.name' aria-label='btn'></md-button>
+    </div>
+    <div>
+        <h2>API接口测试</h2>
+        <ol layout='column' style='margin-top:1rem'>
+            <li ng-repeat='item in apis'>
+                <h3 ng-attr-id='{{item.name}}' ng-bind='item.name'></h3>
+                <div layout>
+                    <p flex='20'>描述</p>
+                    <p ng-bind='item.desc'></p>
+                </div>
+                <div layout>
+                    <p flex='20'>方法</p>
+                    <p ng-bind='item.method'></p>
+                </div>
+                <div>
+                    <h4>reqDat</h4>
+                    <div ng-repeat='(key,val) in item.reqDat'>
+                        <md-input-container class="md-block" flex-gt-sm style='margin-top:2rem' ng-show='val!="file"' aria-label='btn'>
+                            <label ng-bind='key'>...</label>
+                            <input name="{key}" ng-model="item.sendDat[key]" aria-label='ipt' />
+                            <small ng-bind='val'></small>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm style='margin-top:2rem' ng-show='val=="file"' aria-label='btn'>
+                            <p ng-bind='key'>...</p>
+                            <input type='file' name="{key}" ng-model="item.sendDat[key]" aria-label='ipt' />
+                            <small ng-bind='val'></small>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div>
+                    <h4>respDat</h4>
+                    <pre ng-bind='item.respDat  | json : 4' style="background:#FFF;padding:1rem"></pre>
+                </div>
+                <div style="margin-top:1rem">
+                    <md-button class="md-raised md-primary" ng-click='item.sendPost()'>测试</md-button>
+                    <div ng-show='item.recvDat' style="margin-top:1rem">
+                        <p>测试结果</p>
+                        <pre ng-bind='item.recvDat  | json : 4' style="background:#EEE;padding:1rem"></pre>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <!--    页脚内容-->
+    <div flex class="container" style="margin:5rem 1rem 10rem 2rem">
+        <small style="color:#AAA">contributor is zhyuzh | QQ:286052520</small>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!---->

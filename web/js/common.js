@@ -14,6 +14,15 @@ if (!_xmgc) var _xmgc = {};
     _xmgc.useNavBar = 'top';
     _cfg.startPage = 'pie_welcome';
 
+
+    _cfg.qn = {
+        getUploadTokenApi: 'http://m.xmgc360.com/pie/api/getUploadToken',
+        BucketDomain: 'http://mfiles.xmgc360.com/'
+    };
+
+
+
+
     //如果地址栏传递page参数进来，那么 autoStartPage 函数会覆盖startPage
     _fns.autoStartPage = function() {
         var pname = _fns.getUrlParam('page');
@@ -155,7 +164,7 @@ if (!_xmgc) var _xmgc = {};
      */
     _fns.getUrlParams = function(url) {
         var res;
-        url = (url) ? url : window.location.href;
+        url = (url) ? url : window.location.search;
         url = String(url);
         var parts = unescape(url).split('?');
         if (parts.length > 1) {
@@ -198,6 +207,166 @@ if (!_xmgc) var _xmgc = {};
             scope.$apply(fn);
         };
     };
+
+
+    /*扩展JSON.safeParse*/
+    JSON.safeParse = JSON.sparse = function(str) {
+        try {
+            return JSON.parse(str);
+        } catch (err) {
+            return undefined;
+        };
+    };
+
+
+
+
+    /**
+     * 上传到七牛存储，必须已经获得uploadtoken,最后的key必须与token匹配，如果没有key则使用随机文件名
+     * @param   {str} token    已经获取的上传凭证
+     * @param   {obj} file     需要上传的文件数据
+     * @param   {fn} progress 上传过程中更新的函数,一个参数obj包含lengthComputable,total,loaded
+     * @param   {fn} success  上传成功后的函数,三个参数,分别是返回信息(包含name,type,key),state('success'),xhr对象(带有file对象和domain)
+     * @param   {fn} error    上传失败后的函数
+     * @param   {fn} complete 上传完成后的函数
+     * @param   {fn} domain   上传到哪个存储空间，默认mfile.xmgc360.com
+     * @returns {xhr} 上传的xhr对象，带有file和domain属性
+     */
+    _fns.uploadFileQn = function(token, file, progress, success, error, complete, domain, key) {
+        var useargs = (token.constructor != String);
+
+        if (useargs) token = arguments.token;
+        if (!token) {
+            __errhdlr(new Error('_fns.uploadFileQn:token undefined.'))
+            return;
+        };
+
+        if (useargs) file = arguments.file;
+        if (!file) {
+            __errhdlr(new Error('_fns.uploadFileQn:file undefined.'))
+            return;
+        };
+
+        if (useargs) domain = arguments.domain || _cfg.qn.BucketDomain;
+
+        //准备fromdata
+        var formdata = new FormData();
+        formdata.append('token', token);
+        formdata.append('file', file);
+        formdata.append('key', key);
+
+        //发起上传
+        var set = {
+            url: "http://up.qiniu.com",
+            data: formdata,
+            type: 'POST',
+            processData: false, //屏蔽掉ajax自动header处理
+            contentType: false, //屏蔽掉ajax自动header处理
+        };
+
+        //监听事件
+        if (useargs) progress = arguments.progress;
+        if (progress) {
+            set.xhr = function() {
+                //为ajax添加progress事件监听
+                var xhr = $.ajaxSettings.xhr();
+                if (!xhr.file) xhr.file = file;
+                xhr.upload.addEventListener("progress", progress, false);
+                return xhr;
+            };
+        };
+
+        //添加各种监听函数
+        if (useargs) success = arguments.success;
+        if (success) set.success = success;
+        if (useargs) error = arguments.error;
+        if (error) set.error = error;
+        if (useargs) complete = arguments.complete;
+        if (complete) set.complete = complete;
+
+        var xhr = $.ajax(set);
+        xhr.file = file;
+        xhr.domain = domain;
+
+        return xhr;
+    };
+
+    //根据key先获取指定token，然后上传
+    _fns.uploadFileQn2 = function(key, file, progress, success, error, complete, domain) {
+        var api = _cfg.qn.getUploadTokenApi;
+        var dat = {
+            fpath: key,
+        };
+        $.post(api, dat, function(res) {
+            console.log('POST', api, dat, res);
+            if (res.code == 1) {
+                _fns.uploadFileQn(res.data.uptoken, file, progress, success, error, complete, domain, res.data.path);
+            } else {
+                __errhdlr(Error('_fns.uploadFileQn2:get uploadtoken failed.'));
+            }
+        });
+    };
+
+
+
+
+
+
+
+    /*重新封装console的函数*/
+    var cnslPreStr = '>';
+    console.xerr = function() {
+        var args = arguments;
+        console.info(cnslPreStr, 'ERR:');
+        console.error.apply(this, args);
+    };
+    console.xlog = function() {
+        var args = arguments;
+        console.info(cnslPreStr, 'LOG:');
+        console.log.apply(this, args);
+    };
+    console.xinfo = function() {
+        var args = arguments;
+        console.info(cnslPreStr, 'INFO:');
+        console.info.apply(this, args);
+    };
+    console.xwarn = function() {
+        var args = arguments;
+        console.info(cnslPreStr, 'WARN:');
+        console.xwarn.apply(this, args);
+    };
+
+
+    /*专用err处理函数,适合co().then()使用*/
+    __errhdlr = __errhdlr;
+
+    function __errhdlr(err) {
+        console.xerr(err.stack);
+    };
+
+    /*专用空函数，只输出不做额外处理,适合co().then()使用*/
+    __nullhdlr = __nullhdlr;
+
+    function __nullhdlr(res) {};
+
+    /*专用空函数，只输出不做额外处理,适合co().then()使用*/
+    __infohdlr = __infohdlr;
+
+    function __infohdlr(res) {
+        console.xinfo(res);
+    };
+
+    /*专用空函数，只纪录日志不做额外处理,适合co().then()使用*/
+    __loghdlr = __loghdlr;
+
+    function __loghdlr(res) {
+        console.xlog(res);
+    };
+
+
+
+
+
 
 
 

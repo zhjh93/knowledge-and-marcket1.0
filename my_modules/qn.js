@@ -38,15 +38,16 @@ _rotr.apis.getUploadToken = function() {
         if (!fpath || fpath == '') throw Error('获取上传授权失败:文件名不能为空!');
 
         //根据ukey获取uid
-        var uid = yield _fns.getUidByCookieCo(ctx);
+        var uid = yield _fns.getUidByCtx(ctx);
 
         //根据uid授权路径的token
-        var key = uid + '/' + fpath;
-        var token = _qn.genUploadToken(key);
+        var path = uid + '/' + fpath;
+        var token = _qn.genUploadToken(path);
         var respdat = {
             uid: uid,
-            key: key,
+            path: path,
             domain: _qn.cfg.BucketDomain,
+            url: _qn.cfg.BucketDomain + path,
             uptoken: token,
         };
         ctx.body = __newMsg(1, 'OK', respdat);
@@ -60,12 +61,11 @@ _rotr.apis.getUploadToken = function() {
 _qn.genUploadToken = genUploadToken;
 
 function genUploadToken(key) {
-    var pubPutPolicy = new $qiniu.rs.PutPolicy(_qn.cfg.BucketName);
+    var pubPutPolicy = new $qiniu.rs.PutPolicy(_qn.cfg.BucketName+ ':' + key);
     pubPutPolicy.returnBody = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"color": $(exif.ColorSpace.val),"key":$(key),"w": $(imageInfo.width),"h": $(imageInfo.height),"hash": $(etag)}';
     var token = pubPutPolicy.token();
     return token;
 };
-
 
 
 
@@ -80,7 +80,7 @@ _rotr.apis.getFileList = function() {
 
     var co = $co(function * () {
         //根据ukey获取uid
-        var uid = yield _fns.getUidByCookieCo(ctx);
+        var uid = yield _fns.getUidByCtx(ctx);
 
         var prefix = uid + '/';
         var path = ctx.query.path || ctx.request.body.path;
@@ -148,7 +148,7 @@ _rotr.apis.uploadData = function() {
     var ctx = this;
     var co = $co(function * () {
         //根据ukey获取uid
-        var uid = yield _fns.getUidByCookieCo(ctx);
+        var uid = yield _fns.getUidByCtx(ctx);
 
         var data = ctx.request.body.data || ctx.query.data;
         var file = ctx.request.body.file || ctx.query.file;
@@ -201,7 +201,7 @@ _rotr.apis.deleteFile = function() {
     var ctx = this;
     var co = $co(function * () {
         //根据ukey获取uid
-        var uid = yield _fns.getUidByCookieCo(ctx);
+        var uid = yield _fns.getUidByCtx(ctx);
 
         var fkey = ctx.request.body.key || ctx.query.key;
         if (fkey.indexOf(uid + '/') != 0) throw Error('You can delete only your own file.')

@@ -14,7 +14,7 @@ _rotr.apis.createApp = function() {
         var appName = ctx.query.appName || ctx.request.body.appName;
         if (!appName || !_cfg.regx.appName.test(appName)) throw Error('App名称格式错误.');
 
-        var uid = yield _fns.getUidByCookieCo(ctx);
+        var uid = yield _fns.getUidByCtx(ctx);
 
         //检查是否已经存在同名app，如果存在则终止
         var usrAppsKey = _rds.k.usrApps(uid);
@@ -31,7 +31,7 @@ _rotr.apis.createApp = function() {
         //存储为app-aid键
         var mu = _rds.cli.multi();
         var dat = {
-            id: appId,
+            'id': appId,
             'name': appName,
             'uid': uid,
             'time': (new Date()).getTime(),
@@ -50,6 +50,41 @@ _rotr.apis.createApp = function() {
     });
     return co;
 };
+
+
+/**
+ * 获取我的App列表
+ * @returns {obj} {count:3,apps:[{name:'xxx',...}]}
+ */
+
+_rotr.apis.getMyApps = function() {
+    var ctx = this;
+
+    var co = $co(function * () {
+
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        //获取appid列表
+        var uAppsKey = _rds.k.usrApps(uid);
+        var apps = yield _ctnu([_rds.cli, 'zrange'], uAppsKey, 0, -1, 'WITHSCORES');
+
+        var dat = {
+            count: apps.length/2,
+            apps: _fns.arr2obj(apps);
+        };
+
+        //返回数据
+        ctx.body = __newMsg(1, 'ok', dat);
+        return ctx;
+    });
+    return co;
+};
+
+
+
+
+
+
 
 
 
