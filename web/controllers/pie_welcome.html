@@ -9,7 +9,8 @@
     </style>
     <div layout-padding>
         <div>
-            <md-button class="md-primary" ng-click='getMyAppList()' aria-label='getMyAppList'>刷新列表</md-button>
+            <md-button class="md-raised md-accent" ng-click='doCreateApp()' aria-label='doCreateApp'>新建APP</md-button>
+            <md-button class="md-default" ng-click='getMyAppList()' aria-label='getMyAppList'>刷新</md-button>
         </div>
         <div layout layout-wrap class='container-fluid'>
             <div class='col-xs-12 col-sm-6 col-md-4 col-lg-3' ng-repeat='(key,val) in myApps.apps' style='padding:0.5rem'>
@@ -20,20 +21,23 @@
                             <span class="md-subhead" style='color:#CCC'>Alpha</span>
                         </md-card-title-text>
                     </md-card-title>
-                    <md-card-actions layout="row" layout-align="end center">
-                        <md-button ng-click='openApp(key)'>
+                    <md-card-actions layout="row" layout-align="end center" style='color:#AAA'>
+                        <span class='btn btn-sm' ng-click='openApp(key)'>
                             <span class='fa fa-fire'></span>
                             <span>打开</span>
-                        </md-button>
-                        <md-button ng-click='editApp(key)'>
+                        </span>
+                        <span class='btn btn-sm' ng-click='editApp(key)'>
                             <span class='fa fa-pencil'></span>
                             <span>编辑</span>
-                        </md-button>
+                        </span>
+                        <span class='btn btn-sm' ng-click='doRemoveApp(key)'>
+                            <span class='fa fa-remove'></span>
+                            <span>移除</span>
+                        </span>
                     </md-card-actions>
                 </md-card>
             </div>
         </div>
-        <!--        <pre ng-bind='myApps  | json : 4' style="background:#FFF;padding:1rem"></pre> -->
 
     </div>
     <!--    页脚内容-->

@@ -20,17 +20,17 @@
         $rootScope[thisName] = $scope;
 
         $scope.menus = [{
-            name: 'Web前端开发指南',
+            name: '我的APP列表',
+            icon: 'fa fa-list',
+            ctrlr: 'pie_welcome',
+        }, {
+            name: '代码编辑器',
             icon: 'fa fa-code',
-            ctrlr: 'doc_devWeb',
+            ctrlr: 'pie_editor',
         }, {
-            name: '服务器开发指南',
-            icon: 'fa fa-cloud',
-            ctrlr: 'doc_devSvr',
-        }, {
-            name: '所有模块API接口',
+            name: '接口测试',
             icon: 'fa fa-plug',
-            ctrlr: 'doc_api',
+            ctrlr: 'pie_temp',
         }]
 
         $(window).ready(function() {

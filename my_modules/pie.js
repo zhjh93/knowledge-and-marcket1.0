@@ -70,11 +70,38 @@ _rotr.apis.getMyApps = function() {
 
         var dat = {
             count: apps.length/2,
-            apps: _fns.arr2obj(apps);
+            apps: _fns.arr2obj(apps),
         };
 
         //返回数据
         ctx.body = __newMsg(1, 'ok', dat);
+        return ctx;
+    });
+    return co;
+};
+
+
+/**
+ * 移除自己的一个APP，只是从列表里面移除，并没有删除app键，也不删除响应的七牛文件，所以是可以恢复的
+ * @returns {null}
+ */
+
+_rotr.apis.removeApp = function() {
+    var ctx = this;
+
+    var co = $co(function * () {
+
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        var appName = ctx.query.appName || ctx.request.body.appName;
+        if (!appName || !_cfg.regx.appName.test(appName)) throw Error('App名称格式错误.');
+
+        //从appid列表中移除
+        var uAppsKey = _rds.k.usrApps(uid);
+        var res = yield _ctnu([_rds.cli, 'zrem'], uAppsKey, appName);
+
+        //返回数据
+        ctx.body = __newMsg(1, 'ok');
         return ctx;
     });
     return co;

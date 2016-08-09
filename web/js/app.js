@@ -113,14 +113,14 @@ var _app = {}; //最高全局变量，angular
 
         //显示左侧栏
         $rootScope.tagLeftMenu = function() {
-            $mdSidenav('left').toggle();
+            var tg = $mdSidenav('left').toggle();
         };
     });
 
     _app.controller('appCtrlr', appCtrlr);
 
     //整体控制器代码，与 $rootscope 类似，只是不能被其他控制器自由调用
-    function appCtrlr($rootScope, $scope, $mdToast) {
+    function appCtrlr($rootScope, $scope, $mdToast, $mdMedia) {
         $scope.xargs = {
             id: 'app',
         };
@@ -147,7 +147,7 @@ var _app = {}; //最高全局变量，angular
                     //提示错误
                     $mdToast.show(
                         $mdToast.simple()
-                        .textContent('您还没有登陆和注册，很多功能将无法使用' )
+                        .textContent('您还没有登陆和注册，很多功能将无法使用')
                         .position('top right')
                         .hideDelay(3000)
                     );

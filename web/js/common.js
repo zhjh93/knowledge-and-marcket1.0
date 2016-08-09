@@ -21,6 +21,18 @@ if (!_xmgc) var _xmgc = {};
     };
 
 
+    //正则表达式
+    _cfg.regx = {
+        phone: /^1\d{10}$/,
+        phoneCode: /^\d{6}$/,
+        pw: /^[0-9a-zA-Z]{32}$/, //md5之后的格式
+        nick: /^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5\.]{2,17}$/, //昵称，非数字开头3~18位
+        color: /^#[a-fA-F0-9]{6}$/, //颜色值，#开头十六进制
+        icon: /^fa-[\w-]{1,32}$/, //fa图标值
+        ukey: /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/, //user.ukey的格式
+        appName: /^\w{3,32}$/, //app名称格式，3~32字符
+    };
+
 
 
     //如果地址栏传递page参数进来，那么 autoStartPage 函数会覆盖startPage

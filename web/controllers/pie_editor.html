@@ -8,6 +8,9 @@
         /*内部样式，以.doc_devWeb开头*/
     </style>
     <div layout-padding>
+        <md-button class="md-icon-button hidden-xs" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" style='margin-left:0' aria-label='tagleft'>
+            <span class="fa fa-leaf fa-lg"></span>
+        </md-button>
         <h2>editor</h2>
         <p ng-bind='appName'>...</p>
     </div>

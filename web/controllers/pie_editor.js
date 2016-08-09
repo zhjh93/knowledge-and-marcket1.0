@@ -11,10 +11,12 @@
         $anchorScroll,
         $element,
         $mdToast,
-        $mdDialog
+        $mdDialog,
+        $mdMedia
     ) {
         console.log(thisName + '.js is loading...');
         _fns.initCtrlr($scope, $element, thisName, false);
+
 
         //锚点
         $scope.goto = function(key) {
@@ -24,7 +26,6 @@
 
 
         $scope.appName = $scope.xargs.app;
-        console.log('>>>>', $scope.xargs);
 
 
         //end
