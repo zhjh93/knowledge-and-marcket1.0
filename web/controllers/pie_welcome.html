@@ -9,6 +9,10 @@
     </style>
     <div layout-padding>
         <div>
+            <md-button class="md-icon-button hidden-xs" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" style='margin-left:0;color:#AAA' aria-label='tagleft'>
+                <span class="fa fa-arrow-right fa-lg" ng-show='$root.fold'></span>
+                <span class="fa fa-arrow-left fa-lg" ng-hide='$root.fold'></span>
+            </md-button>
             <md-button class="md-raised md-accent" ng-click='doCreateApp()' aria-label='doCreateApp'>新建APP</md-button>
             <md-button class="md-default" ng-click='getMyAppList()' aria-label='getMyAppList'>刷新</md-button>
         </div>
@@ -24,15 +28,15 @@
                     <md-card-actions layout="row" layout-align="end center" style='color:#AAA'>
                         <span class='btn btn-sm' ng-click='openApp(key)'>
                             <span class='fa fa-fire'></span>
-                            <span>打开</span>
+                        <span>打开</span>
                         </span>
                         <span class='btn btn-sm' ng-click='editApp(key)'>
                             <span class='fa fa-pencil'></span>
-                            <span>编辑</span>
+                        <span>编辑</span>
                         </span>
                         <span class='btn btn-sm' ng-click='doRemoveApp(key)'>
                             <span class='fa fa-remove'></span>
-                            <span>移除</span>
+                        <span>移除</span>
                         </span>
                     </md-card-actions>
                 </md-card>

@@ -3,20 +3,101 @@
 </script>
 
 <!--控制器界面部分-->
-<div id='pie_editor' ng-controller='pie_editor' class='container-fluid pie_editor doc_ctrlr'>
+<div id='pie_editor' ng-controller='pie_editor' class='container-fluid pie_editor doc_ctrlr' layout='start stretch' style="width:100%;height:100%">
     <style>
         /*内部样式，以.doc_devWeb开头*/
+
+        .pie_editor .itbtn {
+            margin-left: 0;
+            color: #AAA;
+            min-width: 6rem;
+            padding: 0;
+        }
     </style>
-    <div layout-padding>
-        <md-button class="md-icon-button hidden-xs" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" style='margin-left:0' aria-label='tagleft'>
-            <span class="fa fa-leaf fa-lg"></span>
-        </md-button>
-        <h2>editor</h2>
-        <p ng-bind='appName'>...</p>
-    </div>
-    <!--    页脚内容-->
-    <div flex class="container" style="margin:5rem 1rem 10rem 2rem">
-        <small style="color:#AAA">contributor is zhyuzh | QQ:286052520</small>
+    <div layout='column' style="width:100%">
+        <!--        顶部开关-->
+        <div layout flex='none' id='menuSec' style="height:2.5rem">
+            <md-button class="md-icon-button itbtn" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" aria-label='tagleft'>
+                <p style="color:#00bfa5">
+                    <span class="fa fa-arrow-right fa-1x" ng-show='$root.fold'></span>
+                    <span class="fa fa-arrow-left fa-1x" ng-hide='$root.fold'></span>
+                </p>
+            </md-button>
+            <md-button class="md-icon-button itbtn" ng-click="tagPart('hideList')" aria-label='tagleft' style='width:8rem'>
+                <p ng-hide='hideList' style="color:#00bfa5">
+                    <span class="fa fa-eye fa-lg"></span>
+                    <span>文件列表</span>
+                </p>
+                <p ng-show='hideList' style="color:#AAA">
+                    <span class="fa fa-eye-slash fa-lg"></span>
+                    <span>文件列表</span>
+                </p>
+            </md-button>
+            <md-button class="md-icon-button itbtn" ng-click="tagPart('hideEditor')" aria-label='tagleft' style='width:7rem'>
+                <p ng-hide='hideEditor' style="color:#00bfa5">
+                    <span class="fa fa-eye fa-lg"></span>
+                    <span>编辑器</span>
+                </p>
+                <p ng-show='hideEditor' style="color:#AAA">
+                    <span class="fa fa-eye-slash fa-lg"></span>
+                    <span>编辑器</span>
+                </p>
+            </md-button>
+            <md-button class="md-icon-button itbtn" ng-click="tagPart('hidePreview')" aria-label='tagleft'>
+                <p ng-hide='hidePreview' style="color:#00bfa5">
+                    <span class="fa fa-eye fa-lg"></span>
+                    <span>预览</span>
+                </p>
+                <p ng-show='hidePreview' style="color:#AAA">
+                    <span class="fa fa-eye-slash fa-lg"></span>
+                    <span>预览</span>
+                </p>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+
+        <!--        主体部分-->
+        <div layout='row' layout-align='start stretch' style="width:100%;height:100%">
+
+            <!--            文件列表部分-->
+            <div flex='auto' id='listPart' ng-hide='hideList' style="width:240px">
+                <div layout layout-wrap id='listMenus'>
+
+                    <p flex ng-bind='appName' class='elips' style="margin:1rem;font-size:2rem">...</p>
+                </div>
+                <div layout='column' layout-padding>
+                    <div id='listFiles'>
+                        <p>index.html</p>
+                        <p>index.html</p>
+                        <p>index.html</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--            编辑器部分-->
+            <md-divider ng-hide='hideEditor'></md-divider>
+            <div flex='grow' layout='column' id='editorPart' ng-hide='hideEditor'>
+                <!--            编辑器-->
+                <div flex='grow' id='editorSec' style="background:#a0a0a0">
+                    <p>editorSec</p>
+                </div>
+                <!--            底部菜单-->
+                <div layout flex='none' id='menuSec' style="background:#cbf7e4;height:4rem">
+                    <md-button class="md-raised md-primary itbtn" ng-click="hideList=!hideList" aria-label='tagleft'>
+                        保存</md-button>
+                </div>
+            </div>
+
+            <!--            预览部分-->
+            <md-divider ng-hide='hidePreview'></md-divider>
+            <div layout='column' flex='auto' id='previewPart' ng-hide='hidePreview' style='background:#ffcece;width:400px'>
+                <!--            预览器-->
+                <div flex='grow' id='previewSec' style="background:#addbde">
+                    <p>previewSec</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
