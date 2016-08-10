@@ -262,6 +262,73 @@
             });
         };
 
+        //模拟input弹窗选择文件并开始上传
+        $scope.upFiles = {};
+        $scope.doUploadFile = function(evt) {
+            var appName = $scope.getAppArg();
+            var uid = $rootScope.myInfo.id;
+
+            var btnjo = $(evt.target);
+            if (btnjo.attr('id') != 'uploadBtn') btnjo = btnjo.parent();
+
+            $scope.uploadId = _fns.uploadFile(appName, btnjo,
+                function(f, res) {
+                    //before,
+                }, function(f, proevt) {
+                    //progress,更新进度条
+                    _fns.applyScope($scope, function() {
+                        $scope.upFiles[f.id] = f;
+                    });
+                }, function(f, res) {
+                    //sucess,从upFiles里面移除这个f
+                    f.url = res.url;
+                    $scope.removeUpFile(f);
+                    //刷新列表，提示成功
+                    _fns.applyScope($scope, function() {
+                        $scope.getFileList();
+                    });
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('上传成功！')
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                }, function(f) {
+                    //abort,从upFiles里面移除这个f
+                    $scope.removeUpFile(f);
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('上传被取消')
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                }, function(f, err) {
+                    //error,从upFiles里面移除这个f
+                    f.url = res.url;
+                    $scope.removeUpFile(f);
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('上传失败:' + err.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                });
+        };
+
+
+        //从上传列表中移除
+        $scope.removeUpFile = function(f) {
+            _fns.applyScope($scope, function() {
+                delete $scope.upFiles[f.id];
+            });
+        };
+
+
+
+
+
+
+
 
 
         //ctrlr end

@@ -60,25 +60,39 @@
             <!--            文件列表部分-->
             <div flex='auto' id='listPart' ng-hide='hideList' style="width:240px">
                 <div layout layout-wrap id='listMenus' style="min-width:240px">
-                    <p flex ng-bind='appName' class='elips' style="margin:1rem;font-size:2rem">...</p>
+                    <p flex ng-bind='appName | uppercase' class='elips' style="margin:1rem 0 0 1rem;font-size:2rem;margin-top:24px">...</p>
                 </div>
                 <div layout='column' layout-padding>
                     <div layout='column' id='listFiles'>
+                        <md-divider></md-divider>
+                        <div layout='column' id='uploadBox'>
+                            <div layout ng-repeat='(key,val) in upFiles'>
+                                <md-button flex='none' class="md-default" ng-click="abortUpload(val)" aria-label='a' style='min-width:40px;color:#AAA;margin-right:0'>
+                                    <span class='fa fa-remove'></span>
+                                </md-button>
+                                <div flex='grow' class="md-primary elips" aria-label='a' style='margin-left:0;text-align:left;text-transform:none;line-height:4rem;position:relative'>
+                                    <div style={{'background:#1ec38a;opacity:0.25;position:absolute;height:40px;margin-top:5px;width:'+val.percent+'%'}} ng-show='val.percent<100'></div>
+                                    <span flex='grow' aria-label='a' class='elips' style='margin-left:0;text-align:left;text-transform:none'>
+                                    <span class="elips" ng-bind='val.name'></span>
+                                </div>
+                            </div>
+                        </div>
                         <div layout ng-repeat='item in appFiles' style="width:100%">
                             <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='min-width:40px;color:#AAA;margin-right:0'>
                                 <span class='fa fa-remove'></span>
                             </md-button>
-                            <md-button flex='grow' class="md-primary " ng-click="openFile(item)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none'>
+                            <md-button flex='grow' class="md-primary elips" ng-click="openFile(item)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none'>
                                 <span class="elips" ng-bind='item.key | fileName'></span>
                             </md-button>
                         </div>
                         <md-divider style='margin:1rem 0'></md-divider>
-                        <md-button  class="md-raised md-primary" ng-click="doAddNewFile()" aria-label='a' style='color:#FFF'>
+                        <md-button class="md-raised md-primary" ng-click="doAddNewFile()" aria-label='a' style='color:#FFF'>
                             <span class="fa fa-plus"></span>
                             <span>新建文件</span>
                         </md-button>
-                        <md-button  class="md-default" ng-click="chkFileExist('1/test2/index.html')" aria-label='a'>
-<!--                        <md-button  class="md-default" ng-click="uploadFile()" aria-label='a'>-->
+
+                        <!--       上传相关-->
+                        <md-button id='uploadBtn' class="md-default" ng-click="doUploadFile($event)" aria-label='a'>
                             <span class="fa fa-cloud-upload"></span>
                             <span>上传文件</span>
                         </md-button>
