@@ -31,6 +31,7 @@ if (!_xmgc) var _xmgc = {};
         icon: /^fa-[\w-]{1,32}$/, //fa图标值
         ukey: /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/, //user.ukey的格式
         appName: /^\w{3,32}$/, //app名称格式，3~32字符
+        fileName: /^[0-9a-zA-Z\u0391-\uFFE5]+\.(js|css|html|json|txt)$/, //文件名，中英文数字加点加2~4位字母数字
     };
 
 
@@ -320,11 +321,6 @@ if (!_xmgc) var _xmgc = {};
     };
 
 
-
-
-
-
-
     /*重新封装console的函数*/
     var cnslPreStr = '>';
     console.xerr = function() {
@@ -362,7 +358,25 @@ if (!_xmgc) var _xmgc = {};
 
 
 
-
+    //获取扩展名对应的mimetype
+    _fns.getMimeByExt = function(ext) {
+        ext = ext.replace('.', '');
+        var mime = 'text/html';
+        switch (ext) {
+            case 'js':
+                mime = 'application/javascript';
+                break;
+            case 'css':
+                mime = 'text/css';
+                break;
+            case 'html' || 'txt':
+                mime = 'text/html';
+                break;
+            default:
+                mime = 'text/html';
+        }
+        return mime;
+    }
 
 
     /*自动运行的函数*/

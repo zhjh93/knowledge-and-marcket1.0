@@ -169,6 +169,16 @@ var _app = {}; //最高全局变量，angular
         }
     );
 
+    //filter：显示文件名
+    _app.filter(
+        'fileName',
+        function() {
+            return function(url) {
+                return url.substring(url.lastIndexOf('/') + 1);
+            }
+        }
+    );
+
     //directive:上传文件的指令
     //<file name="image" ng-model="inputFile" accept="image/png,image/jpg,image/jpeg" />
     _app.directive('file', function() {

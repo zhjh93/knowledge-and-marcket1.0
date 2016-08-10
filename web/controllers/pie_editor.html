@@ -1,12 +1,10 @@
 <script>
     _fns.addCtrlrJs('pie_editor');
 </script>
-
 <!--控制器界面部分-->
 <div id='pie_editor' ng-controller='pie_editor' class='container-fluid pie_editor doc_ctrlr' layout='start stretch' style="width:100%;height:100%">
     <style>
         /*内部样式，以.doc_devWeb开头*/
-
         .pie_editor .itbtn {
             margin-left: 0;
             color: #AAA;
@@ -24,7 +22,7 @@
                 </p>
             </md-button>
             <md-button class="md-icon-button itbtn" ng-click="tagPart('hideList')" aria-label='tagleft' style='width:8rem'>
-                <p ng-hide='hideList' style="color:#00bfa5">
+                <p ng-hide='hideList' class="minbtn" style="color:#00bfa5">
                     <span class="fa fa-eye fa-lg"></span>
                     <span>文件列表</span>
                 </p>
@@ -61,15 +59,29 @@
 
             <!--            文件列表部分-->
             <div flex='auto' id='listPart' ng-hide='hideList' style="width:240px">
-                <div layout layout-wrap id='listMenus'>
-
+                <div layout layout-wrap id='listMenus' style="min-width:240px">
                     <p flex ng-bind='appName' class='elips' style="margin:1rem;font-size:2rem">...</p>
                 </div>
                 <div layout='column' layout-padding>
-                    <div id='listFiles'>
-                        <p>index.html</p>
-                        <p>index.html</p>
-                        <p>index.html</p>
+                    <div layout='column' id='listFiles'>
+                        <div layout ng-repeat='item in appFiles' style="width:100%">
+                            <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='min-width:40px;color:#AAA;margin-right:0'>
+                                <span class='fa fa-remove'></span>
+                            </md-button>
+                            <md-button flex='grow' class="md-primary " ng-click="openFile(item)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none'>
+                                <span class="elips" ng-bind='item.key | fileName'></span>
+                            </md-button>
+                        </div>
+                        <md-divider style='margin:1rem 0'></md-divider>
+                        <md-button  class="md-raised md-primary" ng-click="doAddNewFile()" aria-label='a' style='color:#FFF'>
+                            <span class="fa fa-plus"></span>
+                            <span>新建文件</span>
+                        </md-button>
+                        <md-button  class="md-default" ng-click="chkFileExist('1/test2/index.html')" aria-label='a'>
+<!--                        <md-button  class="md-default" ng-click="uploadFile()" aria-label='a'>-->
+                            <span class="fa fa-cloud-upload"></span>
+                            <span>上传文件</span>
+                        </md-button>
                     </div>
                 </div>
             </div>
@@ -83,8 +95,7 @@
                 </div>
                 <!--            底部菜单-->
                 <div layout flex='none' id='menuSec' style="background:#cbf7e4;height:4rem">
-                    <md-button class="md-raised md-primary itbtn" ng-click="hideList=!hideList" aria-label='tagleft'>
-                        保存</md-button>
+                    <md-button class="md-raised md-primary itbtn" ng-click="hideList=!hideList" aria-label='tagleft'>保存</md-button>
                 </div>
             </div>
 

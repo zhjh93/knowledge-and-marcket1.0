@@ -108,7 +108,7 @@ _rotr.apis.getAccToken = function() {
 锁定用户的uid/folder路径
 marker标识分页位置，即上一次显示到第几个
 req:{path:'myfolder/subfolder/',limit:100,marker:'eyJjIjowLCJrIjoiM...'};
-res:{}
+res:{domain:'xxx',items:[{hash:'xxx',key:'xxx',mimeType:'xxx',fsize:'xxx',putTime:'xxx'}]}
 */
 _rotr.apis.getFileList = function() {
     var ctx = this;
@@ -125,10 +125,11 @@ _rotr.apis.getFileList = function() {
 
         var res = yield _qn.getFileListCo(prefix, limit, marker);
 
-        //        var bdobj = JSON.safeParse(res.body);
-        //        bdobj.domain = _qn.cfg.BucketDomain;
+        var dat = JSON.safeParse(res.body);
+        dat.domain = _qn.cfg.BucketDomain;
 
-        ctx.body = res;
+        ctx.body = __newMsg(1, 'OK', dat);
+
         return ctx;
     });
     return co;
@@ -143,6 +144,7 @@ _qn.getFileListCo = getFileListCo;
 
 function getFileListCo(prefix, limit, marker) {
     var co = $co(function * () {
+
         var optpath = '/list?bucket=daimapai&prefix=' + prefix;
         if (!limit) limit = 100;
         optpath += '&limit=' + limit;
@@ -153,8 +155,9 @@ function getFileListCo(prefix, limit, marker) {
             hostname: 'rsf.qbox.me',
             port: 80,
             path: optpath,
-            method: 'POST',
+            method: 'GET',
             headers: {
+                'Host': 'rsf.qbox.me',
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': '',
             },
@@ -163,19 +166,12 @@ function getFileListCo(prefix, limit, marker) {
         //计算token
         options.headers.Authorization = $qiniu.util.generateAccessToken(options.path, null);
 
-        return options;
-
-        var prms = _fns.httpReqPrms(options);
-
-        var res = yield prms;
+        var res = yield _fns.httpReqPrms(options);
 
         return res;
     });
     return co;
 };
-
-
-
 
 
 /*http接口POST：上传字符串或数据，存储到七牛，返回文件url
@@ -250,7 +246,6 @@ _rotr.apis.deleteFile = function() {
 
         ctx.body = __newMsg(1, 'ok');
 
-        ctx.ginfo.deleteFile = res;
         return ctx;
     });
     return co;
@@ -285,6 +280,67 @@ function deleteFileCo(fkey) {
     });
     return co;
 };
+
+
+
+/*只获取文件的信息，不读取文件，用来判断文件是否存在
+不限定用户，可以检查任何用户的文件
+req:{key:'...'},key格式1/appname/filename;
+res:{fsize:'xx',hash:'xxx',mimeType:'xxx',putTime:'xxx'}
+*/
+_rotr.apis.getFileInfo = function() {
+    var ctx = this;
+    var co = $co(function * () {
+        //根据ukey获取uid
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        var fkey = ctx.request.body.key || ctx.query.key;
+        if (!fkey) throw Error('File cant be undefined.')
+
+        var res = yield _qn.getFileInfoCo(fkey);
+        if (!res) throw Error('Delete file faild.');
+        var dat = JSON.safeParse(res.body);
+
+        ctx.body = __newMsg(1, 'ok', dat);
+
+        return ctx;
+    });
+    return co;
+};
+
+
+/*函数:只获取文件的信息，不读取文件，用来判断文件是否存在
+ */
+_qn.getFileInfoCo = getFileInfoCo;
+
+function getFileInfoCo(fkey) {
+    var co = $co(function * () {
+        var uri = $qiniu.util.urlsafeBase64Encode(cfg.BucketName + ':' + fkey);
+        var optpath = '/stat/' + uri;
+
+        //根据uid授权路径的token
+        var options = {
+            hostname: 'rs.qiniu.com',
+            port: 80,
+            path: optpath,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': '',
+            },
+        };
+
+        //计算token
+        options.headers.Authorization = $qiniu.util.generateAccessToken(options.path, null);
+        var res = yield _fns.httpReqPrms(options);
+
+        return res;
+    });
+    return co;
+};
+
+
+
 
 
 //导出模块
