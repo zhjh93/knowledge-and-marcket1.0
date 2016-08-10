@@ -1,0 +1,48 @@
+<script>
+    _fns.addCtrlrJs('pie_sideNav');
+</script>
+
+<!--控制器界面部分-->
+<div layout layout-align='stretch stretch' id='pie_sideNav' ng-controller='pie_sideNav' class='pie_sideNav' style='width: 100%; height: 100%; overflow:visible;'>
+    <style>
+        /*内部样式，以.doc_devWeb开头*/
+    </style>
+    <!--控制器界面部分-->
+    <md-sidenav layout='column' md-component-id="left" class="site-sidenav md-sidenav-left" md-component-id="left" md-disable-backdrop md-is-locked-open="($mdMedia('gt-sm'))&&$root.fold" style='width:90%;height:100%;padding:0;overflow-x:hidden' md-whiteframe='8'>
+        <div layout layout-align='space-between stretch' md-colors='{background:"primary"}' layout-padding flex='initial' style='padding:0;    height: 6rem;'>
+            <div flex='60' style="font-size:2rem;color:#FFF;margin:1rem;width:200px;overflow:hidden">PIE派!</div>
+        </div>
+
+        <md-list layout='column' flex='grow' style='padding:0;width:100%' layout-align='space-between start'>
+            <div flex='grow' style="width:100%">
+                <md-menu-item style='width:100%' ng-repeat="item in menus" ng-click='alert($root.lastCtrlr);$root.gotoCtrlr(item.ctrlr);$root.tagLeftMenu()'>
+                    <md-button ng-class="{true:'md-primary',false:''}[$root.lastCtrlr==item.ctrlr]" aria-label='menu'>
+                        <span ng-class="item.icon" style="margin-right:1rem"></span>
+                        <span ng-bind='item.name' style="font-size:1.3rem"></span>
+                    </md-button>
+                </md-menu-item>
+            </div>
+            <div flex='initial' style="width:100%" >
+                <md-divider></md-divider>
+                <md-menu-item style='width:100%;' ng-href='/' aria-label='backhome'>
+                    <md-button ng-click="ctrl.redial($event)">
+                        <span class='fa fa-home' style="margin-right:1rem"></span>
+                        <span style="font-size:1.3rem">返回项目工场首页</span>
+                    </md-button>
+                </md-menu-item>
+            </div>
+        </md-list>
+    </md-sidenav>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!---->

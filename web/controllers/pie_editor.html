@@ -1,0 +1,32 @@
+<script>
+    _fns.addCtrlrJs('pie_editor');
+</script>
+
+<!--控制器界面部分-->
+<div id='pie_editor' ng-controller='pie_editor' class='container-fluid pie_editor doc_ctrlr'>
+    <style>
+        /*内部样式，以.doc_devWeb开头*/
+    </style>
+    <div layout-padding>
+        <md-button class="md-icon-button hidden-xs" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" style='margin-left:0' aria-label='tagleft'>
+            <span class="fa fa-leaf fa-lg"></span>
+        </md-button>
+        <h2>editor</h2>
+        <p ng-bind='appName'>...</p>
+    </div>
+    <!--    页脚内容-->
+    <div flex class="container" style="margin:5rem 1rem 10rem 2rem">
+        <small style="color:#AAA">contributor is zhyuzh | QQ:286052520</small>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!---->
