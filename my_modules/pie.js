@@ -34,6 +34,7 @@ _rotr.apis.createApp = function() {
             'id': appId,
             'name': appName,
             'uid': uid,
+            'pkey':__uuid(),
             'time': (new Date()).getTime(),
             'url': _qn.cfg.BucketDomain + uid + '/' + appName + '/',
         };

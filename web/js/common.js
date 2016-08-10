@@ -349,33 +349,16 @@ if (!_xmgc) var _xmgc = {};
     };
 
 
-    /*专用err处理函数,适合co().then()使用*/
-    __errhdlr = __errhdlr;
 
-    function __errhdlr(err) {
-        console.xerr(err.stack);
+    /*创建唯一的id
+     */
+    _fns.uuid = function uniqueId(prefix) {
+        var ts = Number(new Date()).toString(36)
+        var rd = Number(String(Math.random()).replace('.', '')).toString(36);
+        var res = ts + '-' + rd;
+        if (prefix) res = prefix + '-' + res;
+        return res;
     };
-
-    /*专用空函数，只输出不做额外处理,适合co().then()使用*/
-    __nullhdlr = __nullhdlr;
-
-    function __nullhdlr(res) {};
-
-    /*专用空函数，只输出不做额外处理,适合co().then()使用*/
-    __infohdlr = __infohdlr;
-
-    function __infohdlr(res) {
-        console.xinfo(res);
-    };
-
-    /*专用空函数，只纪录日志不做额外处理,适合co().then()使用*/
-    __loghdlr = __loghdlr;
-
-    function __loghdlr(res) {
-        console.xlog(res);
-    };
-
-
 
 
 
@@ -387,3 +370,23 @@ if (!_xmgc) var _xmgc = {};
 
     //end
 })();
+
+
+//全局变量
+/*专用err处理函数,适合co().then()使用*/
+function __errhdlr(err) {
+    console.xerr(err.stack);
+};
+
+/*专用空函数，只输出不做额外处理,适合co().then()使用*/
+function __nullhdlr(res) {};
+
+/*专用空函数，只输出不做额外处理,适合co().then()使用*/
+function __infohdlr(res) {
+    console.xinfo(res);
+};
+
+/*专用空函数，只纪录日志不做额外处理,适合co().then()使用*/
+function __loghdlr(res) {
+    console.xlog(res);
+};

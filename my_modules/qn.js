@@ -61,11 +61,46 @@ _rotr.apis.getUploadToken = function() {
 _qn.genUploadToken = genUploadToken;
 
 function genUploadToken(key) {
-    var pubPutPolicy = new $qiniu.rs.PutPolicy(_qn.cfg.BucketName+ ':' + key);
+    var pubPutPolicy = new $qiniu.rs.PutPolicy(_qn.cfg.BucketName + ':' + key);
     pubPutPolicy.returnBody = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"color": $(exif.ColorSpace.val),"key":$(key),"w": $(imageInfo.width),"h": $(imageInfo.height),"hash": $(etag)}';
     var token = pubPutPolicy.token();
     return token;
 };
+
+
+
+/**
+ * 获取访问token，以便于读取列表,锁定自己的目录uid/path
+ * req:{path:'xxx'}
+ * @returns {obj} {token:'xxx,path:'xxx',uid:'xxx',fpath:'xxx'}
+ */
+_rotr.apis.getAccToken = function() {
+    var ctx = this;
+
+    var co = $co(function * () {
+        //根据ukey获取uid
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        var path = ctx.query.path || ctx.request.body.path;
+        if (!path || path == '') throw Error('目录不能为空!');
+
+
+        var fpath = uid + '/' + path;
+        var token = $qiniu.util.generateAccessToken(fpath, null);
+
+        var dat = {
+            token: token,
+            uid: uid,
+            path: path,
+            fpath: fpath,
+        };
+
+        ctx.body = __newMsg(1, 'OK', dat);
+        return ctx;
+    });
+    return co;
+};
+
 
 
 
@@ -89,9 +124,11 @@ _rotr.apis.getFileList = function() {
         var marker = ctx.query.marker || ctx.request.body.marker;
 
         var res = yield _qn.getFileListCo(prefix, limit, marker);
-        var bdobj = JSON.safeParse(res.body);
-        bdobj.domain = _qn.cfg.BucketDomain;
-        ctx.body = bdobj;
+
+        //        var bdobj = JSON.safeParse(res.body);
+        //        bdobj.domain = _qn.cfg.BucketDomain;
+
+        ctx.body = res;
         return ctx;
     });
     return co;
@@ -106,7 +143,7 @@ _qn.getFileListCo = getFileListCo;
 
 function getFileListCo(prefix, limit, marker) {
     var co = $co(function * () {
-        var optpath = '/list?bucket=jscodepie&prefix=' + prefix;
+        var optpath = '/list?bucket=daimapai&prefix=' + prefix;
         if (!limit) limit = 100;
         optpath += '&limit=' + limit;
         if (marker && marker != '') optpath += '&marker=' + marker;
@@ -125,6 +162,8 @@ function getFileListCo(prefix, limit, marker) {
 
         //计算token
         options.headers.Authorization = $qiniu.util.generateAccessToken(options.path, null);
+
+        return options;
 
         var prms = _fns.httpReqPrms(options);
 

@@ -16,14 +16,9 @@
 </head>
 
 <body>
-    <div layout='column' layout-align='start stretch' style='height:100%'>
-        <div flex>
-            <div class='visible-md visible-lg' style='height:49px;'></div>
-        </div>
-        <div id='appBox' layout layout-align='start start' class='container-fluid' md-swipe-right="$root.tagLeftMenu()" md-swipe-left="$root.tagLeftMenu()"  style="width:100%">
-            <div id='sideNav'  flex='initial' ng-include='$root.sideNavUrl' ng-style='{height:scrHei+"px"}'>...</div>
-            <div id='curPage' flex='grow' ng-include='$root.curPageUrl' style='overflow-y:scroll' ng-style='{height:scrHei+"px"}' style="background:#00F">...</div>
-        </div>
+    <div id='appBox' layout layout-align='start start' class='container-fluid' md-swipe-right="$root.tagLeftMenu()" md-swipe-left="$root.tagLeftMenu()" style="width:100%">
+        <div id='sideNav' flex='initial' ng-include='$root.sideNavUrl' ng-style='{height:scrHei+"px"}'>...</div>
+        <div id='curPage' flex='grow' ng-include='$root.curPageUrl' style='overflow-y:scroll' ng-style='{height:scrHei+"px"}' style="background:#00F">...</div>
     </div>
 
     <!--    脚本文件-->
