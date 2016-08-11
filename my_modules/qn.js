@@ -18,8 +18,8 @@ $qiniu.conf.ACCESS_KEY = _xcfg.qiniu.ACCESS_KEY;
 $qiniu.conf.SECRET_KEY = _xcfg.qiniu.SECRET_KEY;
 
 /*初始化设置,依赖xcfg*/
-_qn.start = function() {
-    _app.httpSvr.listen(_qn.cfg.Port, function(err, dat) {
+_qn.start = function () {
+    _app.httpSvr.listen(_qn.cfg.Port, function (err, dat) {
         __infohdlr("Qiniu:listening on port:" + _qn.cfg.Port);
     });
 };
@@ -30,10 +30,10 @@ _qn.start = function() {
 随机文件名，不锁定路径
 req:{fpath:'...'}
 */
-_rotr.apis.getUploadToken2 = function() {
+_rotr.apis.getUploadToken2 = function () {
     var ctx = this;
 
-    var co = $co(function * () {
+    var co = $co(function* () {
 
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
@@ -70,10 +70,10 @@ function genUploadToken2() {
 每个用户单独的路径以用户id为编号，格式'../455/'
 req:{fpath:'...'},不包含uid，格式如 myapp/index.html
 */
-_rotr.apis.getUploadToken = function() {
+_rotr.apis.getUploadToken = function () {
     var ctx = this;
 
-    var co = $co(function * () {
+    var co = $co(function* () {
         var fpath = ctx.query.fpath || ctx.request.body.fpath;
         if (!fpath || fpath == '') throw Error('获取上传授权失败:文件名不能为空!');
 
@@ -116,10 +116,10 @@ function genUploadToken(key) {
  * req:{path:'xxx'}
  * @returns {obj} {token:'xxx,path:'xxx',uid:'xxx',fpath:'xxx'}
  */
-_rotr.apis.getAccToken = function() {
+_rotr.apis.getAccToken = function () {
     var ctx = this;
 
-    var co = $co(function * () {
+    var co = $co(function* () {
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
 
@@ -152,10 +152,10 @@ marker标识分页位置，即上一次显示到第几个
 req:{path:'myfolder/subfolder/',limit:100,marker:'eyJjIjowLCJrIjoiM...'};
 res:{domain:'xxx',items:[{hash:'xxx',key:'xxx',mimeType:'xxx',fsize:'xxx',putTime:'xxx'}]}
 */
-_rotr.apis.getFileList = function() {
+_rotr.apis.getFileList = function () {
     var ctx = this;
 
-    var co = $co(function * () {
+    var co = $co(function* () {
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
 
@@ -185,7 +185,7 @@ prefix应该带uid，类似'4/myfolder/'
 _qn.getFileListCo = getFileListCo;
 
 function getFileListCo(prefix, limit, marker) {
-    var co = $co(function * () {
+    var co = $co(function* () {
 
         var optpath = '/list?bucket=daimapai&prefix=' + prefix;
         if (!limit) limit = 100;
@@ -221,9 +221,9 @@ function getFileListCo(prefix, limit, marker) {
 req:{data,file};如果没有data则为空字符串，如果没有file则随机一个md5文件名;自动判断扩展名
 res:{url:'bucketdomain/uid/file}
 */
-_rotr.apis.uploadData = function() {
+_rotr.apis.uploadData = function () {
     var ctx = this;
-    var co = $co(function * () {
+    var co = $co(function* () {
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
 
@@ -231,7 +231,7 @@ _rotr.apis.uploadData = function() {
         var file = ctx.request.body.file || ctx.query.file;
 
         var filekey = uid + '/';
-        (file) ? filekey += file : filekey += __md5();
+        (file) ? filekey += file: filekey += __md5();
 
         var res = yield _qn.uploadDataCo(data, filekey);
         if (!res || !res.key) throw Error('Upload data failed,cannot get url');
@@ -251,7 +251,7 @@ _rotr.apis.uploadData = function() {
 _qn.uploadDataCo = uploadDataCo;
 
 function uploadDataCo(dat, filekey, extra) {
-    var co = $co(function * () {
+    var co = $co(function* () {
         //mime文件类型
         var fext = /\.[^\.]+/.exec(filekey);
         fext = (fext && fext.length > 0) ? fext[0] : '';
@@ -274,9 +274,9 @@ function uploadDataCo(dat, filekey, extra) {
 req:{key:'...'};
 res:{}
 */
-_rotr.apis.deleteFile = function() {
+_rotr.apis.deleteFile = function () {
     var ctx = this;
-    var co = $co(function * () {
+    var co = $co(function* () {
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
 
@@ -298,7 +298,7 @@ _rotr.apis.deleteFile = function() {
 _qn.deleteFileCo = deleteFileCo;
 
 function deleteFileCo(fkey) {
-    var co = $co(function * () {
+    var co = $co(function* () {
         var uri = $qiniu.util.urlsafeBase64Encode(cfg.BucketName + ':' + fkey);
         var optpath = '/delete/' + uri;
 
@@ -330,9 +330,9 @@ function deleteFileCo(fkey) {
 req:{key:'...'},key格式1/appname/filename;
 res:{fsize:'xx',hash:'xxx',mimeType:'xxx',putTime:'xxx'}
 */
-_rotr.apis.getFileInfo = function() {
+_rotr.apis.getFileInfo = function () {
     var ctx = this;
-    var co = $co(function * () {
+    var co = $co(function* () {
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
 
@@ -356,7 +356,7 @@ _rotr.apis.getFileInfo = function() {
 _qn.getFileInfoCo = getFileInfoCo;
 
 function getFileInfoCo(fkey) {
-    var co = $co(function * () {
+    var co = $co(function* () {
         var uri = $qiniu.util.urlsafeBase64Encode(cfg.BucketName + ':' + fkey);
         var optpath = '/stat/' + uri;
 
@@ -389,19 +389,16 @@ req:{key:'...'},key格式1/appname/filename;
 res:七牛返回的数据
 */
 
-_rotr.apis.refreshFile = function() {
+_rotr.apis.refreshFile = function () {
     var ctx = this;
-    var co = $co(function * () {
+    var co = $co(function* () {
         //根据ukey获取uid
         var uid = yield _fns.getUidByCtx(ctx);
 
         var fkey = ctx.request.body.key || ctx.query.key;
-        if (!fkey) throw Error('File cant be undefined.')
-
+        if (!fkey) throw Error('File cant be undefined.');
 
         var res = yield _qn.refreshFileCo(fkey);
-
-
 
 
         if (!res) throw Error('refresh file faild.');
@@ -420,8 +417,7 @@ _rotr.apis.refreshFile = function() {
 _qn.refreshFileCo = refreshFileCo;
 
 function refreshFileCo(fkey) {
-    var co = $co(function * () {
-        var uri = $qiniu.util.urlsafeBase64Encode(cfg.BucketName + ':' + fkey);
+    var co = $co(function* () {
         var optpath = '/v2/tune/refresh';
 
         //根据uid授权路径的token
@@ -436,24 +432,24 @@ function refreshFileCo(fkey) {
             },
         };
 
-        //        var url=path.normalize(cfg.BucketDomain + '/' + fkey);
         var dat = {
-            urls: [$path.join('http://mfiles.xmgc360.com', fkey)],
+            urls: [cfg.BucketDomain + fkey],
         };
 
-        console.log('>>dat', dat);
+
         //计算token
         options.headers.Authorization = $qiniu.util.generateAccessToken(options.path, null);
         var res = yield _fns.httpReqPrms(options, dat);
 
+        res.url = cfg.BucketDomain + fkey;
         return res;
     });
     return co;
 };
 
 
-console.log('>>>start refresh', $qiniu.util);
-_qn.refreshFileCo('1/myApp/index.html').then(function(res) {
+console.log('>>>start refresh');
+_qn.refreshFileCo('1/test2/index.html').then(function (res) {
     console.log('>>res', res);
 })
 
