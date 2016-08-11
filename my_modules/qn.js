@@ -25,6 +25,46 @@ _qn.start = function() {
 };
 
 
+
+/*http接口：获取上传token的接口
+随机文件名，不锁定路径
+req:{fpath:'...'}
+*/
+_rotr.apis.getUploadToken2 = function() {
+    var ctx = this;
+
+    var co = $co(function * () {
+
+        //根据ukey获取uid
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        //根据uid授权路径的token
+        var token = _qn.genUploadToken();
+        var respdat = {
+            uid: uid,
+            domain: _qn.cfg.BucketDomain,
+            uptoken: token,
+        };
+        ctx.body = __newMsg(1, 'OK', respdat);
+        return ctx;
+    });
+    return co;
+};
+
+/*生成uptoken的函数
+随机key*/
+_qn.genUploadToken2 = genUploadToken2;
+
+function genUploadToken2() {
+    var pubPutPolicy = new $qiniu.rs.PutPolicy(_qn.cfg.BucketName);
+    pubPutPolicy.returnBody = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"color": $(exif.ColorSpace.val),"key":$(key),"w": $(imageInfo.width),"h": $(imageInfo.height),"hash": $(etag)}';
+    var token = pubPutPolicy.token();
+    return token;
+};
+
+
+
+
 /*http接口：获取上传token的接口
 存储锁定uid/...
 每个用户单独的路径以用户id为编号，格式'../455/'
@@ -57,7 +97,9 @@ _rotr.apis.getUploadToken = function() {
 };
 
 
-/*生成uptoken的函数*/
+
+/*生成uptoken的函数
+指定key*/
 _qn.genUploadToken = genUploadToken;
 
 function genUploadToken(key) {
