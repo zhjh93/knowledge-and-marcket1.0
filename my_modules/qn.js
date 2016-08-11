@@ -68,7 +68,7 @@ function genUploadToken2() {
 /*http接口：获取上传token的接口
 存储锁定uid/...
 每个用户单独的路径以用户id为编号，格式'../455/'
-req:{fpath:'...'}
+req:{fpath:'...'},不包含uid，格式如 myapp/index.html
 */
 _rotr.apis.getUploadToken = function() {
     var ctx = this;
@@ -380,6 +380,83 @@ function getFileInfoCo(fkey) {
     });
     return co;
 };
+
+
+
+/*接口：刷新资源，将源文件更新到CDN
+默认CDN的更新是很慢的，必须要手动刷新才能立即更新
+req:{key:'...'},key格式1/appname/filename;
+res:七牛返回的数据
+*/
+
+_rotr.apis.refreshFile = function() {
+    var ctx = this;
+    var co = $co(function * () {
+        //根据ukey获取uid
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        var fkey = ctx.request.body.key || ctx.query.key;
+        if (!fkey) throw Error('File cant be undefined.')
+
+
+        var res = yield _qn.refreshFileCo(fkey);
+
+
+
+
+        if (!res) throw Error('refresh file faild.');
+        var dat = JSON.safeParse(res.body);
+
+        ctx.body = __newMsg(1, 'ok', dat);
+
+        return ctx;
+    });
+    return co;
+};
+
+
+/*刷新文件的函数
+ */
+_qn.refreshFileCo = refreshFileCo;
+
+function refreshFileCo(fkey) {
+    var co = $co(function * () {
+        var uri = $qiniu.util.urlsafeBase64Encode(cfg.BucketName + ':' + fkey);
+        var optpath = '/v2/tune/refresh';
+
+        //根据uid授权路径的token
+        var options = {
+            hostname: 'fusion.qiniuapi.com',
+            port: 80,
+            path: optpath,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': '',
+            },
+        };
+
+        //        var url=path.normalize(cfg.BucketDomain + '/' + fkey);
+        var dat = {
+            urls: [$path.join('http://mfiles.xmgc360.com', fkey)],
+        };
+
+        console.log('>>dat', dat);
+        //计算token
+        options.headers.Authorization = $qiniu.util.generateAccessToken(options.path, null);
+        var res = yield _fns.httpReqPrms(options, dat);
+
+        return res;
+    });
+    return co;
+};
+
+
+console.log('>>>start refresh', $qiniu.util);
+_qn.refreshFileCo('1/myApp/index.html').then(function(res) {
+    console.log('>>res', res);
+})
+
 
 
 

@@ -13,6 +13,7 @@ var _app = {}; //最高全局变量，angular
         'app.directives',
         'app.controllers',
         'ngMaterial',
+        'ui.codemirror'
     ]);
 
     //基础设置
@@ -129,12 +130,14 @@ var _app = {}; //最高全局变量，angular
         //自动调整屏幕高度宽度
         $scope.scrHei = $(window).height();
         $scope.scrWid = $(window).width();
-        window.onresize = function() {
+
+        $(window).resize(function() {
             _fns.applyScope($scope, function() {
                 $scope.scrHei = $(window).height();
                 $scope.scrWid = $(window).width();
             })
-        };
+        });
+
 
         //自动登陆获取自己信息记录到$root
         $rootScope.getMyInfo = function() {

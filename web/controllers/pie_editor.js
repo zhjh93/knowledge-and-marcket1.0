@@ -1,6 +1,7 @@
 (function() {
     'use strict';
     var thisName = 'pie_editor';
+    console.log(thisName + '.js is loading...');
 
     _app.controller(thisName, thisFn);
 
@@ -14,9 +15,7 @@
         $mdDialog,
         $mdMedia
     ) {
-        console.log(thisName + '.js is loading...');
         _fns.initCtrlr($scope, $element, thisName, false);
-
 
         //锚点
         $scope.goto = function(key) {
@@ -161,7 +160,7 @@
             var blob = new Blob(['Hello pie!'], {
                 type: mime
             });
-            var xhr = _fns.uploadFileQn2(fname, blob, function(arg1, arg2, arg3) {
+            var xhr = _fns.uploadFileQn(fname, blob, function(arg1, arg2, arg3) {
                 //成功提示
                 $mdToast.show(
                     $mdToast.simple()
@@ -217,8 +216,6 @@
                 );
             } else {
                 //弹窗确认
-                console.log('3333');
-
                 var confirm = $mdDialog.confirm()
                     .title('您确认要删除文件 ' + fname + ' 吗?')
                     .textContent('警告！删除后无法恢复.')
@@ -324,13 +321,228 @@
         };
 
 
+        $scope.cmModes = ['html', 'css', 'javascript'];
+
+        //codemirror选项
+        $scope.cmOpt = {
+            mode: "xml",
+            htmlMode: true,
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            lineWrapping: true,
+            extraKeys: {
+                //alt折叠当前行开始的代码块
+                'Alt': function(cm) {
+                    cm.foldCode(cm.getCursor());
+                },
+            },
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+            autoCloseBrackets: true,
+            lint: true,
+        };
+
+
+        //codemirror运行前设置
+        $scope.cmLoaded = function(cm) {
+            $scope.cm = cm;
+            var doc = $scope.cmDoc = cm.getDoc();
+            var editor = $scope.cmEditor = doc.getEditor();
+
+            var hei = $(window).height() - 78;
+            editor.setSize('100%', hei + 'px');
+
+            $(window).resize(function() {
+                var hei = $(window).height() - 78;
+                editor.setSize('100%', hei + 'px');
+            });
+
+            editor.getWrapperElement().style["font-size"] = "1.8rem";
+            editor.getWrapperElement().style["font-family"] = "monospace";
+            editor.refresh();
+
+            var selstr;
+            editor.on('keydown', function(cm, event) {
+                selstr = editor.doc.getSelection();
+            });
+
+            editor.on("keyup", function(cm, event) {
+                //结合anyword和javascript两个提示器
+                var char = String.fromCharCode(event.keyCode);
+
+                //对于非字母数字点或者按下ctrlalt的，忽略
+                if (!cm.state.completionActive && /[0-9A-Za-z\.\¾]/.test(char) && !event.altKey && !event.ctrlKey) {
+                    CodeMirror.showHint(cm, function(edtr, opts) {
+
+                        //根据模式自适应提示引擎
+                        var mod = $scope.cmOpt.mode;
+                        if (mod == 'xml') mod = 'html';
+                        var res = CodeMirror.hint[mod](edtr, opts);
+
+                        res = CodeMirror.hint.anyword(edtr, {
+                            list: (res && res.list) ? res.list : []
+                        });
+                        return res;
+                    }, {
+                        completeSingle: false
+                    });
+                };
+            });
+        };
+
+
+        /*打开一个文件，将文件内容显示到编辑器
+         */
+        $scope.doOpenFile = function(fkey) {
+            if (!fkey) {
+                $mdDialog.show($mdDialog.confirm()
+                    .title('找不到文件地址，请刷新后再试')
+                    .textContent('这可能是由于网络不稳定引起的')
+                    .ariaLabel('App name')
+                    .ok('关闭'));
+            } else {
+                var url = _cfg.qn.BucketDomain + fkey;
+                $scope.openFile(url, fkey);
+            };
+        };
+
+
+        /*打开文件显示到cm的函数,都使用html读取，否则没有回调
+        url为绝对完整地址
+        延迟100毫秒执行
+        */
+        $scope.openFile = function(url, fkey) {
+            var appName = $scope.getAppArg();
+            var uid = $rootScope.myInfo.id;
+            if (!url) url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
+            if (!fkey) fkey = uid + '/' + appName + '/index.html';
+
+
+            $.get(url, function(res) {
+                console.log('GET', url, null, String(res).substr(0, 100));
+                _fns.applyScope($scope, function() {
+                    $scope.curFileUrl = url;
+                    $scope.curFileKey = fkey;
+                    $scope.curFileName = _fns.getFileName(url);
+                    $scope.curFileExt = _fns.getFileExt(url);
+                    $scope.curFileData = res;
+
+                    //自动切换编辑器提示引擎
+                    if ($scope.cmModes.indexOf($scope.curFileExt) != -1) {
+                        $scope.cmOpt.mode = $scope.curFileExt;
+                    } else {
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('编辑器不支持您的文件格式.')
+                            .position('top right')
+                            .hideDelay(3000)
+                        );
+                    };
+
+                    setTimeout(function() {
+                        $scope.curFileData += ' ';
+                    }, 100)
+                });
+                var fname = url.substring(url.lastIndexOf('/') + 1);
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('读取文件' + fname + '成功，已经载入编辑器！')
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+            }, "html");
+        };
+
+        $scope.openFile();
 
 
 
+        /*保存当前编辑器内容到当前文件url
+         */
+        $scope.doSaveFile = function() {
 
+            //截取uid/后面的部分
+            var appName = $scope.getAppArg();
+            var uid = $rootScope.myInfo.id;
+            var fkey = $scope.curFileKey.substr(uid.length + 1);
+            var data = $scope.cmDoc.getValue();
 
+            if (!fkey || !data) {
+                $mdDialog.show($mdDialog.confirm()
+                    .title('找不到文件地址或数据为空，保存取消')
+                    .textContent('这可能是由于网络不稳定引起的')
+                    .ariaLabel('App name')
+                    .ok('关闭'));
+            } else {
+                $scope.saveFile(fkey, data);
+            };
+        };
 
+        /*保存文件，fkey前不带uid不带斜杠格式myapp/index.html，data为字符串
+         */
+        $scope.saveFile = function(fkey, data) {
+            var ext = _fns.getFileExt($scope.curFileKey);
+            var mime = _fns.getMimeByExt(ext);
+
+            var blob = new Blob([data], {
+                type: mime
+            });
+
+            var xhr = _fns.uploadFileQn(fkey, blob, function() {
+                //存储完成后刷新数据
+                $scope.refreshFile(fkey);
+
+                //更新本地数据
+                _fns.applyScope($scope, function() {
+                    $scope.curFileData = data;
+                });
+            });
+        };
+
+        /*上传之后刷新文件,fkey带uid不带斜杠格式1/myapp/index.html，data为字符串
+         */
+        $scope.refreshFile = function(fkey) {
+            var appName = $scope.getAppArg();
+            var uid = $rootScope.myInfo.id;
+            var ext = _fns.getFileExt($scope.curFileKey);
+            var mime = _fns.getMimeByExt(ext);
+
+            var api = 'http://m.xmgc360.com/pie/api/refreshFile';
+            var dat = {
+                key: uid+'/'+fkey,
+            };
+            $.post(api, dat, function(res) {
+                console.log('POST', api, dat, res);
+                if (res.code == 1) {
+                    //成功提示
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('文件更新成功！')
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                } else {
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('文件更新失败:' + res.text)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                };
+            });
+        };
 
         //ctrlr end
     }
 })();
+
+
+
+
+
+
+
+
+
+//end

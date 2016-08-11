@@ -35,8 +35,8 @@
 
         $(window).ready(function() {
             setTimeout(function() {
-                console.log('>>>', $rootScope.lastCtrlr);
-            },1000)
+                //载入完毕后执行
+            }, 1000)
         });
 
         $scope.name = thisName;

@@ -430,8 +430,6 @@ if (!_xmgc) var _xmgc = {};
     };
 
 
-
-
     /**
      * 上传一个或多个文件，随机文件名版
      * @param   {jquery对象} btnjo      点击的按钮对象，隐身ipt将跟在这个jo后面
@@ -604,7 +602,18 @@ if (!_xmgc) var _xmgc = {};
                 mime = 'text/html';
         }
         return mime;
-    }
+    };
+
+
+    //获取目录地址的文件名
+    _fns.getFileName=function(url){
+      return url.substring(url.lastIndexOf('/') + 1);
+    };
+
+    //获取目录地址的文扩展名
+    _fns.getFileExt=function(url){
+      return url.substring(url.lastIndexOf('.') + 1);
+    };
 
 
     /*自动运行的函数*/
