@@ -395,7 +395,16 @@
         /*打开一个文件，将文件内容显示到编辑器
          */
         $scope.doOpenFile = function(fkey) {
-            if (!fkey) {
+            //只能打开指定类型的文件
+            var ext = _fns.getFileExt(fkey);
+
+            if (_cfg.editFileTypes.indexOf(ext) == -1) {
+                $mdDialog.show($mdDialog.confirm()
+                    .title('编辑器不支持您的文件类型')
+                    .textContent('只能打开html,css,js或txt格式文件')
+                    .ariaLabel('App name')
+                    .ok('关闭'));
+            } else if (!fkey) {
                 $mdDialog.show($mdDialog.confirm()
                     .title('找不到文件地址，请刷新后再试')
                     .textContent('这可能是由于网络不稳定引起的')
@@ -418,9 +427,11 @@
             if (!url) url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
             if (!fkey) fkey = uid + '/' + appName + '/index.html';
 
+            //添加时间戳强制刷新
+            var urlp = url + '?=' + (new Date()).getTime();
 
-            $.get(url, function(res) {
-                console.log('GET', url, null, String(res).substr(0, 100));
+            $.get(urlp, function(res) {
+                console.log('GET', urlp, null, String(res).substr(0, 100));
                 _fns.applyScope($scope, function() {
                     $scope.curFileUrl = url;
                     $scope.curFileKey = fkey;
@@ -510,7 +521,7 @@
 
             var api = 'http://m.xmgc360.com/pie/api/refreshFile';
             var dat = {
-                key: uid+'/'+fkey,
+                key: uid + '/' + fkey,
             };
             $.post(api, dat, function(res) {
                 console.log('POST', api, dat, res);
@@ -532,6 +543,33 @@
                 };
             });
         };
+
+        //打开新页面访问app的index页面
+        $scope.gotoApp = function() {
+            var appName = $scope.getAppArg();
+            var uid = $rootScope.myInfo.id;
+            var url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html?=' + (new Date()).getTime();
+            window.open(url);
+        };
+
+        //显示页面的二维码
+        $scope.showQrcode = function() {
+            var appName = $scope.getAppArg();
+            var uid = $rootScope.myInfo.id;
+            $scope.appFullUrlP = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html?=' + (new Date()).getTime();
+            $scope.appFullUrl = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
+            $mdDialog.show({
+                contentElement: '#qrcodeDialog',
+                parent: angular.element(document.body),
+                clickOutsideToClose: true
+            });
+        };
+
+
+
+
+
+
 
         //ctrlr end
     }

@@ -67,6 +67,7 @@ var _mime = {
     ".jpeg": "image/jpeg",
     ".jpg": "image/jpeg",
     ".js": "application/x-javascript",
+    ".json": "application/x-javascript",
     ".latex": "application/x-latex",
     ".lha": "application/octet-stream",
     ".lsf": "video/x-la-asf",

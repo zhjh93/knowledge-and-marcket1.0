@@ -63,8 +63,25 @@
 
             <!--            文件列表部分-->
             <div flex='auto' id='listPart' ng-hide='hideList' style="width:240px">
-                <div layout layout-wrap id='listMenus' style="min-width:240px">
-                    <p flex ng-bind='appName | uppercase' class='elips' style="margin:1rem 0 0 1rem;font-size:2rem;margin-top:24px">...</p>
+                <div layout id='listMenus' style="min-width:200px;margin:1rem 1rem 0 1rem;padding:0.5rem">
+                    <div flex='none' class="md-button md-default" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;" ng-click='showQrcode()'>
+                        <span class="fa fa-qrcode fa-2x"></span>
+                    </div>
+                    <!--      二维码弹窗-->
+                    <div style="visibility: hidden">
+                        <div class="md-dialog-container" id="qrcodeDialog">
+                            <md-dialog layout-padding style='text-align:center'>
+                                <a ng-href="{{appFullUrlP}}" target='_blank'>
+                                    <img ng-src="{{'http://qr.topscan.com/api.php?text='+appFullUrlP}}" width='100%' />
+                                </a>
+                                <a ng-href="{{appFullUrlP}}" target='_blank'>
+                                    <md-button class='elips' style='width:100%'><span ng-bind='appFullUrl'></span>
+                                    </md-button>
+                                </a>
+                            </md-dialog>
+                        </div>
+                    </div>
+                    <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none" ng-bind='appName | uppercase' ng-click='gotoApp()'></div>
                 </div>
                 <div layout='column' layout-padding>
                     <div layout='column' id='listFiles'>
@@ -88,8 +105,8 @@
                             <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='min-width:40px;color:#AAA;margin-right:0'>
                                 <span class='fa fa-remove'></span>
                             </md-button>
-                            <md-button flex='grow'  ng-click="doOpenFile(item.key)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none' ng-class='{true:"md-accent elips",false:"md-default elips"}[item.key==curFileKey]'>{{item.key}}
-<!--                                <span class="elips" ng-bind='item.key | fileName'></span>-->
+                            <md-button flex='grow' ng-click="doOpenFile(item.key)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none' ng-class='{true:"md-accent elips",false:"md-default elips"}[item.key==curFileKey]'>
+                                <span class="elips" ng-bind='item.key | fileName'></span>
                             </md-button>
                         </div>
 
@@ -133,10 +150,9 @@
             </div>
 
             <!--            预览部分-->
-            <div layout='column' flex='auto' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:400px'>
+            <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px'>
                 <!--            预览器-->
-                <div flex='grow' id='previewSec' style="">
-                    <p>previewSec</p>
+                <div flex='grow' id='previewSec' ng-bind-html='curFileData | toTrustHtml'>
                 </div>
             </div>
 

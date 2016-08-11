@@ -35,6 +35,24 @@ if (!_xmgc) var _xmgc = {};
         fileName: /^[0-9a-zA-Z\u0391-\uFFE5]+\.(js|css|html|json|txt)$/, //文件名，中英文数字加点加2~4位字母数字
     };
 
+    //支持打开编辑的文件类型
+    _cfg.editFileTypes = ['html', 'js', 'css', 'txt', 'json'];
+
+    //全部mimetype
+    _cfg.mimeTypes = {
+        'html': 'text/html',
+        'js': 'application/javascript',
+        'css': 'text/css',
+        'txt': 'text/html',
+        'json': 'Application'
+    };
+
+
+    //获取扩展名对应的mimetype
+    _fns.getMimeByExt = function(ext) {
+        ext = ext.replace('.', '');
+        return _cfg.mimeTypes[ext];
+    };
 
 
     //如果地址栏传递page参数进来，那么 autoStartPage 函数会覆盖startPage
@@ -584,35 +602,16 @@ if (!_xmgc) var _xmgc = {};
 
 
 
-    //获取扩展名对应的mimetype
-    _fns.getMimeByExt = function(ext) {
-        ext = ext.replace('.', '');
-        var mime = 'text/html';
-        switch (ext) {
-            case 'js':
-                mime = 'application/javascript';
-                break;
-            case 'css':
-                mime = 'text/css';
-                break;
-            case 'html' || 'txt':
-                mime = 'text/html';
-                break;
-            default:
-                mime = 'text/html';
-        }
-        return mime;
-    };
 
 
     //获取目录地址的文件名
-    _fns.getFileName=function(url){
-      return url.substring(url.lastIndexOf('/') + 1);
+    _fns.getFileName = function(url) {
+        return url.substring(url.lastIndexOf('/') + 1);
     };
 
     //获取目录地址的文扩展名
-    _fns.getFileExt=function(url){
-      return url.substring(url.lastIndexOf('.') + 1);
+    _fns.getFileExt = function(url) {
+        return url.substring(url.lastIndexOf('.') + 1);
     };
 
 

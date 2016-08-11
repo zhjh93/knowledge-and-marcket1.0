@@ -436,7 +436,6 @@ function refreshFileCo(fkey) {
             urls: [cfg.BucketDomain + fkey],
         };
 
-
         //计算token
         options.headers.Authorization = $qiniu.util.generateAccessToken(options.path, null);
         var res = yield _fns.httpReqPrms(options, dat);
@@ -446,12 +445,6 @@ function refreshFileCo(fkey) {
     });
     return co;
 };
-
-
-console.log('>>>start refresh');
-_qn.refreshFileCo('1/test2/index.html').then(function (res) {
-    console.log('>>res', res);
-})
 
 
 
