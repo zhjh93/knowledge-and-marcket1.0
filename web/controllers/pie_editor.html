@@ -11,6 +11,11 @@
             min-width: 6rem;
             padding: 0;
         }
+
+        .pie_editor .itbtn p {
+            font-size: 0.6rem
+        }
+
         .pie_editor .lboder {
             /*            margin-left: 1px;*/
             border-left: 1px solid #DDD;
@@ -18,43 +23,46 @@
     </style>
     <div layout='column' style="width:100%">
         <!--        顶部开关-->
-        <div layout flex='none' id='menuSec' style="height:30px">
+        <div layout flex='none' id='menuSec' style="height:30px;border-left:1px solid #DDD">
             <md-button class="md-icon-button itbtn" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" aria-label='tagleft'>
-                <p style="color:#00bfa5">
-                    <span class="fa fa-arrow-right fa-1x" ng-show='$root.fold'></span>
-                    <span class="fa fa-arrow-left fa-1x" ng-hide='$root.fold'></span>
+                <p style="color:#888">
+                    <span class="fa fa-bars fa-1x"></span>
                 </p>
             </md-button>
-            <md-button class="md-icon-button itbtn" ng-click="tagPart('hideList')" aria-label='tagleft' style='width:120px'>
+            <md-divider></md-divider>
+            <md-button class="md-icon-button itbtn" ng-click="tagPart('hideList')" aria-label='tagleft' style='width:100px'>
                 <p ng-hide='hideList' class="minbtn" style="color:#00bfa5">
-                    <span class="fa fa-eye fa-lg"></span>
+                    <span class="fa fa-toggle-on fa-lg"></span>
                     <span>文件列表</span>
                 </p>
                 <p ng-show='hideList' style="color:#AAA">
-                    <span class="fa fa-eye-slash fa-lg"></span>
+                    <span class="fa fa-toggle-off fa-lg"></span>
                     <span>文件列表</span>
                 </p>
             </md-button>
+            <md-divider></md-divider>
             <md-button class="md-icon-button itbtn" ng-click="tagPart('hideEditor')" aria-label='tagleft' style='width:90px'>
                 <p ng-hide='hideEditor' style="color:#00bfa5">
-                    <span class="fa fa-eye fa-lg"></span>
+                    <span class="fa fa-toggle-on fa-lg"></span>
                     <span>编辑器</span>
                 </p>
                 <p ng-show='hideEditor' style="color:#AAA">
-                    <span class="fa fa-eye-slash fa-lg"></span>
+                    <span class="fa fa-toggle-off fa-lg"></span>
                     <span>编辑器</span>
                 </p>
             </md-button>
-            <md-button class="md-icon-button itbtn" ng-click="tagPart('hidePreview')" aria-label='tagleft'>
+            <md-divider></md-divider>
+            <md-button class="md-icon-button itbtn" ng-click="tagPart('hidePreview')" aria-label='tagleft' style='width:90px'>
                 <p ng-hide='hidePreview' style="color:#00bfa5">
-                    <span class="fa fa-eye fa-lg"></span>
-                    <span>预览</span>
+                    <span class="fa fa-toggle-on fa-lg"></span>
+                    <span>HTML预览</span>
                 </p>
                 <p ng-show='hidePreview' style="color:#AAA">
-                    <span class="fa fa-eye-slash fa-lg"></span>
-                    <span>预览</span>
+                    <span class="fa fa-toggle-off fa-lg"></span>
+                    <span>HTML预览</span>
                 </p>
             </md-button>
+            <md-divider></md-divider>
         </div>
         <md-divider></md-divider>
 
@@ -62,7 +70,7 @@
         <div layout='row' layout-align='start stretch' style="width:100%;height:100%">
 
             <!--            文件列表部分-->
-            <div flex='auto' id='listPart' ng-hide='hideList' style="width:240px">
+            <div flex='none' id='listPart' ng-hide='hideList' style="width:240px;border-left:1px solid #DDD">
                 <div layout id='listMenus' style="min-width:200px;margin:1rem 1rem 0 1rem;padding:0.5rem">
                     <div flex='none' class="md-button md-default" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;" ng-click='showQrcode()'>
                         <span class="fa fa-qrcode fa-2x"></span>
@@ -150,7 +158,7 @@
             </div>
 
             <!--            预览部分-->
-            <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px'>
+            <div layout='column' flex='grow' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px'>
                 <!--            预览器-->
                 <div flex='grow' id='previewSec' ng-bind-html='curFileData | toTrustHtml'>
                 </div>

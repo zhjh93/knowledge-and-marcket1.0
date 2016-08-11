@@ -40,14 +40,22 @@
         $scope.layoutInit();
 
         //低于xs各个部分solo显示
-        $scope.tagPart = function(str) {
+        $scope.tagPart = function(str, val) {
             if (!$mdMedia('gt-xs')) {
                 $scope.hideList = true;
                 $scope.hideEditor = true;
                 $scope.hidePreview = true;
-                $scope[str] = !$scope[str];
+                if (val === undefined) {
+                    $scope[str] = !$scope[str];
+                } else {
+                    $scope[str] = val;
+                }
             } else {
-                $scope[str] = !$scope[str];
+                if (val === undefined) {
+                    $scope[str] = !$scope[str];
+                } else {
+                    $scope[str] = val;
+                }
             }
         };
 
@@ -438,6 +446,7 @@
                     $scope.curFileName = _fns.getFileName(url);
                     $scope.curFileExt = _fns.getFileExt(url);
                     $scope.curFileData = res;
+                    $scope.tagPart('hideEditor',false);
 
                     //自动切换编辑器提示引擎
                     if ($scope.cmModes.indexOf($scope.curFileExt) != -1) {
