@@ -1,9 +1,14 @@
 //每个页面都引入这个文件，提供所有的全局设置和文件引入
 
+//屏蔽顶部导航栏
+if (!_xmgc) _xmgc = {};
+_xmgc.useNavBar = 'none';
+
 var _app = {}; //最高全局变量，angular
 
 (function _main() {
     'use strict';
+
 
     //初始化
     _app = angular.module('app', [

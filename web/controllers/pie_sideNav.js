@@ -39,6 +39,10 @@
             }, 1000)
         });
 
+        $scope.goHome=function(){
+           window.location.href='http://m.xmgc360.com';
+        };
+
         $scope.name = thisName;
     }
 })();
