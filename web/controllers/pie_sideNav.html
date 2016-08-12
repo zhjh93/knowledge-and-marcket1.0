@@ -23,7 +23,18 @@
                         </div>
                     </md-button>
                 </md-menu-item>
+                <md-divider></md-divider>
+                <div flex='grow' style="width:100%">
+                    <md-menu-item style='width:100%' ng-repeat="(item,val) in myApps.apps" ng-click='editApp(item)'>
+                        <md-button ng-class="{true:'md-primary',false:''}[item==xargs.app]" aria-label='menu'>
+                            <div style="text-align:left">
+                                <span ng-bind='item' style="font-size:1.3rem"></span>
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                </div>
             </div>
+
             <div flex='initial' style="width:100%">
                 <md-divider></md-divider>
                 <md-menu-item style='width:100%;' ng-click='goHome()' aria-label='backhome'>

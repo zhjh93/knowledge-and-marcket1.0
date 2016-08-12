@@ -73,17 +73,6 @@
                     window.location.href = document.referrer;
                 });
             };
-            if (!$rootScope.myInfo.id) {
-                var alrt = $mdDialog.alert()
-                    .clickOutsideToClose(true)
-                    .title('您还没有登陆')
-                    .textContent('您必须注册并登录之后才能使用编辑功能.')
-                    .ariaLabel('您还没有登陆')
-                    .ok('返回我的APP列表')
-                $mdDialog.show(alrt).then(function() {
-                    window.location.href = 'http://m.xmgc360.com/start/web/account/?page=login';
-                });
-            };
             return $scope.appName;
         };
         $scope.getAppArg();
