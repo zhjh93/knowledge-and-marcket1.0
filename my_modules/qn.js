@@ -188,7 +188,7 @@ _qn.getFileListCo = getFileListCo;
 function getFileListCo(prefix, limit, marker) {
     var co = $co(function* () {
 
-        var optpath = '/list?bucket=daimapai&prefix=' + prefix;
+        var optpath = '/list?bucket=daimapai&prefix=' + encodeURI(prefix);
         if (!limit) limit = 100;
         optpath += '&limit=' + limit;
         if (marker && marker != '') optpath += '&marker=' + marker;
@@ -215,6 +215,9 @@ function getFileListCo(prefix, limit, marker) {
     });
     return co;
 };
+
+
+
 
 
 /*http接口POST：上传字符串或数据，存储到七牛，返回文件url

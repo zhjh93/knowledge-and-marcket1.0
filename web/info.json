@@ -113,6 +113,15 @@
         },
         "author": "zhyuzh"
     },{
+        "name": "deleteFile",
+        "desc": "删除一个文件，锁定用户自己的目录uid/",
+        "method": ["POST","GET"],
+        "reqDat":{
+            "fkey":"文件目录,带有uid的路径格式1/appname/filename"
+        },
+        "respDat":"undefined",
+        "author": "zhyuzh"
+    },{
         "name": "refreshFile",
         "desc": "刷新骑牛存储的CDN缓存，此接口很不可靠",
         "method": ["POST","GET"],
