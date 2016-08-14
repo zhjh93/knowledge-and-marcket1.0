@@ -31,9 +31,10 @@ if (!_xmgc) var _xmgc = {};
         color: /^#[a-fA-F0-9]{6}$/, //颜色值，#开头十六进制
         icon: /^fa-[\w-]{1,32}$/, //fa图标值
         ukey: /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/, //user.ukey的格式
-        appName:/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5\.]{2,17}$/,//app名称格式，非数字开头3~18位
+        appName:/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/,//app名称格式，非数字开头3~18位
         fileName: /^[0-9a-zA-Z\u0391-\uFFE5]+\.(js|css|html|json|txt)$/, //文件名，中英文数字加点加2~4位字母数字
     };
+
 
     //支持打开编辑的文件类型
     _cfg.editFileTypes = ['html', 'js', 'css', 'txt', 'json'];
@@ -198,7 +199,7 @@ if (!_xmgc) var _xmgc = {};
         var res;
         url = (url) ? url : window.location.search;
         url = String(url);
-        var parts = unescape(url).split('?');
+        var parts = url.split('?');
         if (parts.length > 1) {
             var arr = parts[1].split('&');
             var args = {};

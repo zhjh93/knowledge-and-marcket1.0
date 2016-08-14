@@ -72,7 +72,10 @@
                 $mdDialog.show(alrt).then(function() {
                     window.location.href = document.referrer;
                 });
+            }else{
+               $scope.appName= decodeURI($scope.appName);
             };
+
             return $scope.appName;
         };
         $scope.getAppArg();
@@ -86,6 +89,8 @@
                 path: appName + '/',
                 limit: 100,
             };
+
+
             $.post(api, dat, function(res) {
                 console.log('POST', api, dat, res);
                 if (res.code == 1) {

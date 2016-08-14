@@ -67,10 +67,11 @@
                 .textContent('3~32个字符.')
                 .placeholder('App name')
                 .ariaLabel('App name')
-                .initialValue('myApp')
                 .ok('确定')
                 .cancel('取消');
             $mdDialog.show(confirm).then(function(ipt) {
+                console.log('>appname',ipt);
+                console.log('>appname2',_cfg.regx.appName.test(ipt));
                 if (ipt && _cfg.regx.appName.test(ipt)) {
                     $scope.createApp(ipt);
                 } else {
