@@ -468,7 +468,12 @@
             }, "html");
         };
 
-        $scope.openFile();
+
+        _fns.promiseRun(function(tm){
+            $scope.openFile();
+        },function(){
+            return _xmgc.myInfo;
+        });
 
 
 
@@ -562,6 +567,7 @@
             $scope.appFullUrlP = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html?=' + (new Date()).getTime();
             $scope.appFullUrl = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
             $mdDialog.show({
+                controller: undefined,
                 contentElement: '#qrcodeDialog',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true
