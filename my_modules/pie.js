@@ -84,6 +84,7 @@ _rotr.apis.getMyApps = function() {
 
 /**
  * 移除自己的一个APP，只是从列表里面移除，并没有删除app键，也不删除响应的七牛文件，所以是可以恢复的
+ * @param {appName} app名称
  * @returns {null}
  */
 

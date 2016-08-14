@@ -43,6 +43,7 @@ _rotr.apis.getUploadToken2 = function () {
         var respdat = {
             uid: uid,
             domain: _qn.cfg.BucketDomain,
+            url: _qn.cfg.BucketDomain + path,
             uptoken: token,
         };
         ctx.body = __newMsg(1, 'OK', respdat);
