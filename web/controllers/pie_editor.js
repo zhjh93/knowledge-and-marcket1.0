@@ -72,8 +72,8 @@
                 $mdDialog.show(alrt).then(function() {
                     window.location.href = document.referrer;
                 });
-            }else{
-               $scope.appName= decodeURI($scope.appName);
+            } else {
+                $scope.appName = decodeURI($scope.appName);
             };
 
             return $scope.appName;
@@ -440,7 +440,7 @@
                     $scope.curFileName = _fns.getFileName(url);
                     $scope.curFileExt = _fns.getFileExt(url);
                     $scope.curFileData = res;
-                    $scope.tagPart('hideEditor',false);
+                    $scope.tagPart('hideEditor', false);
 
                     //自动切换编辑器提示引擎
                     if ($scope.cmModes.indexOf($scope.curFileExt) != -1) {
@@ -469,9 +469,9 @@
         };
 
 
-        _fns.promiseRun(function(tm){
+        _fns.promiseRun(function(tm) {
             $scope.openFile();
-        },function(){
+        }, function() {
             return _xmgc.myInfo;
         });
 
@@ -567,13 +567,11 @@
             $scope.appFullUrlP = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html?=' + (new Date()).getTime();
             $scope.appFullUrl = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
             $mdDialog.show({
-                controller: undefined,
                 contentElement: '#qrcodeDialog',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true
             });
         };
-
 
 
 

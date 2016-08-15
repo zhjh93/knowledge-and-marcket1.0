@@ -187,6 +187,23 @@ var _app = {}; //最高全局变量，angular
         }
     );
 
+    //onlyBody：只截取<body></body>标签中间的部分
+    _app.filter(
+        'onlyBody',
+        function() {
+            return function(str) {
+                if (!str) return '';
+                str=String(str);
+                var res = str.replace(/.*<body>/, '');
+                res = res.replace(/<\/body>.*/, '');
+                return res;
+            }
+        }
+    );
+
+
+
+
     //directive:上传文件的指令
     //<file name="image" ng-model="inputFile" accept="image/png,image/jpg,image/jpeg" />
     _app.directive('file', function() {

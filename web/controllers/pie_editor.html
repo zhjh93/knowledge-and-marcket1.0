@@ -2,7 +2,7 @@
     _fns.addCtrlrJs('pie_editor');
 </script>
 <!--控制器界面部分-->
-<div id='pie_editor' ng-controller='pie_editor' class='container-fluid pie_editor doc_ctrlr' layout='start stretch' style="width:100%;height:100%">
+<div id='pie_editor' ng-controller='pie_editor' class='container-fluid pie_editor doc_ctrlr' layout='start stretch' style="width:100%;height:100%;padding:0;overflow-y:hidden">
     <style>
         /*内部样式，以.doc_devWeb开头*/
         .pie_editor .itbtn {
@@ -81,12 +81,13 @@
                                     <img ng-src="{{'http://qr.topscan.com/api.php?text='+appFullUrlP}}" width='100%' />
                                 </a>
                                 <a ng-href="{{appFullUrlP}}" target='_blank'>
-                                    <md-button class='elips' style='width:100%'><span ng-bind='appFullUrl'></span>
+                                    <md-button class='elips' style='width:100%;text-transform:none' aria-label='a' ><span ng-bind='appFullUrl'></span>
                                     </md-button>
                                 </a>
                             </md-dialog>
                         </div>
                     </div>
+
                     <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none" ng-bind='appName' ng-click='gotoApp()'></div>
                 </div>
                 <div layout='column' layout-padding>
@@ -156,13 +157,11 @@
             </div>
 
             <!--            预览部分-->
-            <div layout='column' flex='grow' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px'>
+            <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;'>
                 <!--            预览器-->
-                <div flex='grow' id='previewSec' ng-bind-html='curFileData | toTrustHtml'>
+                <div flex='grow' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml'>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
