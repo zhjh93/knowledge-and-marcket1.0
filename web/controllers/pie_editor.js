@@ -1,3 +1,5 @@
+//编辑器的控制器函数
+
 (function() {
     'use strict';
     var thisName = 'pie_editor';
@@ -445,10 +447,8 @@
                     $scope.curFileExt = _fns.getFileExt(url);
                     $scope.curFileData = res;
                     $scope.tagPart('hideEditor', false);
-                    console.log('>>>>$scope.curFileExt', $scope.curFileExt);
 
                     //自动切换编辑器提示引擎
-
                     if ($scope.cmModes[$scope.curFileExt] != undefined) {
                         $scope.cmOpt.mode = $scope.cmModes[$scope.curFileExt];
                     } else {
@@ -469,7 +469,7 @@
                     $mdToast.simple()
                     .textContent('读取文件' + fname + '成功，已经载入编辑器！')
                     .position('top right')
-                    .hideDelay(3000)
+                    .hideDelay(500)
                 );
             }, "html");
         };
@@ -545,7 +545,7 @@
                         $mdToast.simple()
                         .textContent('文件更新成功！')
                         .position('top right')
-                        .hideDelay(3000)
+                        .hideDelay(1000)
                     );
                 } else {
                     $mdToast.show(
@@ -616,12 +616,58 @@
         };
 
 
+        //新窗口打开url地址，非html打开index，否则打开当前页
+        $scope.openUrl = function() {
+            if ($scope.curFileUrl) {
+                var url;
+                if ($scope.curFileExt != 'html') {
+                    var uid = $rootScope.myInfo.id;
+                    var appName = $scope.getAppArg();
+                    url = 'http://mfiles.xmgc360.com/' + uid + '/' + appName + '/index.html';
+                } else {
+                    url = $scope.curFileUrl;
+                };
+                window.open($scope.curFileUrl);
+            } else {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('文件地址未定义，请刷新后再试')
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+            }
+        };
 
+
+
+        //拖拽滑块改变窗格尺寸
+        var orgPrevWid = 480;
+        var newPrevWid = 480;
+        var dragStartX = 0;
+        $('#dragPreSizeBar').bind('mousedown', function(evt) {
+            dragStartX = evt.x || evt.clientX;
+            $scope.draging = true;
+            orgPrevWid = newPrevWid;
+        });
+
+        //全局鼠标监听
+        $scope.draging = false;
+        $(document).bind('mousemove', function(evt) {
+            if ($scope.draging) {
+                //实时计算并改变预览窗体的宽度
+                var curX = evt.x || evt.clientX;
+                var disX = dragStartX - curX;
+                newPrevWid = orgPrevWid + disX;
+                $('#previewPart').css('width', newPrevWid + 'px');
+            };
+        });
+        $(document).bind('mouseup', function(evt) {
+            $scope.draging = false;
+        });
 
         //ctrlr end
     }
 })();
-
 
 
 

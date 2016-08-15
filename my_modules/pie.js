@@ -27,8 +27,8 @@ _rotr.apis.createApp = function() {
 
         //向七牛添加一个index.html文件
         var qnres1 = yield _qn.uploadDataCo('<h1>Hello world!</h1>', uid + '/' + appName + '/index.html');
-        var qnres2 = yield _qn.uploadDataCo('(function () {\n "use strict";\n//coding here.\n\n})()', uid + '/' + appName + '/index.js');
-        var qnres3 = yield _qn.uploadDataCo('body {\n\n}', uid + '/' + appName + '/index.css');
+        var qnres2 = yield _qn.uploadDataCo('(function () {\n "use strict";\n \n \n})()', uid + '/' + appName + '/index.js');
+        var qnres3 = yield _qn.uploadDataCo('body {\n \n \n}', uid + '/' + appName + '/index.css');
 
         //存储为app-aid键
         var mu = _rds.cli.multi();
