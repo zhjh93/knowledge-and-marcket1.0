@@ -191,16 +191,9 @@ var _app = {}; //最高全局变量，angular
     _app.filter(
         'onlyBody',
         function() {
-            return function(str) {
-                if (!str) return '';
-                str=String(str);
-                var res = str.replace(/.*<body>/, '');
-                res = res.replace(/<\/body>.*/, '');
-                return res;
-            }
+            return _fns.getBody;
         }
     );
-
 
 
 

@@ -7,7 +7,7 @@ var _fns = {}; //最高全局变量，公用函数
 var _xdat = {}; //共享变量
 if (!_xmgc) var _xmgc = {};
 
-(function () {
+(function() {
     'use strict';
 
     //初始页面,
@@ -50,14 +50,14 @@ if (!_xmgc) var _xmgc = {};
 
 
     //获取扩展名对应的mimetype
-    _fns.getMimeByExt = function (ext) {
+    _fns.getMimeByExt = function(ext) {
         ext = ext.replace('.', '');
         return _cfg.mimeTypes[ext];
     };
 
 
     //如果地址栏传递page参数进来，那么 autoStartPage 函数会覆盖startPage
-    _fns.autoStartPage = function () {
+    _fns.autoStartPage = function() {
         var pname = _fns.getUrlParam('page');
         if (pname) {
             _cfg.startPage = pname;
@@ -71,13 +71,13 @@ if (!_xmgc) var _xmgc = {};
     };
 
     //设置获取ctrlr路径方法
-    _fns.getCtrlrUrl = function (ctrlrname, ext) {
+    _fns.getCtrlrUrl = function(ctrlrname, ext) {
         if (!ext) ext = '.html';
         return _cfg.home + 'controllers/' + ctrlrname + ext;
     };
 
     //添加控制器的js文件
-    _fns.addCtrlrJs = function (ctrlrname) {
+    _fns.addCtrlrJs = function(ctrlrname) {
         var all_js = document.getElementsByTagName("script");
         var cur_js = $(all_js[all_js.length - 1]);
 
@@ -86,7 +86,7 @@ if (!_xmgc) var _xmgc = {};
     };
 
     //向_xdat添加控制器，便于根据名称或Dom的id获取控制器的scope
-    _fns.initCtrlr = function (scope, element, name, solo) {
+    _fns.initCtrlr = function(scope, element, name, solo) {
         scope.ctrlrName = scope.ctrlrName || name;
 
         //获取父层传来的参数，写入scope.xargs;
@@ -110,7 +110,7 @@ if (!_xmgc) var _xmgc = {};
     需要具有scope.ctrlrName属性
     写入到$scope.args
      */
-    _fns.getCtrlrXags = function (scope, element) {
+    _fns.getCtrlrXags = function(scope, element) {
         var res;
         if (scope) {
             if (!scope.xargs) scope.xargs = {};
@@ -145,7 +145,7 @@ if (!_xmgc) var _xmgc = {};
     /*根据地址栏跳转到指定控制器,实际是根据地址栏规则修改scope的属性
     规则##id#attr#url
      */
-    _fns.changeCtrlrByHash = function () {
+    _fns.changeCtrlrByHash = function() {
 
         //拆解地址栏hash
         var hasharr = unescape(window.location.hash).split('#');
@@ -177,7 +177,7 @@ if (!_xmgc) var _xmgc = {};
         if (!url || url == '') return false;
 
         //刷新应用
-        _fns.applyScope(scope, function () {
+        _fns.applyScope(scope, function() {
             scope[attr] = url;
         })
         return;
@@ -186,7 +186,7 @@ if (!_xmgc) var _xmgc = {};
 
     /*获取地址栏参数
      */
-    _fns.getUrlParam = function (name) {
+    _fns.getUrlParam = function(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]);
@@ -195,7 +195,7 @@ if (!_xmgc) var _xmgc = {};
 
     /*获取地址栏全部参数
      */
-    _fns.getUrlParams = function (url) {
+    _fns.getUrlParams = function(url) {
         var res;
         url = (url) ? url : window.location.search;
         url = String(url);
@@ -203,7 +203,7 @@ if (!_xmgc) var _xmgc = {};
         if (parts.length > 1) {
             var arr = parts[1].split('&');
             var args = {};
-            arr.forEach(function (seg, i) {
+            arr.forEach(function(seg, i) {
                 var segarr = seg.split('=');
                 if (segarr.length > 1) {
                     args[segarr[0]] = segarr[1];
@@ -235,7 +235,7 @@ if (!_xmgc) var _xmgc = {};
 
     /*重新应用scope
      */
-    _fns.applyScope = function (scope, fn) {
+    _fns.applyScope = function(scope, fn) {
         if (scope && scope.$root && scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') {
             scope.$apply(fn);
         };
@@ -243,7 +243,7 @@ if (!_xmgc) var _xmgc = {};
 
 
     /*扩展JSON.safeParse*/
-    JSON.safeParse = JSON.sparse = function (str) {
+    JSON.safeParse = JSON.sparse = function(str) {
         try {
             return JSON.parse(str);
         } catch (err) {
@@ -265,7 +265,7 @@ if (!_xmgc) var _xmgc = {};
      * @param   {fn} domain   上传到哪个存储空间，默认mfile.xmgc360.com
      * @returns {xhr} 上传的xhr对象，带有file和domain属性
      */
-    _fns.uploadFileQn2 = function (token, file, progress, success, error, complete, domain, key) {
+    _fns.uploadFileQn2 = function(token, file, progress, success, error, complete, domain, key) {
         var useargs = (token.constructor != String);
 
         if (useargs) token = arguments.token;
@@ -300,7 +300,7 @@ if (!_xmgc) var _xmgc = {};
         //监听事件
         if (useargs) progress = arguments.progress;
         if (progress) {
-            set.xhr = function () {
+            set.xhr = function() {
                 //为ajax添加progress事件监听
                 var xhr = $.ajaxSettings.xhr();
                 if (!xhr.file) xhr.file = file;
@@ -325,12 +325,12 @@ if (!_xmgc) var _xmgc = {};
     };
 
     //根据key先获取指定token，然后上传
-    _fns.uploadFileQn = function (key, file, progress, success, error, complete, domain) {
+    _fns.uploadFileQn = function(key, file, progress, success, error, complete, domain) {
         var api = _cfg.qn.getUploadTokenApi;
         var dat = {
             fpath: key,
         };
-        $.post(api, dat, function (res) {
+        $.post(api, dat, function(res) {
             console.log('POST', api, dat, res);
             if (res.code == 1) {
                 _fns.uploadFileQn2(res.data.uptoken, file, progress, success, error, complete, domain, res.data.path);
@@ -364,7 +364,7 @@ if (!_xmgc) var _xmgc = {};
      * @param   {boolean} multi     同时上传多个文件
      * @returns {int} uploadId整数，指向一个数组包含所有文件的xhr，数组存放在_cfg.xhrs[uploadId]
      */
-    _fns.uploadFile = function (path, btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain, multi) {
+    _fns.uploadFile = function(path, btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain, multi) {
         if (!btnjo) {
             __errhdlr(new Error('_fns.uploadFile:button undefined.'));
             return;
@@ -383,7 +383,7 @@ if (!_xmgc) var _xmgc = {};
         btnjo.after(filejo);
 
         //给file input添加监听
-        filejo.bind('change', function () {
+        filejo.bind('change', function() {
             var fileobjs = filejo.get(0).files;
             if (!domain) domain = _cfg.qn.BucketDomain;
 
@@ -402,7 +402,7 @@ if (!_xmgc) var _xmgc = {};
 
                 //开始上传
                 xhr = _fns.uploadFileQn(path + '/' + fname, f,
-                    function (evt) {
+                    function(evt) {
                         //添加evt.percent,为了避免abort之后progress会多运行一次，所以使用f.abort做判断
                         if (progressfn && !f.abort) {
                             if (evt.lengthComputable) {
@@ -412,17 +412,17 @@ if (!_xmgc) var _xmgc = {};
                             progressfn(f, evt);
                         };
                     },
-                    function (res) {
+                    function(res) {
                         //把七牛的返回结果转为标准格式
                         res['success'] = true;
                         f.url = res.url = res['file_path'] = domain + res.key;
                         res['msg'] = 'upload ok.';
                         if (successfn) successfn(f, res);
                     },
-                    function (f, err) {
+                    function(f, err) {
                         if (errorfn) errorfn(f, err);
                     },
-                    function (xhr, status) {
+                    function(xhr, status) {
                         filejo.remove();
                         if (completefn) completefn(f, xhr, status);
                     }, domain);
@@ -444,7 +444,7 @@ if (!_xmgc) var _xmgc = {};
      * 上传多个文件，与uploadFile单个文件相同
      * 指定目录版本
      */
-    _fns.uploadFiles = function (btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain) {
+    _fns.uploadFiles = function(btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain) {
         return _fns.uploadFile(btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain, true);
     };
 
@@ -462,7 +462,7 @@ if (!_xmgc) var _xmgc = {};
      * @param   {boolean} multi     同时上传多个文件
      * @returns {int} uploadId整数，指向一个数组包含所有文件的xhr，数组存放在_cfg.xhrs[uploadId]
      */
-    _fns.uploadFile2 = function (btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain, multi) {
+    _fns.uploadFile2 = function(btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain, multi) {
         if (!btnjo) {
             __errhdlr(new Error('_fns.uploadFile:button undefined.'));
             return;
@@ -482,12 +482,12 @@ if (!_xmgc) var _xmgc = {};
 
 
         //给file input添加监听
-        filejo.bind('change', function () {
+        filejo.bind('change', function() {
             var fileobjs = filejo.get(0).files;
             if (!domain) domain = _cfg.qn.BucketDomain;
 
             //获取随机文件名token
-            $.get(_cfg.qn.getUploadTokenApi2, function (res) {
+            $.get(_cfg.qn.getUploadTokenApi2, function(res) {
                 for (var i = 0; i < fileobjs.length; i++) {
                     var f = fileobjs[i];
 
@@ -501,7 +501,7 @@ if (!_xmgc) var _xmgc = {};
 
                     //开始上传
                     xhr = _fns.uploadFileQn(res.uptoken, f,
-                        function (evt) {
+                        function(evt) {
                             //添加evt.percent,为了避免abort之后progress会多运行一次，所以使用f.abort做判断
                             if (progressfn && !f.abort) {
                                 if (evt.lengthComputable) {
@@ -511,17 +511,17 @@ if (!_xmgc) var _xmgc = {};
                                 progressfn(f, evt);
                             };
                         },
-                        function (res) {
+                        function(res) {
                             //把七牛的返回结果转为标准格式
                             res['success'] = true;
                             f.url = res.url = res['file_path'] = domain + res.key;
                             res['msg'] = 'upload ok.';
                             if (successfn) successfn(f, res);
                         },
-                        function (f, err) {
+                        function(f, err) {
                             if (errorfn) errorfn(f, err);
                         },
-                        function (xhr, status) {
+                        function(xhr, status) {
                             filejo.remove();
                             if (completefn) completefn(f, xhr, status);
                         }, domain);
@@ -544,7 +544,7 @@ if (!_xmgc) var _xmgc = {};
      * 上传多个文件，与uploadFile单个文件相同
      * 随机文件名版本
      */
-    _fns.uploadFiles2 = function (btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain) {
+    _fns.uploadFiles2 = function(btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain) {
         return _fns.uploadFile2(btnjo, beforefn, progressfn, successfn, abortfn, errorfn, completefn, domain, true);
     };
 
@@ -553,7 +553,7 @@ if (!_xmgc) var _xmgc = {};
      * 取消上传，同时适用指定文件名版本和随机文件名版本
      * @param {int} xhrid 最终xhr将存放在_cfg.xhrs[xhrid]
      */
-    _fns.abortUpload = function (xhrid) {
+    _fns.abortUpload = function(xhrid) {
         for (var upid in _cfg.xhrs) {
             var ups = _cfg.xhrs[upid];
             for (var xid in ups) {
@@ -568,22 +568,22 @@ if (!_xmgc) var _xmgc = {};
 
     /*重新封装console的函数*/
     var cnslPreStr = '>';
-    console.xerr = function () {
+    console.xerr = function() {
         var args = arguments;
         console.info(cnslPreStr, 'ERR:');
         console.error.apply(this, args);
     };
-    console.xlog = function () {
+    console.xlog = function() {
         var args = arguments;
         console.info(cnslPreStr, 'LOG:');
         console.log.apply(this, args);
     };
-    console.xinfo = function () {
+    console.xinfo = function() {
         var args = arguments;
         console.info(cnslPreStr, 'INFO:');
         console.info.apply(this, args);
     };
-    console.xwarn = function () {
+    console.xwarn = function() {
         var args = arguments;
         console.info(cnslPreStr, 'WARN:');
         console.xwarn.apply(this, args);
@@ -608,9 +608,9 @@ if (!_xmgc) var _xmgc = {};
     fn函数fn(time),默认超时结束不运行;
     forceRun超时最后也会运行这个函数，所以要避免强制运行就要检测时间小于maxtime
     */
-    _fns.promiseRun = function (fn, condition, maxtime, interval, forceRun) {
+    _fns.promiseRun = function(fn, condition, maxtime, interval, forceRun) {
         if (!fn || fn.constructor != Function) return;
-        if (!condition || fn.condition != Function) condition = function () {
+        if (!condition || fn.condition != Function) condition = function() {
             return true;
         };
 
@@ -618,7 +618,7 @@ if (!_xmgc) var _xmgc = {};
         if (!maxtime) maxtime = 10000;
 
         var bgntm = (new Date()).getTime();
-        var setid = setInterval(function () {
+        var setid = setInterval(function() {
             var now = (new Date()).getTime();
             var tm = now - bgntm;
             if (tm >= maxtime) {
@@ -645,15 +645,27 @@ if (!_xmgc) var _xmgc = {};
         }, interval);
     };
 
+    //过滤html文件只留下body部分
+    _fns.getBody = function(str) {
+        if (!str) return '';
+        str = String(str);
+        var res = str.replace(/[\s\S]*<body/, '<div');
+        res = res.replace(/<\/body>[\s\S]*/, '</div>');
+        return res;
+    };
+
 
     //获取目录地址的文件名
-    _fns.getFileName = function (url) {
+    _fns.getFileName = function(url) {
         return url.substring(url.lastIndexOf('/') + 1);
     };
 
     //获取目录地址的文扩展名
-    _fns.getFileExt = function (url) {
-        return url.substring(url.lastIndexOf('.') + 1);
+    _fns.getFileExt = function(url) {
+        var fext=url.substring(url.lastIndexOf('.') + 1);
+        //去掉后面多余的参数
+        fext.replace(/[!\w]*[/s/S]*/,'');
+        return fext;
     };
 
 

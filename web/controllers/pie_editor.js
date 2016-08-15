@@ -323,7 +323,11 @@
         };
 
 
-        $scope.cmModes = ['html', 'css', 'javascript'];
+        $scope.cmModes = {
+            'html': 'xml',
+            'css': 'css',
+            'js': 'javascript'
+        };
 
         //codemirror选项
         $scope.cmOpt = {
@@ -441,10 +445,12 @@
                     $scope.curFileExt = _fns.getFileExt(url);
                     $scope.curFileData = res;
                     $scope.tagPart('hideEditor', false);
+                    console.log('>>>>$scope.curFileExt', $scope.curFileExt);
 
                     //自动切换编辑器提示引擎
-                    if ($scope.cmModes.indexOf($scope.curFileExt) != -1) {
-                        $scope.cmOpt.mode = $scope.curFileExt;
+
+                    if ($scope.cmModes[$scope.curFileExt] != undefined) {
+                        $scope.cmOpt.mode = $scope.cmModes[$scope.curFileExt];
                     } else {
                         $mdToast.show(
                             $mdToast.simple()
@@ -574,6 +580,40 @@
         };
 
 
+        //使用模板，自动判断html和js
+        $scope.useTemplate = function() {
+            if ($scope.curFileExt == 'html') {
+                $scope.useTemplateHtml();
+            } else if ($scope.curFileExt == 'js') {
+                $scope.useTemplateJs();
+            };
+        };
+
+        //使用base.html模板
+        $scope.useTemplateHtml = function() {
+            var api = 'http://m.xmgc360.com/pie/web/templates/base.html';
+            $.get(api, function(res) {
+                console.log('GET', api, null, String(res).substr(0, 100));
+                _fns.applyScope($scope, function() {
+                    var body = $scope.cmDoc.getValue();
+                    var html = res.replace('[{body}]', body);
+                    $scope.cmDoc.setValue(html);
+                });
+            }, 'html');
+        };
+
+        //使用base.js模板
+        $scope.useTemplateJs = function() {
+            var api = 'http://m.xmgc360.com/pie/web/templates/base.js';
+            $.get(api, function(res) {
+                console.log('GET', api, null, String(res).substr(0, 100));
+                _fns.applyScope($scope, function() {
+                    var code = $scope.cmDoc.getValue();
+                    var js = res.replace('[{rootScopeCode}]', code);
+                    $scope.cmDoc.setValue(js);
+                });
+            }, 'html');
+        };
 
 
 

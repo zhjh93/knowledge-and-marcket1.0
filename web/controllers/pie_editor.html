@@ -8,7 +8,7 @@
         .pie_editor .itbtn {
             margin-left: 0;
             color: #AAA;
-            min-width: 6rem;
+            min-width: 8rem;
             padding: 0;
         }
         .pie_editor .itbtn p {
@@ -81,7 +81,7 @@
                                     <img ng-src="{{'http://qr.topscan.com/api.php?text='+appFullUrlP}}" width='100%' />
                                 </a>
                                 <a ng-href="{{appFullUrlP}}" target='_blank'>
-                                    <md-button class='elips' style='width:100%;text-transform:none' aria-label='a' ><span ng-bind='appFullUrl'></span>
+                                    <md-button class='elips' style='width:100%;text-transform:none' aria-label='a'><span ng-bind='appFullUrl'></span>
                                     </md-button>
                                 </a>
                             </md-dialog>
@@ -142,7 +142,14 @@
                 <!--            底部菜单-->
                 <div layout flex='none' layout-align='space-between center' id='menuSec' style="height:48px;padding:0 1rem;border-top: 1px solid #DDD">
                     <div flex='grow'>
-                        <md-button class="md-raised md-accent itbtn" ng-click="doSaveFile()" aria-label='tagleft' style='color:#FFF'>保存</md-button>
+                        <md-button class="md-raised md-accent itbtn" ng-click="doSaveFile()" aria-label='tagleft' style='color:#FFF'>
+                            <span class="fa fa-cloud-upload"></span>
+                            <span>保存文件</span>
+                        </md-button>
+                        <md-button class="md-raised md-default itbtn" ng-click="useTemplate()" aria-label='tagleft' style='color:#444'>
+                            <span class="fa fa-file-text-o"></span>
+                            <span>套用模板</span>
+                        </md-button>
                     </div>
 
                     <!--   编辑器语言mod-->
