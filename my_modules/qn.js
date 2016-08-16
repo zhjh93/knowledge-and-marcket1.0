@@ -7,7 +7,7 @@ var cfg = {
     Uptoken_Url: "/uptoken",
     Domain: "http://qiniu-plupload.qiniudn.com/",
     BucketName: "daimapai",
-    BucketDomain: "http://mfiles.xmgc360.com/",
+    BucketDomain: "http://files.m.xmgc360.com/",
 };
 
 _qn.cfg = cfg;

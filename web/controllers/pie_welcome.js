@@ -43,12 +43,17 @@
                 };
             });
         };
-        $scope.getMyAppList();
+
+        _fns.promiseRun(function(tm) {
+            $scope.getMyAppList();
+        }, function() {
+            return _xmgc.myInfo;
+        });
 
 
         //跳转到App首页
         $scope.openApp = function(appname) {
-            var str = 'http://mfiles.xmgc360.com/' + $rootScope.myInfo.id + '/' + appname + '/index.html';
+            var str = _cfg.qn.BucketDomain + $rootScope.myInfo.id + '/' + appname + '/index.html';
             str = encodeURI(str);
             location.href = str;
         };
@@ -70,8 +75,8 @@
                 .ok('确定')
                 .cancel('取消');
             $mdDialog.show(confirm).then(function(ipt) {
-                console.log('>appname',ipt);
-                console.log('>appname2',_cfg.regx.appName.test(ipt));
+                console.log('>appname', ipt);
+                console.log('>appname2', _cfg.regx.appName.test(ipt));
                 if (ipt && _cfg.regx.appName.test(ipt)) {
                     $scope.createApp(ipt);
                 } else {
@@ -152,7 +157,34 @@
 
 
 
-        $scope.getMyAppList();
+
+
+        //ceshi
+        //测试
+        $.get("http://m.xmgc360.com/start/api/getMyInfo", function(res) {
+            console.log('>>>JSONPX', res);
+        }, 'jsonp');
+
+        /*
+        $.ajax({
+            type: "get",
+            url: "http://m.xmgc360.com/start/api/getMyInfo",
+            dataType: "jsonp",
+            success: function(json) {
+                console.log('>>>JSONPX', json);
+            },
+            error: function() {
+                console.log('>>>JSONPX failed');
+            }
+        });
+        */
+
+
+
+
+
+
+
 
 
         //end

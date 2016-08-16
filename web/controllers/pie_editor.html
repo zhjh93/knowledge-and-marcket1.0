@@ -179,7 +179,8 @@
             <!--            预览部分-->
             <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;min-width:240px'>
                 <!--            预览器-->
-                <div flex='grow' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml'>
+                <iframe ng-src='{{testFileUrl}}' style="border-style:none;height:100%;"></iframe>
+<!--                <div flex='grow' ng-show='false' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml'>-->
                 </div>
             </div>
         </div>

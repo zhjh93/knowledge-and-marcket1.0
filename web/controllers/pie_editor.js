@@ -448,6 +448,13 @@
                     $scope.curFileData = res;
                     $scope.tagPart('hideEditor', false);
 
+                    //非html格式，隐藏预览窗口
+                    if ($scope.curFileExt != 'html') {
+                        $scope.hidePreview = true;
+                    } else {
+                        $scope.hidePreview = false;
+                    };
+
                     //自动切换编辑器提示引擎
                     if ($scope.cmModes[$scope.curFileExt] != undefined) {
                         $scope.cmOpt.mode = $scope.cmModes[$scope.curFileExt];
@@ -500,9 +507,12 @@
                     .ariaLabel('App name')
                     .ok('关闭'));
             } else {
+                var timestamp = (new Date()).getTime() + '{[timeStamp]}';
+                data = data.replace(/\d*\{\[timeStamp\]\}/g, timestamp);
                 $scope.saveFile(fkey, data);
             };
         };
+
 
         /*保存文件，fkey前不带uid不带斜杠格式myapp/index.html，data为字符串
          */
@@ -586,7 +596,14 @@
                 $scope.useTemplateHtml();
             } else if ($scope.curFileExt == 'js') {
                 $scope.useTemplateJs();
-            };
+            } else {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('目前还没有此类型文件的模板')
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+            }
         };
 
         //使用base.html模板
@@ -616,18 +633,19 @@
         };
 
 
-        //新窗口打开url地址，非html打开index，否则打开当前页
+        //新窗口打开url地址，非html打开index，否则打开当前页,添加时间戳
         $scope.openUrl = function() {
             if ($scope.curFileUrl) {
                 var url;
                 if ($scope.curFileExt != 'html') {
                     var uid = $rootScope.myInfo.id;
                     var appName = $scope.getAppArg();
-                    url = 'http://mfiles.xmgc360.com/' + uid + '/' + appName + '/index.html';
+                    url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
                 } else {
                     url = $scope.curFileUrl;
                 };
-                window.open($scope.curFileUrl);
+                url = url + '?=' + (new Date()).getTime();
+                window.open(encodeURI(url));
             } else {
                 $mdToast.show(
                     $mdToast.simple()
@@ -664,6 +682,19 @@
         $(document).bind('mouseup', function(evt) {
             $scope.draging = false;
         });
+
+
+
+
+
+
+
+
+
+
+
+
+        $scope.testFileUrl='http://m.xmgc360.com/pie/web/index.html';
 
         //ctrlr end
     }

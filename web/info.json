@@ -93,7 +93,7 @@
             "marker":"上一次读取获得的标记，建议一次性完全读取，一般不要设置这个字段"
         },
         "respDat": {
-            "domain": "http://mfiles.xmgc360.com/",
+            "domain": "http://files.m.xmgc360.com/",
             "items":"文件对象列表，{fsize,hash,key,mimeType,putTime}"
         },
         "tip": "可以用于获取app目录下的文件列表",
@@ -129,7 +129,7 @@
             "fkey":"文件目录,带有uid的路径格式1/appname/filename"
         },
         "respDat":  {
-            "url":"完整路径http://mfiles..."
+            "url":"完整路径http://files.m..."
         },
         "author": "zhyuzh"
     }]

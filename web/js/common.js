@@ -18,7 +18,7 @@ if (!_xmgc) var _xmgc = {};
     _cfg.qn = {
         getUploadTokenApi: 'http://m.xmgc360.com/pie/api/getUploadToken', //上传到指定目录
         getUploadTokenApi2: 'http://m.xmgc360.com/pie/api/getUploadToken2', //上传到随机文件名
-        BucketDomain: 'http://mfiles.xmgc360.com/'
+        BucketDomain: 'http://files.m.xmgc360.com/'
     };
 
 
