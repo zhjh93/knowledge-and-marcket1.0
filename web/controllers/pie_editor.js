@@ -358,6 +358,7 @@
             var doc = $scope.cmDoc = cm.getDoc();
             var editor = $scope.cmEditor = doc.getEditor();
 
+            //调整高度
             var hei = $(window).height() - 78;
             editor.setSize('100%', hei + 'px');
 
@@ -366,10 +367,12 @@
                 editor.setSize('100%', hei + 'px');
             });
 
-            editor.getWrapperElement().style["font-size"] = "1.8rem";
-            editor.getWrapperElement().style["font-family"] = "monospace";
+            //调整字体
+            editor.getWrapperElement().style["font-size"] = "1.6rem";
+            editor.getWrapperElement().style["font-family"] = "monospace,Monaco";
             editor.refresh();
 
+            //提示器
             var selstr;
             editor.on('keydown', function(cm, event) {
                 selstr = editor.doc.getSelection();
@@ -473,6 +476,10 @@
                     //自动切换编辑器提示引擎
                     if ($scope.cmModes[$scope.curFileExt] != undefined) {
                         $scope.cmOpt.mode = $scope.cmModes[$scope.curFileExt];
+                        //重置编辑器
+                        $scope.cmEditor.setOption('mode', $scope.cmOpt.mode);
+
+
                     } else {
                         $mdToast.show(
                             $mdToast.simple()
@@ -791,6 +798,18 @@
         $scope.greatThan = function(str) {
             var res = $mdMedia("gt-" + str);
             return res;
+        };
+
+
+        //改变编辑器的主题
+        $scope.cmTheme = 'default';
+        $scope.changeCmEditorTheme = function(str) {
+            if ($scope.cmTheme == 'default') {
+                $scope.cmTheme = 'mbo';
+            } else {
+                $scope.cmTheme = 'default';
+            };
+            $scope.cmEditor.setOption('theme', $scope.cmTheme);
         };
 
 

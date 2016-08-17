@@ -221,18 +221,25 @@
             <div flex='grow' id='editorPart' layout='column' id='editorPart' ng-hide='hideEditor' class='lboder'>
                 <!--            编辑器-->
                 <div flex='grow' id='editorSec' style="background:#888;overflow-y:auto;box-shadow: 0 0 24px #666 inset;overflow-x: hidden;">
-                    <div ng-model="curFileData" ui-codemirror-opts='cmOpt' ui-codemirror="{onLoad:cmLoaded}" style="box-shadow: 0 4px 4px #888888;boder:none;margin:-1px"></div>
+                    <div id='cmEditor' ng-model="curFileData" ui-codemirror-opts='cmOpt' ui-codemirror="{onLoad:cmLoaded}" style="box-shadow: 0 4px 4px #888888;boder:none;margin:-1px" ui-refresh='cmRefresh'></div>
                 </div>
                 <!--            底部菜单-->
                 <div layout flex='none' layout-align='space-between center' id='menuSec' style="height:48px;padding:0 1rem;border-top: 1px solid #DDD">
                     <div layout flex='grow'>
                         <md-button class="md-raised md-accent itbtn" ng-click="doSaveFile()" aria-label='tagleft' style='color:#FFF;width:120px'>
                             <span class="fa fa-cloud-upload"></span>
-                            <span>保存文件</span>
+                            <span>保存</span>
                         </md-button>
-                        <md-button class="md-raised md-default itbtn" ng-click="useTemplate()" aria-label='tagleft' style='color:#444;width:100px'>
-                            <span class="fa fa-file-text-o"></span>
-                            <span>套用模板</span>
+                    </div>
+                    <div flex='none' style="padding-right:20px">
+                        <md-button class="md-default itbtn" ng-click="changeCmEditorTheme()" aria-label='tagleft' style='color:#444;width:60px;margin-right:0;'>
+                            <span class="fa fa-circle-o" ng-show='cmTheme=="default"'></span>
+                            <span class="fa fa-circle" ng-hide='cmTheme=="default"'></span>
+                            <span>主题</span>
+                        </md-button>
+                        <md-button class="md-default itbtn" ng-click="useTemplate()" aria-label='tagleft' style='color:#444;margin-right:0;width:60px'>
+                            <span class="fa">[-]</span>
+                            <span>模板</span>
                         </md-button>
                     </div>
 
