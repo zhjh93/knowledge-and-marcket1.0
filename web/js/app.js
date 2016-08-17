@@ -60,7 +60,7 @@ var _app = {}; //最高全局变量，angular
     angular.module('app.controllers', []);
 
     //执行rootscope控制器代码，可被其他控制器调用
-    _app.run(function angularRun($rootScope, $timeout, $mdSidenav, $log) {
+    _app.run(function angularRun($rootScope, $timeout, $mdSidenav, $log, $mdMedia) {
         //把rootscope记录到xdat
         $rootScope.xargs = {
             id: 'root',

@@ -724,7 +724,12 @@
         };
 
 
-
+        //判断界面尺寸
+        $scope.greatThan = function(str) {
+            var res=$mdMedia("gt-" + str);
+            console.log('>>>greatthan',res)
+            return res;
+        };
 
 
 
