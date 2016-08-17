@@ -8,7 +8,7 @@
         .pie_editor .itbtn {
             margin-left: 0;
             color: #AAA;
-            min-width: 6rem;
+            min-width: 5rem;
             padding: 0;
         }
         .pie_editor .itbtn p {
@@ -20,16 +20,18 @@
         }
     </style>
     <div layout='column' style="width:100%">
+        <div id='dragMask' style="width:100%;height:100%;opacity:0.1;position:absolute;background:#000;z-index:200;display:none"></div>
+
         <!--        顶部开关-->
         <div layout flex='none' id='menuSec' style="height:30px;border-left:1px solid #DDD">
             <div layout flex='grow'>
-                <md-button class="md-icon-button itbtn" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" aria-label='tagleft' style='width:39px;min-width:39px'>
+                <md-button class="md-no-ink md-icon-button itbtn" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" aria-label='tagleft' style='width:39px;min-width:39px'>
                     <p style="color:#888">
                         <span class="fa fa-bars fa-1x"></span>
                     </p>
                 </md-button>
                 <md-divider></md-divider>
-                <md-button class="md-icon-button itbtn" ng-click="tagPart('hideList')" aria-label='tagleft' style='width:100px'>
+                <md-button class="md-icon-button itbtn" md-no-ink ng-click="tagPart('hideList')" aria-label='tagleft' style='width:90px'>
                     <p ng-hide='hideList' class="minbtn" style="color:#00bfa5">
                         <span class="fa fa-toggle-on fa-lg"></span>
                         <span>文件列表</span>
@@ -40,35 +42,53 @@
                     </p>
                 </md-button>
                 <md-divider></md-divider>
-                <md-button class="md-icon-button itbtn" ng-click="tagPart('hideEditor')" aria-label='tagleft' style='width:80px'>
+                <md-button class="md-icon-button itbtn" md-no-ink ng-click="tagPart('hideEditor')" aria-label='tagleft' style='width:70px'>
                     <p ng-hide='hideEditor' style="color:#00bfa5">
                         <span class="fa fa-toggle-on fa-lg"></span>
-                        <span>编辑器</span>
+                        <span>编辑</span>
                     </p>
                     <p ng-show='hideEditor' style="color:#AAA">
                         <span class="fa fa-toggle-off fa-lg"></span>
-                        <span>编辑器</span>
+                        <span>编辑</span>
+                    </p>
+                </md-button>
+                <md-divider></md-divider>
+                <md-button class="md-icon-button itbtn" md-no-ink ng-click="tagPart('hidePreview')" aria-label='tagleft' style='width:71px'>
+                    <p ng-hide='hideEditor' style="color:#00bfa5">
+                        <span class="fa fa-toggle-on fa-lg"></span>
+                        <span>预览</span>
+                    </p>
+                    <p ng-show='hideEditor' style="color:#AAA">
+                        <span class="fa fa-toggle-off fa-lg"></span>
+                        <span>预览</span>
                     </p>
                 </md-button>
                 <md-divider></md-divider>
             </div>
             <md-divider></md-divider>
             <div layout flex='none'>
-                <md-button class="md-icon-button itbtn"  ng-click="openUrl()" aria-label='tagleft' style='width:100px'>
-                    <p  style="color:#00bfa5">
+                <md-button class="md-icon-button itbtn" md-no-ink ng-click="openUrl()" aria-label='tagleft' style='width:80px'>
+                    <p style="color:#00bfa5">
                         <span class="fa fa-flask fa-lg"></span>
-                        <span>测试页面</span>
+                        <span>新窗口</span>
                     </p>
                 </md-button>
-                <md-divider ng-show='curFileExt=="html"'></md-divider>
-                <md-button ng-show='curFileExt=="html"' class="md-icon-button itbtn" ng-click="tagPart('hidePreview')" aria-label='tagleft' style='width:90px'>
-                    <p ng-hide='hidePreview' style="color:#00bfa5">
-                        <span class="fa fa-toggle-on fa-lg"></span>
-                        <span>实时预览</span>
+                <md-divider ng-show='!previewRt'></md-divider>
+                <md-button ng-show='!previewRt' md-no-ink class="md-icon-button itbtn" ng-click="reloadPreview()" aria-label='tagleft' style='width:70px'>
+                    <p style="color:#00bfa5">
+                        <span class="fa fa-refresh fa-lg"></span>
+                        <span>刷新</span>
                     </p>
-                    <p ng-show='hidePreview' style="color:#AAA">
+                </md-button>
+                <md-divider ></md-divider>
+                <md-button  md-no-ink class="md-icon-button itbtn" ng-click="tagPreviewRt()" aria-label='tagleft' style='width:70px'>
+                    <p ng-hide='previewRt' style="color:#00bfa5">
+                        <span class="fa fa-toggle-on fa-lg"></span>
+                        <span>手工</span>
+                    </p>
+                    <p ng-show='previewRt' style="color:#AAA">
                         <span class="fa fa-toggle-off fa-lg"></span>
-                        <span>实时预览</span>
+                        <span>实时</span>
                     </p>
                 </md-button>
 
@@ -124,8 +144,8 @@
                             <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='min-width:40px;color:#AAA;margin-right:0'>
                                 <span class='fa fa-remove'></span>
                             </md-button>
-                            <md-button flex='grow' ng-click="doOpenFile(item.key)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none' ng-class='{true:"md-accent elips",false:"md-default elips"}[item.key==curFileKey]'>
-                                <span class="elips" ng-bind='item.key | fileName'></span>
+                            <md-button flex='grow' ng-click="doOpenFile(item.key)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none' ng-class='{true:"md-accent elips",false:"md-default elips"}[item.key==curFileKey]' >
+                                <span class="elips" ng-bind='item.key | fileName' ng-style="isPreviewFile(item)" style="padding-left:4px"></span>
                             </md-button>
                         </div>
 
@@ -146,7 +166,7 @@
             </div>
 
             <!--       编辑器部分-->
-            <div flex='grow' id='editorPart' layout='column' id='editorPart' ng-hide='hideEditor' class='lboder' style="min-width:400px">
+            <div flex='grow' id='editorPart' layout='column' id='editorPart' ng-hide='hideEditor' class='lboder'>
                 <!--            编辑器-->
                 <div flex='grow' id='editorSec' style="background:#888;overflow-y:auto;box-shadow: 0 0 24px #666 inset;overflow-x: hidden;">
                     <div ng-model="curFileData" ui-codemirror-opts='cmOpt' ui-codemirror="{onLoad:cmLoaded}" style="box-shadow: 0 4px 4px #888888;boder:none;margin:-1px"></div>
@@ -177,10 +197,10 @@
 
             <div id='dragPreSizeBar' flex='none' style="width:8px;background:#F7F7F7;border-left:1px solid #DDD;cursor:col-resize"></div>
             <!--            预览部分-->
-            <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;min-width:240px'>
+            <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;'>
                 <!--            预览器-->
-                <iframe ng-src='{{testFileUrl}}' style="border-style:none;height:100%;"></iframe>
-<!--                <div flex='grow' ng-show='false' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml'>-->
+                <iframe id='previewFrame' ng-hide='previewRt' style="border-style:none;height:100%;"></iframe>
+                <div flex='grow' ng-show='previewRt' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml'>
                 </div>
             </div>
         </div>

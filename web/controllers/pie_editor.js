@@ -429,6 +429,7 @@
         url为绝对完整地址
         延迟100毫秒执行
         */
+
         $scope.openFile = function(url, fkey) {
             var appName = $scope.getAppArg();
             var uid = $rootScope.myInfo.id;
@@ -448,12 +449,14 @@
                     $scope.curFileData = res;
                     $scope.tagPart('hideEditor', false);
 
-                    //非html格式，隐藏预览窗口
-                    if ($scope.curFileExt != 'html') {
-                        $scope.hidePreview = true;
-                    } else {
-                        $scope.hidePreview = false;
+                    //如果是html，那么更新previewUrl并刷新窗口
+                    if ($scope.curFileExt == 'html') {
+                        $scope.previewFileUrl = $scope.curFileUrl;
+                        $scope.previewFileKey = $scope.curFileKey;
+                        $scope.reloadPreview();
                     };
+
+
 
                     //自动切换编辑器提示引擎
                     if ($scope.cmModes[$scope.curFileExt] != undefined) {
@@ -490,6 +493,24 @@
 
 
 
+        /*刷新手工预览窗口的url*/
+        $scope.reloadPreview = function() {
+            var url = '';
+            if ($scope.previewFileUrl) {
+                url = encodeURI($scope.previewFileUrl) + '?=' + Math.random();
+            };
+            setTimeout(function() {
+                $('#previewFrame').attr('src', url);
+            }, 100);
+        };
+
+        /*切换实时，手工开关
+         */
+        $scope.tagPreviewRt = function() {
+            $scope.previewRt = !$scope.previewRt;
+            $scope.reloadPreview();
+        };
+
         /*保存当前编辑器内容到当前文件url
          */
         $scope.doSaveFile = function() {
@@ -525,8 +546,8 @@
             });
 
             var xhr = _fns.uploadFileQn(fkey, blob, function() {
-                //存储完成后刷新数据
-                $scope.refreshFile(fkey);
+                //存储完成后刷新预览窗
+                $scope.reloadPreview();
 
                 //更新本地数据
                 _fns.applyScope($scope, function() {
@@ -657,31 +678,50 @@
         };
 
 
-
-        //拖拽滑块改变窗格尺寸
-        var orgPrevWid = 480;
-        var newPrevWid = 480;
-        var dragStartX = 0;
-        $('#dragPreSizeBar').bind('mousedown', function(evt) {
-            dragStartX = evt.x || evt.clientX;
-            $scope.draging = true;
-            orgPrevWid = newPrevWid;
-        });
-
-        //全局鼠标监听
         $scope.draging = false;
-        $(document).bind('mousemove', function(evt) {
-            if ($scope.draging) {
-                //实时计算并改变预览窗体的宽度
-                var curX = evt.x || evt.clientX;
-                var disX = dragStartX - curX;
-                newPrevWid = orgPrevWid + disX;
-                $('#previewPart').css('width', newPrevWid + 'px');
+        (function() {
+            //拖拽滑块改变窗格尺寸
+            var startPrevWid = 480;
+            var curPrevWid = 480;
+            var startX = 0;
+            var editorPartJo = $('#editorPart');
+            var previewPartJo = $('#previewPart');
+
+            $('#dragPreSizeBar').bind('mousedown', function(evt) {
+                startX = evt.x || evt.clientX;
+                $scope.draging = true;
+                $('#dragMask').show();
+                startPrevWid = previewPartJo.width();
+            });
+
+            //全局鼠标监听
+
+            $(window).bind('mousemove', function(evt) {
+                if ($scope.draging) {
+                    var curX = evt.clientX || evt.x;
+                    var absOffsetX = curX - startX;
+                    var newWid = startPrevWid - absOffsetX;
+                    if (newWid < 300) {
+                        newWid = 300;
+                    };
+
+                    $('#previewPart').css('width', newWid + 'px');
+                };
+            });
+            $(window).bind('mouseup', function(evt) {
+                $scope.draging = false;
+                $('#dragMask').hide();
+            });
+        })();
+
+        //检查是否当前预览文件,文件列表栏标识预览文件
+        $scope.isPreviewFile = function(item) {
+            if (item.key == $scope.previewFileKey) {
+                return {
+                    'border-left': '4px solid #ec407a'
+                };
             };
-        });
-        $(document).bind('mouseup', function(evt) {
-            $scope.draging = false;
-        });
+        };
 
 
 
@@ -689,12 +729,6 @@
 
 
 
-
-
-
-
-
-        $scope.testFileUrl='http://m.xmgc360.com/pie/web/index.html';
 
         //ctrlr end
     }
