@@ -99,7 +99,7 @@
                                 <span>实时</span>
                             </p>
                         </md-button>
-                        <md-button flex="grow" ng-show='!previewRt' md-no-ink class="itbtn2" ng-click="reloadPreview()" aria-label='tagleft'>
+                        <md-button flex="grow" ng-show='!previewRt' md-no-ink class="itbtn2" ng-click="refreshPreviewFrameUrl()" aria-label='tagleft'>
                             <p style="color:#00bfa5">
                                 <span class="fa fa-refresh fa-lg"></span>
                                 <span>刷新</span>
@@ -126,7 +126,7 @@
                     </p>
                 </md-button>
                 <md-divider ng-show='!previewRt'></md-divider>
-                <md-button flex="initial" ng-show='!previewRt' md-no-ink class="md-icon-button itbtn" ng-click="reloadPreview()" aria-label='tagleft' style='width:70px'>
+                <md-button flex="initial" ng-show='!previewRt' md-no-ink class="md-icon-button itbtn" ng-click="refreshPreviewFrameUrl()" aria-label='tagleft' style='width:70px'>
                     <p style="color:#00bfa5">
                         <span class="fa fa-refresh fa-lg"></span>
                         <span>刷新</span>
@@ -134,11 +134,11 @@
                 </md-button>
                 <md-divider></md-divider>
                 <md-button flex="initial" md-no-ink class="md-icon-button itbtn" ng-click="tagPreviewRt()" aria-label='tagleft' style='width:70px'>
-                    <p ng-hide='previewRt' style="color:#00bfa5">
+                    <p ng-hide='previewRt' style="color:#AAA">
                         <span class="fa fa-toggle-on fa-lg"></span>
                         <span>手工</span>
                     </p>
-                    <p ng-show='previewRt' style="color:#AAA">
+                    <p ng-show='previewRt' style="color:#00bfa5">
                         <span class="fa fa-toggle-off fa-lg"></span>
                         <span>实时</span>
                     </p>
@@ -252,7 +252,7 @@
             <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;'>
                 <!--            预览器-->
                 <iframe id='previewFrame' ng-hide='previewRt' style="border-style:none;height:100%;"></iframe>
-                <div flex='grow' ng-show='previewRt' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml'>
+                <div flex='grow' ng-show='previewRt' id='previewSec' ng-bind-html='previewFileData | onlyBody  | toTrustHtml'>
                 </div>
             </div>
         </div>

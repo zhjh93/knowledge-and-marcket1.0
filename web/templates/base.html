@@ -1,9 +1,10 @@
 <!--代码派基础模板，fa+jquery+bootstrap+angular
 自动尝试引入index.css和index.js文件
 最后引入_xmgc.js
+v160817
 -->
 <!DOCTYPE html>
-<html ng-app="app" ng-controller='appCtrlr' style="height:100%">
+<html ng-app="app" style="height:100%">
 
 <head>
     <meta charset="utf-8" />
@@ -11,15 +12,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <!--    css样式-->
     <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <link href="index.css?={[timeStamp]}" rel="stylesheet" />
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.3.20/angular.min.js"></script>
 </head>
 
-<body style="height:100%;width:100%" ng-controller='bodyCtrlr'>
+<body style="height:100%;width:100%" ng-controller='bodyController'>
 <!----从这里开始编码---->
+
 [{body}]
+
+
+
+
+
+
+
+
 
 
 
@@ -27,10 +39,6 @@
 
 <!----到这里结束编码---->
 </body>
-<!--    脚本文件-->
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/angular.js/1.3.20/angular.min.js"></script>
 <script src="index.js?={[timeStamp]}"></script>
 <script src="//m.xmgc360.com/start/web/js/_xmgc.js?={[timeStamp]}"></script>
 </html>

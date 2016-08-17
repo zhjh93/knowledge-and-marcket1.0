@@ -436,26 +436,38 @@
             if (!url) url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html';
             if (!fkey) fkey = uid + '/' + appName + '/index.html';
 
+
+
             //添加时间戳强制刷新
             var urlp = url + '?=' + (new Date()).getTime();
 
             $.get(urlp, function(res) {
                 console.log('GET', urlp, null, String(res).substr(0, 100));
                 _fns.applyScope($scope, function() {
+                    //如果当前编辑文件和preview文件相同，打开新文件之前先把原有数据更新到previewFileData
+                    if ($scope.previewFileKey == $scope.curFileKey) {
+                        $scope.previewFileData = $scope.curFileData;
+                    };
+                    $scope.curFileData = res;
+
+                    //更新curFile
                     $scope.curFileUrl = url;
                     $scope.curFileKey = fkey;
                     $scope.curFileName = _fns.getFileName(url);
                     $scope.curFileExt = _fns.getFileExt(url);
-                    $scope.curFileData = res;
                     $scope.tagPart('hideEditor', false);
 
-                    //如果是html，那么更新previewUrl并刷新窗口
                     if ($scope.curFileExt == 'html') {
+                        //如果是html，那么更新previewUrl并刷新窗口
                         $scope.previewFileUrl = $scope.curFileUrl;
                         $scope.previewFileKey = $scope.curFileKey;
+                        $scope.previewFileName = $scope.curFileName;
+                        $scope.previewFileData = $scope.curFileData;
                         $scope.reloadPreview();
+                    } else {
+                        //如果不是html，强制切换到手工刷新状态
+                        $scope.previewRt = false;
                     };
-
 
 
                     //自动切换编辑器提示引擎
@@ -495,17 +507,52 @@
 
         /*刷新手工预览窗口的url*/
         $scope.reloadPreview = function() {
+            //如果当前文件和预览文件不同，那么也存储预览文件，以便刷新预览文件内部的时间戳
+            if ($scope.previewFileKey && $scope.previewFileKey != $scope.curFileKey) {
+                var timestamp = (new Date()).getTime() + '{[timeStamp]}';
+                var uid = $rootScope.myInfo.id;
+                var url = $scope.previewFileKey.substr(uid.length + 1);
+
+                var data = $scope.previewFileData;
+                var tsdata = data.replace(/\d*\{\[timeStamp\]\}/g, timestamp);
+
+                $scope.saveFile(url, tsdata, function(f, res) {
+
+                    //存储完成后等1秒再刷新预览窗url
+                    setTimeout(function() {
+                        $scope.refreshPreviewFrameUrl();
+                    }, 1000);
+                });
+            } else if ($scope.previewFileKey == $scope.curFileKey) {
+                //预览与编辑的文件一致
+                $scope.refreshPreviewFrameUrl();
+            }
+        };
+
+
+        //改变iframe的src地址
+        $scope.refreshPreviewFrameUrl = function() {
+            //先弹窗拖延时间
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent('正在刷新预览页面,请稍后')
+                .position('top right')
+                .hideDelay(2000)
+            );
+
             var url = '';
             if ($scope.previewFileUrl) {
                 url = encodeURI($scope.previewFileUrl) + '?=' + Math.random();
             };
             setTimeout(function() {
                 $('#previewFrame').attr('src', url);
-            }, 100);
+            }, 2000);
         };
 
-        /*切换实时，手工开关
+
+        /*切换实时，手工开关;默认实时
          */
+        $scope.previewRt = true;
         $scope.tagPreviewRt = function() {
             $scope.previewRt = !$scope.previewRt;
             $scope.reloadPreview();
@@ -529,30 +576,46 @@
                     .ok('关闭'));
             } else {
                 var timestamp = (new Date()).getTime() + '{[timeStamp]}';
-                data = data.replace(/\d*\{\[timeStamp\]\}/g, timestamp);
-                $scope.saveFile(fkey, data);
+                var tsdata = data.replace(/\d*\{\[timeStamp\]\}/g, timestamp);
+
+                //如果编辑和预览的不是同一个页面，那么提前reload
+                if ($scope.previewFileKey && $scope.previewFileKey != $scope.curFileKey) {
+                    $scope.reloadPreview();
+                };
+
+                //存储完成后刷新预览窗
+                $scope.saveFile(fkey, tsdata, function() {
+                    if ($scope.previewFileKey && $scope.previewFileKey == $scope.curFileKey) {
+                        $scope.refreshPreviewFrameUrl();
+                    };
+                    //更新本地数据
+                    _fns.applyScope($scope, function() {
+                        $scope.curFileData = data;
+                    });
+                });
             };
         };
 
 
         /*保存文件，fkey前不带uid不带斜杠格式myapp/index.html，data为字符串
+        okfn(f,res)为保存成功后执行的函数
          */
-        $scope.saveFile = function(fkey, data) {
-            var ext = _fns.getFileExt($scope.curFileKey);
+        $scope.saveFile = function(fkey, data, okfn) {
+            var ext = _fns.getFileExt(fkey);
             var mime = _fns.getMimeByExt(ext);
 
             var blob = new Blob([data], {
                 type: mime
             });
 
-            var xhr = _fns.uploadFileQn(fkey, blob, function() {
-                //存储完成后刷新预览窗
-                $scope.reloadPreview();
-
-                //更新本地数据
-                _fns.applyScope($scope, function() {
-                    $scope.curFileData = data;
-                });
+            var xhr = _fns.uploadFileQn(fkey, blob, undefined, okfn, function() {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('文件存储失败，请重新尝试')
+                    .position('top right')
+                    .hideDelay(1000)
+                );
+                refreshFile(fkey);
             });
         };
 
@@ -726,8 +789,7 @@
 
         //判断界面尺寸
         $scope.greatThan = function(str) {
-            var res=$mdMedia("gt-" + str);
-            console.log('>>>greatthan',res)
+            var res = $mdMedia("gt-" + str);
             return res;
         };
 
