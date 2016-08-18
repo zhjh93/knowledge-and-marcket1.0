@@ -478,15 +478,16 @@
                     } else {
                         //如果不是html，强制切换到手工刷新状态
                         $scope.previewRt = false;
+                        $scope.reloadPreview();
                     };
 
 
                     //自动切换编辑器提示引擎
                     if ($scope.cmModes[$scope.curFileExt] != undefined) {
                         $scope.cmOpt.mode = $scope.cmModes[$scope.curFileExt];
+
                         //重置编辑器
                         $scope.cmEditor.setOption('mode', $scope.cmOpt.mode);
-
 
                     } else {
                         $mdToast.show(
