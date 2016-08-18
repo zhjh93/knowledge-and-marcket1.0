@@ -371,6 +371,10 @@
                 editor.setSize('100%', hei + 'px');
             });
 
+            //初始化黑色主题
+            $scope.cmEditor.setOption('theme', 'mbo');
+            $scope.cmDoc.setValue('正在载入文件，请稍后...');
+
             //调整字体
             editor.getWrapperElement().style["font-size"] = "1.6rem";
             editor.getWrapperElement().style["font-family"] = "monospace,Monaco";
