@@ -259,7 +259,7 @@
             <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;'>
                 <!--            预览器-->
                 <iframe id='previewFrame' ng-hide='previewRt' style="border-style:none;height:100%;"></iframe>
-                <div flex='grow' ng-show='previewRt' id='previewSec' ng-bind-html='previewFileData | onlyBody  | toTrustHtml'>
+                <div flex='grow' ng-show='previewRt' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml' style="border-left:1px dashed #00bfa5;padding-left:1px">
                 </div>
             </div>
         </div>
