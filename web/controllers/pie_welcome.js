@@ -232,6 +232,17 @@
 
 
 
+        //根据用户的颜色和项目id计算项目的背景
+        $scope.genCardBg = function(n) {
+            var len = _cfg.themeImgs.length;
+            var url = _cfg.themeImgs[n % len].sm;
+            console.log('>>>',n % len,url);
+            var css = {
+                'background-image': 'url(' + url + ')',
+            };
+
+            return css;
+        };
 
 
 

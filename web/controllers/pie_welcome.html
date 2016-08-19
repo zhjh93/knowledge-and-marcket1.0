@@ -33,13 +33,14 @@
         </div>
         <div layout layout-wrap class='container-fluid'>
             <div class='col-xs-12 col-sm-6 col-md-4 col-lg-2' ng-repeat='item in myApps.apps' style='padding:0.5rem'>
-                <md-card md-theme="default" md-theme-watch style='margin:0'>
-                    <md-card-title class="elips">
-                        <md-card-title-text class="elips">
-                            <div class="md-headline elips" ng-click='editApp(item.key)' style="cursor:pointer">
-                                <span class="md-headline elips" ng-bind='item.info.alias'></span>
+                <md-card md-theme="default" md-theme-watch style='margin:0;'>
+                    <md-card-title class="elips" style='padding:0;overflow:hidden;position:relative'>
+                        <div style="position:absolute;width:100%;height:100%;background-size:cover;opacity:0.4;border-radius: 4px 4px 0 0" ng-style='genCardBg(item.val)'></div>
+                        <md-card-title-text class="elips" style='margin:16px;z-index:6'>
+                            <div class="md-headline elips" ng-click='editApp(item.key)' style="cursor:pointer;">
+                                <span class="md-headline elips" ng-bind='item.info.alias' style='color:#000'></span>
                             </div>
-                            <span class="md-subhead" style='color:#CCC' ng-bind='item.info.name' ng-click='openApp(item.key)' style="cursor:pointer"></span>
+                            <span class="md-subhead" style='color:#555' ng-bind='item.info.name' ng-click='openApp(item.key)' style="cursor:pointer;"></span>
                         </md-card-title-text>
                     </md-card-title>
 

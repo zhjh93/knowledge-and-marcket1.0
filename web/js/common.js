@@ -32,7 +32,7 @@ if (!_xmgc) var _xmgc = {};
         icon: /^fa-[\w-]{1,32}$/, //fa图标值
         ukey: /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/, //user.ukey的格式
         appName: /^[a-zA-Z]+[0-9a-zA-Z]{2,17}$/, //app名称格式，非数字开头3~18位
-        appAlias:/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/,//app别名，非数字开头3~18位
+        appAlias: /^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/, //app别名，非数字开头3~18位
         fileName: /^[0-9a-zA-Z\u0391-\uFFE5]+\.(js|css|html|json|txt)$/, //文件名，中英文数字加点加2~4位字母数字
     };
 
@@ -48,6 +48,26 @@ if (!_xmgc) var _xmgc = {};
         'txt': 'text/html',
         'json': 'Application'
     };
+
+
+    //默认模板图片库
+    _cfg.themeImgs = [{
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg1.png',
+    }, {
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg2.png',
+    }, {
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg3.png',
+    }, {
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg4.png',
+    }, {
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg5.png',
+    }, {
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg6.png',
+    }, {
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg7.png',
+    }]
+
+
 
 
     //获取扩展名对应的mimetype

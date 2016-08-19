@@ -206,7 +206,7 @@
                                         <span class='fa fa-edit'></span>
                                         <span>编辑</span>
                                     </md-button>
-                                    <md-button flex='none' class="md-default" ng-click="openUrl(item.key)" aria-label='a' style='color:#888;'>
+                                    <md-button flex='none' ng-show='item.mimeType=="text/html"' class="md-default" ng-click="openUrl(item.key)" aria-label='a' style='color:#888;'>
                                         <span class='fa fa-globe'></span>
                                         <span>浏览</span>
                                     </md-button>
