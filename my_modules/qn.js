@@ -39,11 +39,10 @@ _rotr.apis.getUploadToken2 = function () {
         var uid = yield _fns.getUidByCtx(ctx);
 
         //根据uid授权路径的token
-        var token = _qn.genUploadToken();
+        var token = _qn.genUploadToken2();
         var respdat = {
             uid: uid,
             domain: _qn.cfg.BucketDomain,
-            url: _qn.cfg.BucketDomain + path,
             uptoken: token,
         };
         ctx.body = __newMsg(1, 'OK', respdat);
@@ -51,6 +50,7 @@ _rotr.apis.getUploadToken2 = function () {
     });
     return co;
 };
+
 
 /*生成uptoken的函数
 随机key*/

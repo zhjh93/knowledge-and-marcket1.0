@@ -2,9 +2,9 @@
 全局相关的设置也在这里修改
 */
 
-var _cfg = {}; //最高全局变量，功用设置
-var _fns = {}; //最高全局变量，公用函数
-var _xdat = {}; //共享变量
+if (!_cfg) var _cfg = {}; //最高全局变量，功用设置
+if (!_fns) var _fns = {}; //最高全局变量，公用函数
+if (!_xdat) var _xdat = {}; //共享变量
 if (!_xmgc) var _xmgc = {};
 
 (function() {
@@ -286,7 +286,7 @@ if (!_xmgc) var _xmgc = {};
         var formdata = new FormData();
         formdata.append('token', token);
         formdata.append('file', file);
-        formdata.append('key', key);
+        if (key) formdata.append('key', key);
 
         //发起上传
         var set = {
@@ -500,7 +500,7 @@ if (!_xmgc) var _xmgc = {};
                     if (beforefn) beforefn(f, xhr);
 
                     //开始上传
-                    xhr = _fns.uploadFileQn(res.uptoken, f,
+                    xhr = _fns.uploadFileQn2(res.data.uptoken, f,
                         function(evt) {
                             //添加evt.percent,为了避免abort之后progress会多运行一次，所以使用f.abort做判断
                             if (progressfn && !f.abort) {
@@ -662,9 +662,9 @@ if (!_xmgc) var _xmgc = {};
 
     //获取目录地址的文扩展名
     _fns.getFileExt = function(url) {
-        var fext=url.substring(url.lastIndexOf('.') + 1);
+        var fext = url.substring(url.lastIndexOf('.') + 1);
         //去掉后面多余的参数
-        fext.replace(/[!\w]*[/s/S]*/,'');
+        fext.replace(/[!\w]*[/s/S]*/, '');
         return fext;
     };
 
