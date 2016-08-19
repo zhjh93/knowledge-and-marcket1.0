@@ -194,6 +194,7 @@
                         <!--       真正的文件列表-->
                         <div layout ng-repeat='item in appFiles' style="width:100%">
 
+                            <!--   下拉菜单-->
                             <md-menu style='padding:0'>
                                 <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="$mdOpenMenu($event)" aria-label='tagleft' style='width:50px;margin-top:12px'>
                                     <p style="color:#AAA">
@@ -201,22 +202,19 @@
                                     </p>
                                 </md-button>
                                 <md-menu-content width="3">
-                                    <md-button flex='none' class="md-default" ng-click="doOpenFile(item.key)" aria-label='a' style='color:#888;margin:0'>
+                                    <md-button flex='none' class="md-default" ng-click="doOpenFile(item.key)" aria-label='a' style='color:#888;'>
                                         <span class='fa fa-edit'></span>
                                         <span>编辑</span>
                                     </md-button>
-                                    <md-divider></md-divider>
-                                    <md-button flex='none' class="md-default" ng-click="openUrl(item.key)" aria-label='a' style='color:#888;margin:0'>
+                                    <md-button flex='none' class="md-default" ng-click="openUrl(item.key)" aria-label='a' style='color:#888;'>
                                         <span class='fa fa-globe'></span>
                                         <span>浏览</span>
                                     </md-button>
-                                    <md-divider></md-divider>
-                                    <md-button flex='none' class="md-default" ng-click='showQrcodeDialog(item.key)' aria-label='a' style='color:#888;margin:0'>
+                                    <md-button flex='none' class="md-default" ng-click='showQrcodeDialog(item.key)' aria-label='a' style='color:#888;'>
                                         <span class='fa fa-qrcode'></span>
                                         <span>二维码</span>
                                     </md-button>
-                                    <md-divider></md-divider>
-                                    <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='color:#888;margin:0'>
+                                    <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='color:#888;'>
                                         <span class='fa fa-remove'></span>
                                         <span>删除</span>
                                     </md-button>

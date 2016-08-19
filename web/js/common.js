@@ -31,7 +31,8 @@ if (!_xmgc) var _xmgc = {};
         color: /^#[a-fA-F0-9]{6}$/, //颜色值，#开头十六进制
         icon: /^fa-[\w-]{1,32}$/, //fa图标值
         ukey: /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/, //user.ukey的格式
-        appName: /^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/, //app名称格式，非数字开头3~18位
+        appName: /^[a-zA-Z]+[0-9a-zA-Z]{2,17}$/, //app名称格式，非数字开头3~18位
+        appAlias:/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/,//app别名，非数字开头3~18位
         fileName: /^[0-9a-zA-Z\u0391-\uFFE5]+\.(js|css|html|json|txt)$/, //文件名，中英文数字加点加2~4位字母数字
     };
 
@@ -87,7 +88,7 @@ if (!_xmgc) var _xmgc = {};
 
     //向_xdat添加控制器，便于根据名称或Dom的id获取控制器的scope
     _fns.initCtrlr = function(scope, element, name, solo) {
-        scope.ctrlrName = scope.ctrlrName || name;
+        scope.ctrlrName = name || scope.ctrlrName;
 
         //获取父层传来的参数，写入scope.xargs;
         _fns.getCtrlrXags(scope, element);

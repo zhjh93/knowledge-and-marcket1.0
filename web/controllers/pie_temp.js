@@ -78,6 +78,71 @@
 
 
 
+
+
+        //----------------------------
+
+        $scope.db = new Wilddog("https://simiduihua.wilddogio.com");
+
+        $scope.db.child('quanbuduihua').on("value", function(data) {
+            $scope.quanbuduihua = data.val();
+            $scope.$apply();
+            $location.hash('dibu');
+            $anchorScroll();
+        });
+
+        $(window).bind('resize', function(evt) {
+            $location.hash('dibu');
+            $anchorScroll();
+        });
+
+        $scope.tianjiaduihua = function() {
+            $scope.db.child('quanbuduihua').push({
+                neirong: $scope.xinduihua,
+                shijian: (new Date()).getTime(),
+                zuozhe: _xmgc.myUsrInfo.nick,
+                touxiang: _xmgc.myUsrInfo.avatar,
+            });
+            $scope.xinduihua = '';
+        };
+
+
+
+
+
+
+
+
+
+        //------------------------
+        //ceshi
+        //测试
+        $.get("http://m.xmgc360.com/start/api/getMyInfo", function(res) {
+            console.log('>>>JSONPX', res);
+        }, 'jsonp');
+
+        /*
+        $.ajax({
+            type: "get",
+            url: "http://m.xmgc360.com/start/api/getMyInfo",
+            dataType: "jsonp",
+            success: function(json) {
+                console.log('>>>JSONPX', json);
+            },
+            error: function() {
+                console.log('>>>JSONPX failed');
+            }
+        });
+        */
+
+
+
+
+
+
+
+
+
         //end
     }
 })();

@@ -25,10 +25,13 @@ _cfg.regx = {
     color: /^#[a-fA-F0-9]{6}$/, //颜色值，#开头十六进制
     icon: /^fa-[\w-]{1,32}$/, //fa图标值
     ukey: /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/, //user.ukey的格式
-    appName:/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/,//app名称格式，非数字开头3~18位
-    crossDomains:/^\w*\.?\w*\.?xmgc360\.com$/,//接收跨域的请求
-    avatar:/^http:\/\/[\s\S]{0,1024}$/,//用户头像，标准http格式才行
+    fileName: /^[0-9a-zA-Z\u0391-\uFFE5]+\.(js|css|html|json|txt)$/, //文件名，中英文数字加点加2~4位字母数字
+    crossDomains: /^\w*\.?\w*\.?xmgc360\.com$/, //接收跨域的请求
+    appName: /^[a-zA-Z]+[0-9a-zA-Z]{2,17}$/, //app名称格式，非数字开头3~18位
+    appAlias: /^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/, //app别名，非数字开头3~18位
+    avatar: /^http:\/\/[\s\S]{0,1024}$/, //用户头像，标准http格式才行
 };
+
 
 
 //各种长度持续时间(秒)

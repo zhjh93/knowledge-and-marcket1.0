@@ -6,6 +6,18 @@
 <div id='pie_welcome' ng-controller='pie_welcome' class='container-fluid pie_welcome doc_ctrlr'>
     <style>
         /*内部样式，以.doc_devWeb开头*/
+        .doc_ctrlr label {
+            font-size: 2rem;
+            font-family: inherit;
+            text-align: left;
+        }
+        .doc_ctrlr input {
+            font-size: 2rem;
+            font-family: inherit;
+        }
+        .doc_ctrlr md-input-container {
+            margin-top: 3rem
+        }
     </style>
     <div layout-padding>
 
@@ -16,37 +28,84 @@
             <md-button class="md-icon-button hidden-xs" ng-click="$root.fold=!$root.fold;$root.tagLeftMenu()" style='margin-left:0;color:#AAA' aria-label='tagleft'>
                 <span class="fa fa-bars fa-lg"></span>
             </md-button>
-            <md-button class="md-raised md-accent" ng-click='doCreateApp()' aria-label='doCreateApp'>新建APP</md-button>
+            <md-button class="md-raised md-accent" ng-click='openCreateDialog()' aria-label='doCreateApp'>新建APP</md-button>
             <md-button class="md-default" ng-click='getMyAppList()' aria-label='getMyAppList'>刷新</md-button>
         </div>
         <div layout layout-wrap class='container-fluid'>
-            <div class='col-xs-12 col-sm-6 col-md-4 col-lg-2' ng-repeat='(key,val) in myApps.apps' style='padding:0.5rem'>
+            <div class='col-xs-12 col-sm-6 col-md-4 col-lg-2' ng-repeat='item in myApps.apps' style='padding:0.5rem'>
                 <md-card md-theme="default" md-theme-watch style='margin:0'>
                     <md-card-title class="elips">
                         <md-card-title-text class="elips">
-                            <div class="md-headline elips" >
-                                <span class="md-headline elips" ng-bind='key'></span>
+                            <div class="md-headline elips" ng-click='editApp(item.key)' style="cursor:pointer">
+                                <span class="md-headline elips" ng-bind='item.info.alias'></span>
                             </div>
-                            <span class="md-subhead" style='color:#CCC'>Alpha</span>
+                            <span class="md-subhead" style='color:#CCC' ng-bind='item.info.name' ng-click='openApp(item.key)' style="cursor:pointer"></span>
                         </md-card-title-text>
                     </md-card-title>
+
+
+                    <!--   下拉菜单-->
                     <md-card-actions layout-wrap layout="row" layout-align="end center" style='color:#AAA'>
-                        <span class='btn btn-sm' ng-click='openApp(key)' style='padding:5px'>
-                            <span class='fa fa-fire'></span>
-                        <span>打开</span>
-                        </span>
-                        <span class='btn btn-sm' ng-click='editApp(key)'>
-                            <span class='fa fa-pencil'></span>
-                        <span>编辑</span>
-                        </span>
-                        <span class='btn btn-sm' ng-click='doRemoveApp(key)'>
-                            <span class='fa fa-remove'></span>
-                        <span>移除</span>
-                        </span>
+                        <md-menu style='padding:0'>
+                            <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="$mdOpenMenu($event)" aria-label='tagleft' style='width:50px;margin-right:0'>
+                                <p style="color:#AAA">
+                                    <span class="fa fa-bars"></span>
+                                </p>
+                            </md-button>
+                            <md-menu-content>
+                                <md-button flex='none' class="md-default" ng-click='openApp(item.key)' aria-label='a' style='color:#888'>
+                                    <span class='fa fa-globe'></span>
+                                    <span>打开</span>
+                                </md-button>
+                                <md-button flex='none' class="md-default" ng-click='editApp(item.key)' aria-label='a' style='color:#888'>
+                                    <span class='fa fa-pencil'></span>
+                                    <span>编辑</span>
+                                </md-button>
+                                <md-button flex='none' class="md-default" ng-click='renameApp(item.val)' aria-label='a' style='color:#888'>
+                                    <span class='fa fa-refresh'></span>
+                                    <span>改名</span>
+                                </md-button>
+                                <md-button flex='none' class="md-default" ng-click='doRemoveApp(item.key)' aria-label='a' style='color:#888'>
+                                    <span class='fa fa-remove'></span>
+                                    <span>移除</span>
+                            </md-menu-content>
+                        </md-menu>
                     </md-card-actions>
                 </md-card>
             </div>
         </div>
+
+        <!--      新建弹窗-->
+        <div style="visibility: hidden">
+            <div class="md-dialog-container" id="createDialog">
+                <form name="userForm" style="margin-top:12px;width:400px;">
+                    <md-dialog layout-padding style='text-align:center;padding:24px;max-width:800px'>
+                        <md-input-container class="md-block" flex-gt-sm style='margin-top:24px'>
+                            <label style="text-align:left">APP名称</label>
+                            <input ng-model="newApp.alias" ng-pattern="/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/" style='font-size:2rem;font-family:simhei' />
+                            <div ng-messages="usrForm.alias.$error">
+                                <div ng-if="userForm.alias.$error.pattern">中文,数字,字母都可以,3~18位非数字开头</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm style='margin-top:0'>
+                            <label style="text-align:left">APP标识名</label>
+                            <input ng-model="newApp.name" ng-pattern="/^[a-zA-Z]+[0-9a-zA-Z]{2,17}$/" style='font-size:2rem;font-family:simhei' />
+                            <div ng-messages="usrForm.nick.$error">
+                                <div ng-if="userForm.nick.$error.pattern">字母和数字，3~18位非数字开头，不可重复，设定后不可修改</div>
+                            </div>
+                        </md-input-container>
+                </form>
+                <div style="margin-top:1rem">
+                    <md-button class="md-raised md-primary btn-lg" ng-click='doCreateApp()' style='width:180px;color:#FFF'>确定创建</md-button>
+                    <md-button class="md-raised md-default btn-lg" ng-click='cancelCreateDialog()'>取消</md-button>
+                </div>
+                </md-dialog>
+            </div>
+        </div>
+
+
+
+
 
     </div>
     <!--    页脚内容-->

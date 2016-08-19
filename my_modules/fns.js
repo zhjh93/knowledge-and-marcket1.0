@@ -253,11 +253,11 @@ _fns.getUidByCtx = function(ctx) {
 /**
  * 讲一个数组转化为对象
  * @param   {array}   arr    需要转换的数组
- * @param   {boolean} keyval 是否是[key,val,key,val]模式,默认为真
+ * @param   {boolean} keyval 是否是[key,val,key,val]模式,默认为真,keyobj转换为'key':{'key':key,'val':val}
  * @returns {Object}   转换结果，可能是空对象
  */
 
-_fns.arr2obj = function(arr, keyval) {
+_fns.arr2obj = function(arr, keyval, keyobj) {
     if (keyval === undefined) keyval = true;
     var res = {};
     if (!arr || !Array.isArray(arr)) return res;
@@ -268,8 +268,15 @@ _fns.arr2obj = function(arr, keyval) {
     } else {
         for (var i = 0; i < arr.length; i += 2) {
             if ((i + 1) < arr.length) {
-                res[String(arr[i])] = arr[i + 1];
-            }
+                if (keyobj) {
+                    res[String(arr[i])] = {
+                        key: String(arr[i]),
+                        val: arr[i + 1]
+                    };
+                } else {
+                    res[String(arr[i])] = arr[i + 1];
+                }
+            };
         };
     };
     return res;

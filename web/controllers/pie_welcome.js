@@ -66,44 +66,61 @@
         };
 
         //弹出提示窗口输入App名称
-        $scope.doCreateApp = function() {
-            var confirm = $mdDialog.prompt()
-                .title('请输入APP名称(只能使用中文或数字)')
-                .textContent('3~32个字符.')
-                .placeholder('App name')
-                .ariaLabel('App name')
-                .ok('确定')
-                .cancel('取消');
-            $mdDialog.show(confirm).then(function(ipt) {
-                console.log('>appname', ipt);
-                console.log('>appname2', _cfg.regx.appName.test(ipt));
-                if (ipt && _cfg.regx.appName.test(ipt)) {
-                    $scope.createApp(ipt);
-                } else {
-                    //提示错误
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .textContent('App名称格式错误')
-                        .position('top right')
-                        .hideDelay(3000)
-                    );
-                }
+        $scope.openCreateDialog = function() {
+            $mdDialog.show({
+                contentElement: '#createDialog',
+                parent: angular.element(document.body),
+                clickOutsideToClose: true
             });
         };
 
+        $scope.cancelCreateDialog = function() {
+            $mdDialog.hide();
+        };
+
+
+        //弹出提示窗口输入App名称
+        $scope.newApp = {};
+        $scope.doCreateApp = function() {
+            if (!_cfg.regx.appName.test($scope.newApp.name)) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('APP名称格式错误')
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+                return;
+            };
+            if (!_cfg.regx.appAlias.test($scope.newApp.alias)) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('APP标识名格式错误')
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+                return;
+            };
+
+            $scope.createApp($scope.newApp.name, $scope.newApp.alias);
+        };
 
 
         //创建一个应用
-        $scope.createApp = function(appname) {
+        $scope.createApp = function(appname, appalias) {
             var api = 'http://m.xmgc360.com/pie/api/createApp';
             var dat = {
                 appName: appname,
+                appAlias: appalias,
             }
             $.post(api, dat, function(res) {
                 console.log('POST', api, dat, res);
                 if (res.code == 1) {
                     //刷新列表
                     $scope.getMyAppList();
+                    try {
+                        _xdat.ctrlrs['pie_sideNav'][0].getMyAppList();
+                    } catch (err) {}
+                    $mdDialog.hide();
                 } else {
                     //提示错误
                     $mdToast.show(
@@ -115,6 +132,62 @@
                 };
             });
         };
+
+        //修改app的别名
+        $scope.renameApp = function(appid) {
+            //先弹窗输入新名字
+            var confirm = $mdDialog.prompt()
+                .title('请输入新的APP名称(使用中文或数字)')
+                .textContent('3~32个字符.')
+                .placeholder('App name')
+                .ariaLabel('App name')
+                .ok('确定')
+                .cancel('取消');
+            $mdDialog.show(confirm).then(function(ipt) {
+                if (appid && ipt && _cfg.regx.appAlias.test(ipt)) {
+                    //发送修改请求
+                    $scope.dorenameApp(appid, ipt);
+                } else {
+                    //提示错误
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('App名称格式错误')
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                }
+            })
+        };
+
+
+        //执行修改名字的请求
+        $scope.dorenameApp = function(id, alias) {
+            var api = 'http://m.xmgc360.com/pie/api/renameApps';
+            var dat = {
+                appId: id,
+                appAlias: alias,
+            }
+            $.post(api, dat, function(res) {
+                console.log('POST', api, dat, res);
+                if (res.code == 1) {
+                    //刷新列表
+                    $scope.getMyAppList();
+                    try {
+                        _xdat.ctrlrs['pie_sideNav'][0].getMyAppList();
+                    } catch (err) {}
+                } else {
+                    //提示错误
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('移除APP失败:' + res.text)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                };
+            });
+        };
+
+
 
 
         //弹出提示窗口提示移除app
@@ -142,6 +215,9 @@
                 if (res.code == 1) {
                     //刷新列表
                     $scope.getMyAppList();
+                    try {
+                        _xdat.ctrlrs['pie_sideNav'][0].getMyAppList();
+                    } catch (err) {}
                 } else {
                     //提示错误
                     $mdToast.show(
@@ -153,31 +229,6 @@
                 };
             });
         };
-
-
-
-
-
-
-        //ceshi
-        //测试
-        $.get("http://m.xmgc360.com/start/api/getMyInfo", function(res) {
-            console.log('>>>JSONPX', res);
-        }, 'jsonp');
-
-        /*
-        $.ajax({
-            type: "get",
-            url: "http://m.xmgc360.com/start/api/getMyInfo",
-            dataType: "jsonp",
-            success: function(json) {
-                console.log('>>>JSONPX', json);
-            },
-            error: function() {
-                console.log('>>>JSONPX failed');
-            }
-        });
-        */
 
 
 

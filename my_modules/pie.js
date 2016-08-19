@@ -4,8 +4,8 @@ var _pie = {};
 
 //预先读取模板文件
 var templates = {
-    baseHtml: $fs.readFileSync(__path + '/web/templates/base.html', 'utf-8').replace(/\[\{codeHere_*\w*\}\]/g,''),
-    baseJs: $fs.readFileSync(__path + '/web/templates/base.js', 'utf-8').replace(/\[\{codeHere_*\w*\}\]/g,''),
+    baseHtml: $fs.readFileSync(__path + '/web/templates/base.html', 'utf-8').replace(/\[\{codeHere_*\w*\}\]/g, ''),
+    baseJs: $fs.readFileSync(__path + '/web/templates/base.js', 'utf-8').replace(/\[\{codeHere_*\w*\}\]/g, ''),
 };
 
 
@@ -19,14 +19,17 @@ _rotr.apis.createApp = function() {
     var co = $co(function * () {
 
         var appName = ctx.query.appName || ctx.request.body.appName;
-        if (!appName || !_cfg.regx.appName.test(appName)) throw Error('App名称格式错误.');
+        if (!appName || !_cfg.regx.appName.test(appName)) throw Error('App标识名格式错误.');
+
+        var appAlias = ctx.query.appAlias || ctx.request.body.appAlias;
+        if (!appAlias || !_cfg.regx.appAlias.test(appAlias)) throw Error('App名称格式错误.');
 
         var uid = yield _fns.getUidByCtx(ctx);
 
         //检查是否已经存在同名app，如果存在则终止
         var usrAppsKey = _rds.k.usrApps(uid);
         var isExist = yield _ctnu([_rds.cli, 'zscore'], usrAppsKey, appName);
-        if (isExist) throw Error('同名App已经存在，无法创建.');
+        if (isExist) throw Error('已经存在相同标识名的APP，无法创建.');
 
         //获取appid
         var appId = yield _ctnu([_rds.cli, 'hincrby'], _rds.k.map_cls2id, 'app', 1);
@@ -42,6 +45,7 @@ _rotr.apis.createApp = function() {
         var dat = {
             'id': appId,
             'name': appName,
+            'alias': appAlias,
             'uid': uid,
             'pkey': __uuid(),
             'time': (new Date()).getTime(),
@@ -80,8 +84,20 @@ _rotr.apis.getMyApps = function() {
 
         var dat = {
             count: apps.length / 2,
-            apps: _fns.arr2obj(apps),
+            apps: _fns.arr2obj(apps, true, true),
         };
+
+        //读取每个app的数据
+        var mu = _rds.cli.multi();
+        for (var attr in dat.apps) {
+            var app = dat.apps[attr];
+            mu.hgetall('app-' + app.val);
+        };
+
+        var infos = yield _ctnu([mu, 'exec']);
+        infos.forEach(function(info) {
+            dat.apps[info.name].info = info;
+        });
 
         //返回数据
         ctx.body = __newMsg(1, 'ok', dat);
@@ -119,7 +135,47 @@ _rotr.apis.removeApp = function() {
 };
 
 
+/**
+ * 修改我一个的App别名alias；限定自己的app
+ * @param {appId} app的id
+ * @param {appAlias} 新的app别名
+ * @returns {}
+ */
 
+_rotr.apis.renameApps = function() {
+    var ctx = this;
+
+    var co = $co(function * () {
+
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        var appId = ctx.query.appId || ctx.request.body.appId;
+        if (appId === undefined) throw Error('App ID不能为空.');
+        appId = Number(appId);
+        if (!appId || !Number.isInteger(appId)) throw Error('App ID格式错误.');
+
+        var appAlias = ctx.query.appAlias || ctx.request.body.appAlias;
+        if (!appAlias || !_cfg.regx.appAlias.test(appAlias)) throw Error('App新名称格式错误.');
+
+        //检查app是否存在
+        var appKey = _rds.k.app(appId);
+        var hasexsit = yield _ctnu([_rds.cli, 'exists'], appKey);
+        if (!hasexsit) throw Error('App不存在，修改失败');
+
+        //检查appid是否在用户的app列表中
+        var uAppsKey = _rds.k.usrApps(uid);
+        var ismine = yield _ctnu([_rds.cli, 'zrangebyscore'], uAppsKey, appId, appId);
+        if (!ismine || ismine.length == 0) throw Error('修改失败，您只能修改自己创建的app');
+
+        //修改alias
+        var res = yield _ctnu([_rds.cli, 'hset'], appKey, 'alias', appAlias);
+
+        //返回数据
+        ctx.body = __newMsg(1, 'ok');
+        return ctx;
+    });
+    return co;
+};
 
 
 

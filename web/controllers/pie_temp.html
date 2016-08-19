@@ -88,5 +88,32 @@
 
 
 
+<!----------------->
+<div style='padding:10px;height:100%;overflow-y:auto;background:url(http://img.article.pchome.net/00/55/28/02/pic_lib/wm/meinv_shoujibizhi1.jpg);background-size:cover;'>
+    <div class="panel panel-default" ng-repeat="duihua in quanbuduihua" style='background:rgba(200,200, 200, 0.2)'>
+        <div class="panel-body" style='font-weight:bold;background:rgba(255, 255, 255, 0.7)'>
+            {{duihua.neirong}}
+        </div>
+        <div class="panel-footer" style='height:30px;font-size:12px;padding:5px 15px;background:rgba(255, 255, 255, 0.1)'>
+            <img ng-src='{{duihua.touxiang}}' style='width:16px;height:16px;border-radius:16px;background:#F00' />
+            <span>{{duihua.zuozhe}}</span>
+            <span ng-bind='duihua.shijian | date:"yyyy-MM-dd HH:mm:ss"'></span>
+        </div>
+    </div>
+    <div id='dibu' style='height:80px'></div>
+</div>
+
+<div style='position:absolute;bottom:0;padding:20px;border-top:1px solid #0AC;background:rgba(0, 200, 200, 0.5)'>
+    <div class="input-group">
+        <input type="text" ng-model='xinduihua' class="form-control" placeholder="请输入对话" aria-describedby="basic-addon2"></input>
+        <span ng-click='tianjiaduihua()' class="input-group-addon" id="basic-addon2" style='cursor:pointer'>发送对话</span>
+    </div>
+</div>
+
+
+
+
+
+
 
 <!---->
