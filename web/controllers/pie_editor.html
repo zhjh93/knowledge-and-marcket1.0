@@ -45,33 +45,33 @@
                 <md-divider></md-divider>
                 <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="tagPart('hideList')" aria-label='tagleft' style='width:90px'>
                     <p ng-hide='hideList' class="minbtn" style="color:#00bfa5">
-                        <span class="fa fa-toggle-on fa-lg"></span>
+                        <span class="fa fa-files-o fa-1x"></span>
                         <span>文件列表</span>
                     </p>
                     <p ng-show='hideList' style="color:#AAA">
-                        <span class="fa fa-toggle-off fa-lg"></span>
+                        <span class="fa fa-files-o fa-1x"></span>
                         <span>文件列表</span>
                     </p>
                 </md-button>
                 <md-divider></md-divider>
                 <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="tagPart('hideEditor')" aria-label='tagleft' style='width:70px'>
                     <p ng-hide='hideEditor' style="color:#00bfa5">
-                        <span class="fa fa-toggle-on fa-lg"></span>
+                        <span class="fa fa-edit fa-1x"></span>
                         <span>编辑</span>
                     </p>
                     <p ng-show='hideEditor' style="color:#AAA">
-                        <span class="fa fa-toggle-off fa-lg"></span>
+                        <span class="fa fa-edit fa-1x"></span>
                         <span>编辑</span>
                     </p>
                 </md-button>
                 <md-divider></md-divider>
                 <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="tagPart('hidePreview')" aria-label='tagleft' style='width:71px'>
                     <p ng-hide='hidePreview' style="color:#00bfa5">
-                        <span class="fa fa-toggle-on fa-lg"></span>
+                        <span class="fa fa-eye fa-1x"></span>
                         <span>预览</span>
                     </p>
                     <p ng-show='hidePreview' style="color:#AAA">
-                        <span class="fa fa-toggle-off fa-lg"></span>
+                        <span class="fa fa-eye-slash fa-1x"></span>
                         <span>预览</span>
                     </p>
                 </md-button>
@@ -119,10 +119,10 @@
             <!-- PC端预览控制-->
             <div layout flex="initial" ng-show="greatThan('sm') && !hidePreview">
                 <md-divider></md-divider>
-                <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="openUrl()" aria-label='tagleft' style='width:80px'>
+                <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="openUrl()" aria-label='tagleft' style='width:70px'>
                     <p style="color:#00bfa5">
                         <span class="fa fa-globe fa-lg"></span>
-                        <span>新窗口</span>
+                        <span>浏览</span>
                     </p>
                 </md-button>
                 <md-divider ng-show='!previewRt'></md-divider>
@@ -148,28 +148,28 @@
         </div>
         <md-divider></md-divider>
 
+
+        <!--      二维码弹窗-->
+        <div style="visibility: hidden">
+            <div class="md-dialog-container" id="qrcodeDialog">
+                <md-dialog layout-padding style='text-align:center;width:360px'>
+                    <a ng-href="{{qrcodeDialogUrl}}" target='_blank' style="padding:24px">
+                        <div id="qrcode"></div>
+                    </a>
+                    <p style='width:100%;text-transform:none;word-break:break-all;font-size:18px' aria-label='a' ng-bind='qrcodeDialogUrl'></p>
+                </md-dialog>
+            </div>
+        </div>
+
+
         <!--        主体部分-->
         <div layout='row' layout-align='start stretch' style="width:100%;height:100%">
 
             <!--            文件列表部分-->
             <div flex='none' id='listPart' ng-hide='hideList' style="width:240px;border-left:1px solid #DDD">
                 <div layout id='listMenus' style="min-width:200px;margin:1rem 1rem 0 1rem;padding:0.5rem">
-                    <div flex='none' class="md-button md-default" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;" ng-click='showQrcode()'>
+                    <div flex='none' class="md-button md-default" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;" ng-click='showQrcodeDialog()'>
                         <span class="fa fa-qrcode fa-2x"></span>
-                    </div>
-                    <!--      二维码弹窗-->
-                    <div style="visibility: hidden">
-                        <div class="md-dialog-container" id="qrcodeDialog">
-                            <md-dialog layout-padding style='text-align:center'>
-                                <a ng-href="{{appFullUrlP}}" target='_blank'>
-                                    <img ng-src="{{'http://qr.topscan.com/api.php?text='+appFullUrlP}}" width='100%' />
-                                </a>
-                                <a ng-href="{{appFullUrlP}}" target='_blank'>
-                                    <md-button class='elips' style='width:100%;text-transform:none' aria-label='a'><span ng-bind='appFullUrl'></span>
-                                    </md-button>
-                                </a>
-                            </md-dialog>
-                        </div>
                     </div>
 
                     <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none;text-transform:none" ng-bind='appName' ng-click='gotoApp()'></div>
@@ -193,10 +193,37 @@
 
                         <!--       真正的文件列表-->
                         <div layout ng-repeat='item in appFiles' style="width:100%">
-                            <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='min-width:40px;color:#AAA;margin-right:0'>
-                                <span class='fa fa-remove'></span>
-                            </md-button>
-                            <md-button flex='grow' ng-click="doOpenFile(item.key)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none' ng-class='{true:"md-accent elips",false:"md-default elips"}[item.key==curFileKey]'>
+
+                            <md-menu style='padding:0'>
+                                <md-button flex="initial" class="md-icon-button itbtn" md-no-ink ng-click="$mdOpenMenu($event)" aria-label='tagleft' style='width:50px;margin-top:12px'>
+                                    <p style="color:#AAA">
+                                        <span class="fa fa-caret-down"></span>
+                                    </p>
+                                </md-button>
+                                <md-menu-content width="3">
+                                    <md-button flex='none' class="md-default" ng-click="doOpenFile(item.key)" aria-label='a' style='color:#888;margin:0'>
+                                        <span class='fa fa-edit'></span>
+                                        <span>编辑</span>
+                                    </md-button>
+                                    <md-divider></md-divider>
+                                    <md-button flex='none' class="md-default" ng-click="openUrl(item.key)" aria-label='a' style='color:#888;margin:0'>
+                                        <span class='fa fa-globe'></span>
+                                        <span>浏览</span>
+                                    </md-button>
+                                    <md-divider></md-divider>
+                                    <md-button flex='none' class="md-default" ng-click='showQrcodeDialog(item.key)' aria-label='a' style='color:#888;margin:0'>
+                                        <span class='fa fa-qrcode'></span>
+                                        <span>二维码</span>
+                                    </md-button>
+                                    <md-divider></md-divider>
+                                    <md-button flex='none' class="md-default" ng-click="deleteFile(item)" aria-label='a' style='color:#888;margin:0'>
+                                        <span class='fa fa-remove'></span>
+                                        <span>删除</span>
+                                    </md-button>
+                                </md-menu-content>
+                            </md-menu>
+
+                            <md-button flex='grow' ng-click="doOpenFile(item.key)" aria-label='a' style='margin-left:0;text-align:left;text-transform:none;margin:0' ng-class='{true:"md-accent elips",false:"md-default elips"}[item.key==curFileKey]'>
                                 <span class="elips" ng-bind='item.key | fileName' ng-style="isPreviewFile(item)" style="padding-left:4px"></span>
                             </md-button>
                         </div>
