@@ -81,6 +81,7 @@
 
         //弹出提示窗口输入App名称
         $scope.newApp = {};
+        $scope.newApp.name = 'A' + Number(new Date()).toString(36);
         $scope.doCreateApp = function() {
             if (!_cfg.regx.appName.test($scope.newApp.name)) {
                 $mdToast.show(
@@ -121,6 +122,8 @@
                         _xdat.ctrlrs['pie_sideNav'][0].getMyAppList();
                     } catch (err) {}
                     $mdDialog.hide();
+                    $scope.newApp.alias = '';
+                    $scope.newApp.name = 'A' + Number(new Date()).toString(36);
                 } else {
                     //提示错误
                     $mdToast.show(
@@ -232,13 +235,21 @@
 
 
 
-        //根据用户的颜色和项目id计算项目的背景
+        //根据项目id计算项目的背景
         $scope.genCardBg = function(n) {
             var len = _cfg.themeImgs.length;
             var url = _cfg.themeImgs[n % len].sm;
-            console.log('>>>',n % len,url);
             var css = {
                 'background-image': 'url(' + url + ')',
+            };
+
+            return css;
+        };
+
+        //根据用户的颜色项目的背景
+        $scope.genCardBg2 = function(n) {
+            var css = {
+                'background-color': _xmgc.myUsrInfo.color,
             };
 
             return css;

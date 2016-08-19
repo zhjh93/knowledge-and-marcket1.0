@@ -3,20 +3,25 @@
 </script>
 
 <!--控制器界面部分-->
-<div id='pie_welcome' ng-controller='pie_welcome' class='container-fluid pie_welcome doc_ctrlr'>
+<div id='pie_welcome' ng-controller='pie_welcome' class='container-fluid pie_welcome'>
     <style>
         /*内部样式，以.doc_devWeb开头*/
-        .doc_ctrlr label {
+        .pie_welcome label {
             font-size: 2rem;
             font-family: inherit;
             text-align: left;
         }
-        .doc_ctrlr input {
+        .pie_welcome input {
             font-size: 2rem;
             font-family: inherit;
         }
-        .doc_ctrlr md-input-container {
+        .pie_welcome md-input-container {
             margin-top: 3rem
+        }
+        .pie_welcome .hint-min {
+            color: #AAA;
+            font-size: 12px;
+            text-align: left;
         }
     </style>
     <div layout-padding>
@@ -35,12 +40,13 @@
             <div class='col-xs-12 col-sm-6 col-md-4 col-lg-2' ng-repeat='item in myApps.apps' style='padding:0.5rem'>
                 <md-card md-theme="default" md-theme-watch style='margin:0;'>
                     <md-card-title class="elips" style='padding:0;overflow:hidden;position:relative'>
+                        <div style="position:absolute;width:100%;height:100%;background-size:cover;opacity:0.4;border-radius: 4px 4px 0 0" ng-style='genCardBg2(item.val)'></div>
                         <div style="position:absolute;width:100%;height:100%;background-size:cover;opacity:0.4;border-radius: 4px 4px 0 0" ng-style='genCardBg(item.val)'></div>
                         <md-card-title-text class="elips" style='margin:16px;z-index:6'>
                             <div class="md-headline elips" ng-click='editApp(item.key)' style="cursor:pointer;">
                                 <span class="md-headline elips" ng-bind='item.info.alias' style='color:#000'></span>
                             </div>
-                            <span class="md-subhead" style='color:#555' ng-bind='item.info.name' ng-click='openApp(item.key)' style="cursor:pointer;"></span>
+                            <span class="md-subhead" style='color:#000' ng-bind='item.info.name' ng-click='openApp(item.key)' style="cursor:pointer;"></span>
                         </md-card-title-text>
                     </md-card-title>
 
@@ -79,27 +85,25 @@
         <!--      新建弹窗-->
         <div style="visibility: hidden">
             <div class="md-dialog-container" id="createDialog">
-                <form name="userForm" style="margin-top:12px;width:400px;">
-                    <md-dialog layout-padding style='text-align:center;padding:24px;max-width:800px'>
-                        <md-input-container class="md-block" flex-gt-sm style='margin-top:24px'>
-                            <label style="text-align:left">APP名称</label>
-                            <input ng-model="newApp.alias" ng-pattern="/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/" style='font-size:2rem;font-family:simhei' />
-                            <div ng-messages="usrForm.alias.$error">
-                                <div ng-if="userForm.alias.$error.pattern">中文,数字,字母都可以,3~18位非数字开头</div>
-                            </div>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm style='margin-top:0'>
-                            <label style="text-align:left">APP标识名</label>
-                            <input ng-model="newApp.name" ng-pattern="/^[a-zA-Z]+[0-9a-zA-Z]{2,17}$/" style='font-size:2rem;font-family:simhei' />
-                            <div ng-messages="usrForm.nick.$error">
-                                <div ng-if="userForm.nick.$error.pattern">字母和数字，3~18位非数字开头，不可重复，设定后不可修改</div>
-                            </div>
-                        </md-input-container>
-                </form>
-                <div style="margin-top:1rem">
-                    <md-button class="md-raised md-primary btn-lg" ng-click='doCreateApp()' style='width:180px;color:#FFF'>确定创建</md-button>
-                    <md-button class="md-raised md-default btn-lg" ng-click='cancelCreateDialog()'>取消</md-button>
-                </div>
+                <md-dialog layout-padding style='text-align:center;padding:24px;max-width:800px'>
+                    <form name="userForm" style="margin-top:12px;width:400px;">
+                        <md-content class="md-no-momentum">
+                            <md-input-container class="md-block" flex-gt-sm style='margin-top:24px'>
+                                <label style="text-align:left;font-size:2rem">APP名称</label>
+                                <input name='alias' ng-model="newApp.alias" ng-pattern="/^[a-zA-Z\u0391-\uFFE5]+[0-9a-zA-Z\u0391-\uFFE5]{2,17}$/" style='font-size:2rem;font-family:simhei' />
+                                <div style='color:#AAA;text-align:left;font-size:12px'>中文,数字,字母都可以,3~18位非数字开头</div>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm style='margin-top:48px'>
+                                <label style="text-align:left;font-size:2rem">APP标识名</label>
+                                <input name='name' ng-model="newApp.name" ng-pattern="/^[a-zA-Z]+[0-9a-zA-Z]{2,17}$/" style='font-size:2rem;font-family:simhei' />
+                                <div style='color:#AAA;text-align:left;font-size:12px'>字母和数字，3~18位非数字开头，不可重复，设定后不可修改</div>
+                            </md-input-container>
+                        </md-content>
+                    </form>
+                    <div style="margin-top:1rem">
+                        <md-button class="md-raised md-primary btn-lg" ng-click='doCreateApp()' style='width:180px;color:#FFF'>确定创建</md-button>
+                        <md-button class="md-raised md-default btn-lg" ng-click='cancelCreateDialog()'>取消</md-button>
+                    </div>
                 </md-dialog>
             </div>
         </div>

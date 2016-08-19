@@ -56,7 +56,7 @@ if (!_xmgc) var _xmgc = {};
     }, {
         sm: 'http://www.xmgc360.com//_imgs/smthemeimg2.png',
     }, {
-        sm: 'http://www.xmgc360.com//_imgs/smthemeimg3.png',
+        sm: 'http://www.xmgc360.com//_imgs/smthemeimg8.png',
     }, {
         sm: 'http://www.xmgc360.com//_imgs/smthemeimg4.png',
     }, {
