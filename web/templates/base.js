@@ -3,9 +3,10 @@
 v160817
 */
 
-//屏蔽顶部导航栏
-var _xmgc = {};
-_xmgc.useNavBar = 'none';
+
+if(!_xmgc) _xmgc = {};
+_xmgc.useNavBar = 'none'; //屏蔽顶部导航栏
+_xmgc.forceRefresh = true; //开发阶段强制刷新
 
 //初始化angularjs数据绑定
 (function () {
@@ -14,7 +15,7 @@ _xmgc.useNavBar = 'none';
     angular.module('app',[]).controller('bodyController',function($rootScope, $scope) {
 //----在下面开始编码----
 
-[{rootScopeCode}]
+[{codeHere}]
 
 
 

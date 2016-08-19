@@ -172,7 +172,7 @@
                         </div>
                     </div>
 
-                    <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none" ng-bind='appName' ng-click='gotoApp()'></div>
+                    <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none;text-transform:none" ng-bind='appName' ng-click='gotoApp()'></div>
                 </div>
                 <div layout='column' layout-padding>
                     <div layout='column' id='listFiles'>
@@ -218,7 +218,7 @@
             </div>
 
             <!--       编辑器部分-->
-            <div flex='grow' id='editorPart' layout='column' id='editorPart' ng-hide='hideEditor' class='lboder'>
+            <div flex id='editorPart' layout='column' id='editorPart' ng-hide='hideEditor' class='lboder' style="min-width:480px">
                 <!--            编辑器-->
                 <div flex='grow' id='editorSec' style="background:#888;overflow-y:auto;box-shadow: 0 0 24px #666 inset;overflow-x: hidden;">
                     <div id='cmEditor' ng-model="curFileData" ui-codemirror-opts='cmOpt' ui-codemirror="{onLoad:cmLoaded}" style="box-shadow: 0 4px 4px #888888;boder:none;margin:-1px" ui-refresh='cmRefresh'></div>
@@ -255,10 +255,10 @@
             </div>
 
             <!--            预览部分-->
-            <div id='dragPreSizeBar' flex='none' ng-hide='hidePreview || !greatThan("xs")' style="width:8px;background:#F7F7F7;border-left:1px solid #DDD;cursor:col-resize"></div>
+            <div id='dragPreSizeBar' flex='none' ng-hide='hidePreview || !greatThan("xs")' style="width:8px;background:#F7F7F7;border-left:1px solid #DDD;cursor:col-resize;"></div>
             <div layout='column' flex='none' id='previewPart' ng-hide='hidePreview' class='lboder' style='width:480px;'>
                 <!--            预览器-->
-                <iframe id='previewFrame' ng-hide='previewRt' style="border-style:none;height:100%;width:100%"></iframe>
+                <iframe id='previewFrame' ng-hide='previewRt' style="border-style:none;height:100%;width:100%;"></iframe>
                 <div flex='grow' ng-show='previewRt' id='previewSec' ng-bind-html='curFileData | onlyBody  | toTrustHtml' style="border-left:1px dashed #ec407a;padding-left:1px">
                 </div>
             </div>

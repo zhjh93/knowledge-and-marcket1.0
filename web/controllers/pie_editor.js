@@ -559,7 +559,7 @@
 
             var url = '';
             if ($scope.previewFileUrl) {
-                url = encodeURI($scope.previewFileUrl) + '?=' + Math.random();
+                url = encodeURI($scope.previewFileUrl) + '?_=' + Math.random();
             };
             setTimeout(function () {
                 $('#previewFrame').attr('src', url);
@@ -754,7 +754,7 @@
                 } else {
                     url = $scope.curFileUrl;
                 };
-                url = url + '?=' + (new Date()).getTime();
+                url = url + '?_=' + (new Date()).getTime();
                 window.open(encodeURI(url));
             } else {
                 $mdToast.show(

@@ -2,6 +2,13 @@
  */
 var _pie = {};
 
+//预先读取模板文件
+var templates = {
+    baseHtml: $fs.readFileSync(__path + '/web/templates/base.html', 'utf-8').replace(/\[\{codeHere_*\w*\}\]/g,''),
+    baseJs: $fs.readFileSync(__path + '/web/templates/base.js', 'utf-8').replace(/\[\{codeHere_*\w*\}\]/g,''),
+};
+
+
 /**
  * 接口：创建App，存储一个模板index.html文件到七牛存储，返回App的ID
  * @returns {appid} 创建的app的id
@@ -26,9 +33,9 @@ _rotr.apis.createApp = function() {
         var appKey = _rds.k.app(appId);
 
         //向七牛添加一个index.html文件
-        var qnres1 = yield _qn.uploadDataCo('<h1>Hello world!</h1>', uid + '/' + appName + '/index.html');
-        var qnres2 = yield _qn.uploadDataCo('(function () {\n "use strict";\n \n \n})()', uid + '/' + appName + '/index.js');
-        var qnres3 = yield _qn.uploadDataCo('body {\n \n \n}', uid + '/' + appName + '/index.css');
+        var qnres1 = yield _qn.uploadDataCo(templates.baseHtml, uid + '/' + appName + '/index.html');
+        var qnres2 = yield _qn.uploadDataCo(templates.baseJs, uid + '/' + appName + '/index.js');
+        //var qnres3 = yield _qn.uploadDataCo('body {\n \n \n}', uid + '/' + appName + '/index.css');
 
         //存储为app-aid键
         var mu = _rds.cli.multi();
@@ -36,7 +43,7 @@ _rotr.apis.createApp = function() {
             'id': appId,
             'name': appName,
             'uid': uid,
-            'pkey':__uuid(),
+            'pkey': __uuid(),
             'time': (new Date()).getTime(),
             'url': _qn.cfg.BucketDomain + uid + '/' + appName + '/',
         };
@@ -72,7 +79,7 @@ _rotr.apis.getMyApps = function() {
         var apps = yield _ctnu([_rds.cli, 'zrange'], uAppsKey, 0, -1, 'WITHSCORES');
 
         var dat = {
-            count: apps.length/2,
+            count: apps.length / 2,
             apps: _fns.arr2obj(apps),
         };
 
