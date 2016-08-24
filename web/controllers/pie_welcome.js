@@ -106,9 +106,14 @@
         };
 
 
+        //自动随机标识名
+        function randAppName() {
+            return 'a' + Math.random().toString(36).substr(2,11).toLowerCase();
+        };
+
         //创建一个应用
         $scope.newApp.alias = '';
-        $scope.newApp.name = Math.random().toString(36).substr(2);
+        $scope.newApp.name = randAppName();
         $scope.createApp = function (appname, appalias) {
             var api = 'http://m.xmgc360.com/pie/api/createApp';
             var dat = {
@@ -125,7 +130,7 @@
                     } catch (err) {}
                     $mdDialog.hide();
                     $scope.newApp.alias = '';
-                    $scope.newApp.name = Math.random().toString(36).substr(2);
+                    $scope.newApp.name = randAppName();
                 } else {
                     //提示错误
                     $mdToast.show(

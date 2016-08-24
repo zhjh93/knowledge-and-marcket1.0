@@ -116,4 +116,40 @@
 
 
 
+<!--11111111111111-->
+<div style="padding:15px">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            你好啊，女神！
+        </div>
+        <div class="panel-footer">李雷 发布于 2016-11-11 15:31:12</div>
+    </div>
+</div>
+
+<div style="position:absolute;bottom:0;padding:15px">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="请输入留言" aria-describedby="basic-addon2">
+        <span class="input-group-addon" id="basic-addon2">发送</span>
+    </div>
+</div>
+
+<!--22222222222-->
+<div style="padding:15px">
+    <div class="panel panel-default" ng-repeat="duihua in quanbuduihua">
+        <div class="panel-body">
+            {{duihua.neirong}}
+        </div>
+        <div class="panel-footer">{{duihua.zuozhe}} 发布于 {{duihua.shijian | date:"yyyy-MM-dd HH:mm:ss"}}</div>
+    </div>
+</div>
+
+<div style="position:absolute;bottom:0;padding:15px">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="请输入留言" aria-describedby="basic-addon2" ng-model="xinneirong">
+        <span class="input-group-addon" id="basic-addon2" ng-click="fasong()">发送</span>
+    </div>
+</div>
+
+
+
 <!---->

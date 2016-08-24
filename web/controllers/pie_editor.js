@@ -480,7 +480,7 @@
 
 
             //添加时间戳强制刷新
-            var urlp = url + '?=' + (new Date()).getTime();
+            var urlp = url + '?_=' + (new Date()).getTime();
 
             $.get(urlp, function(res) {
                 console.log('GET', urlp, null, String(res).substr(0, 100));
@@ -712,7 +712,7 @@
         $scope.gotoApp = function() {
             var appName = $scope.getAppArg();
             var uid = $rootScope.myInfo.id;
-            var url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html?=' + (new Date()).getTime();
+            var url = _cfg.qn.BucketDomain + uid + '/' + appName + '/index.html?_=' + (new Date()).getTime();
             window.open(url);
         };
 
@@ -727,7 +727,7 @@
             } else {
                 $scope.qrcodeDialogUrl = _cfg.qn.BucketDomain + key;
             };
-            $scope.qrcodeDialogUrl = $scope.qrcodeDialogUrl + '?_=' + (new Date()).getTime();
+            $scope.qrcodeDialogUrl = $scope.qrcodeDialogUrl;
 
             //使用jquery生成二维码
             $('#qrcode').empty();
