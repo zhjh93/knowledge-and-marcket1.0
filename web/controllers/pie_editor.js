@@ -546,7 +546,7 @@
         _fns.promiseRun(function(tm) {
             $scope.openFile();
         }, function() {
-            return _xmgc.myInfo;
+            return _pie.myInfo;
         });
 
 

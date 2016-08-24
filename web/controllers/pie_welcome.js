@@ -47,7 +47,7 @@
         _fns.promiseRun(function (tm) {
             $scope.getMyAppList();
         }, function () {
-            return _xmgc.myInfo;
+            return _pie.myInfo;
         });
 
 
@@ -252,7 +252,7 @@
         //根据用户的颜色项目的背景
         $scope.genCardBg2 = function (n) {
             var css = {
-                'background-color': _xmgc.myUsrInfo.color,
+                'background-color': _pie.myUsrInfo.color,
             };
 
             return css;

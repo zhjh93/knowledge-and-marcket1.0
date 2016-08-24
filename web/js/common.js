@@ -5,13 +5,13 @@
 if (!_cfg) var _cfg = {}; //最高全局变量，功用设置
 if (!_fns) var _fns = {}; //最高全局变量，公用函数
 if (!_xdat) var _xdat = {}; //共享变量
-if (!_xmgc) var _xmgc = {};
+if (!_pie) var _pie = {};
 
 (function() {
     'use strict';
 
     //初始页面,
-    _xmgc.useNavBar = 'top';
+    _pie.useNavBar = 'top';
     _cfg.startPage = 'pie_welcome';
 
 

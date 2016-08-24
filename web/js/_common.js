@@ -2,8 +2,8 @@
 应该在header的jquery后引入
 */
 console.log('pie/_commond.js:loading...');
-if (!_xmgc) {
-    var _xmgc = {};
+if (!_pie) {
+    var _pie = {};
 };
 
 (function() {
@@ -11,7 +11,7 @@ if (!_xmgc) {
 
     /*获取地址栏参数
      */
-    _xmgc.getUrlParam = function(name) {
+    _pie.getUrlParam = function(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]);
@@ -19,8 +19,8 @@ if (!_xmgc) {
     }
 
     //强制刷新页面，用于开发阶段或特殊情况，默认刷新
-    if (_xmgc.forceRefresh == true || _xmgc.forceRefresh === undefined) {
-        var ts = _xmgc.getUrlParam('_');
+    if (_pie.forceRefresh == true || _pie.forceRefresh === undefined) {
+        var ts = _pie.getUrlParam('_');
         var hst = (window.location.hostname == 'files.m.xmgc360.com');
         if (!ts && hst) location.href = location.href + '?_=' + Math.random();
     };

@@ -3,8 +3,8 @@
 v160819
 */
 
-if(!_xmgc) _xmgc = {};
-_xmgc.useNavBar = 'none'; //屏蔽顶部导航栏
+if(!_pie) _pie = {};
+_pie.useNavBar = 'none'; //屏蔽顶部导航栏
 
 //初始化angularjs数据绑定
 (function () {
