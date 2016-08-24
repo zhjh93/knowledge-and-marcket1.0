@@ -156,6 +156,9 @@
                     <a ng-href="{{qrcodeDialogUrl}}" target='_blank' style="padding:24px">
                         <div id="qrcode"></div>
                     </a>
+                    <p style='width:100%;text-transform:none;word-break:break-all;font-size:16px' aria-label='a' >
+                    <span>标识名: </span><span ng-bind="curApp.name"></span>
+                    </p>
                     <p style='width:100%;text-transform:none;word-break:break-all;font-size:18px' aria-label='a' ng-bind='qrcodeDialogUrl'></p>
                 </md-dialog>
             </div>
@@ -172,7 +175,7 @@
                         <span class="fa fa-qrcode fa-2x"></span>
                     </div>
 
-                    <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none;text-transform:none" ng-bind='appName' ng-click='gotoApp()'></div>
+                    <div flex='grow' class="md-button md-default elips" style="min-width:2rem;min-height:2rem;width:2rem;padding:0;height:2rem;font-size:2rem;margin: 6px;line-height:2.2rem;text-align:left;background:none;text-transform:none" ng-bind='curApp.alias' ng-click='gotoApp()'></div>
                 </div>
                 <div layout='column' layout-padding>
                     <div layout='column' id='listFiles'>

@@ -15,7 +15,7 @@ _rds.k = {
         return 'app-' + id;
     },
 
-    //用户的app列表,zsort
+    //用户的app列表,zsort,{appName:appid}
     usrApps: function(uid) {
         return 'uApps-' + uid;
     },

@@ -100,8 +100,8 @@
             $scope.db.child('quanbuduihua').push({
                 neirong: $scope.xinduihua,
                 shijian: (new Date()).getTime(),
-                zuozhe: _xmgc.myUsrInfo.nick,
-                touxiang: _xmgc.myUsrInfo.avatar,
+                zuozhe: _jmn.myUsrInfo.nick,
+                touxiang: _jmn.myUsrInfo.avatar,
             });
             $scope.xinduihua = '';
         };
@@ -134,6 +134,9 @@
             }
         });
         */
+
+
+
 
 
 

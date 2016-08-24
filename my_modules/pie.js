@@ -67,6 +67,48 @@ _rotr.apis.createApp = function() {
 
 
 /**
+ * 接口：通过appauthorid和appName获取app的基本信息，可以读取其他用户的app信息
+ * @req {appUid} 创建的app的作者id
+ * @req {appName} app的name
+ * @returns {appid} 创建的app的id
+ */
+_rotr.apis.getAppInfo = function() {
+    var ctx = this;
+
+    var co = $co(function * () {
+
+        var uid = yield _fns.getUidByCtx(ctx);
+
+        var appUid = ctx.query.appUid || ctx.request.body.appUid;
+        if (appUid && !/^\d*$/.test(appUid)) throw Error('App作者ID格式错误.');
+        if(!appUid){
+            //尝试使用cookie的token兑换uid
+            appUid=uid;
+        };
+
+        var appName = ctx.query.appName || ctx.request.body.appName;
+        if (!appName || !_cfg.regx.appName.test(appName)) throw Error('App标识名格式错误.');
+
+        //从用户的app列表获取appid
+        var uAppsKey = _rds.k.usrApps(appUid);
+        var appid=yield _ctnu([_rds.cli, 'zscore'], uAppsKey, appName);
+        if(!appid) throw Error('找不到对应的App.');
+
+        //读取app的全部信息
+        var appkey=_rds.k.app(appid);
+        var dat=yield _ctnu([_rds.cli, 'hgetall'], appkey);
+
+        //返回数据
+        ctx.body = __newMsg(1, 'ok', dat);
+        return ctx;
+    });
+    return co;
+};
+
+
+
+
+/**
  * 获取我的App列表
  * @returns {obj} {count:3,apps:[{name:'xxx',...}]}
  */

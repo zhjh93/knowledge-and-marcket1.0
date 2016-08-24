@@ -82,6 +82,36 @@
         };
         $scope.getAppArg();
 
+        //获取app信息
+        $scope.getAppInfo = function() {
+            var appName = $scope.getAppArg();
+
+            var api = 'http://m.xmgc360.com/pie/api/getAppInfo';
+            var dat = {
+                appName: appName,
+            };
+
+            $.post(api, dat, function(res) {
+                console.log('POST', api, dat, res);
+                if (res.code == 1) {
+                    $scope.curApp=res.data;
+                } else {
+                    //提示错误
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('获取文件信息失败:' + res.text)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                };
+            });
+        };
+        $scope.getAppInfo();
+
+
+
+
+
         //获取app文件夹的列表
         $scope.getFileList = function() {
             var appName = $scope.getAppArg();
