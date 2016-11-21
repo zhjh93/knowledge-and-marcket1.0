@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="idangerous.swiper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/check_button.js"></script>
+    <script src="js/js.cookie-2.1.3.min.js"></script>
+    <script src="myjs/check_button.js"></script>
+    <script src="static_js.js"></script>
+    <script src="myjs/detail.js"></script>
+    <style type="text/css">
+    </style>
+</head>
+<body style="overflow: hidden">
+<div id="detail_nav"></div>
+<!--<div id="detail_pic"></div>-->
+<div id="detail_info_box">
+    <!--<div id="detail_pic"></div>-->
+   <div id="detail_1">
+    <h1 style="color: #ff1760" id="detail_11">jQuery从入门到精通</h1>
+        <span class="detail_info" >课时：</span><span id="detailtimes"></span>
+        <span class="detail_info" id="myspan"> 学习人数：<span  id="myspannum"></span></span><span id="remyspan"></span>
+        <span class="detail_info"> 学费：&yen;</span><span id="detailpay"></span>
+
+<!--购买按钮-->
+   </div>
+    <div id="fuzhidiv"></div>
+    <div class=" hidden-xs" id="buy_btn" >
+        <ul class="list-group">
+            <li class="list-group-item" ><a href="" id="detailbuy" >立即购买</a></li>
+            <li class="list-group-item" ><a href="" id="detailcollect">收藏</a></li>
+            <li class="list-group-item addshopcat" ><a href="#"><span class="spaid" id="cookID"></span>加入购物车</a></li>
+        </ul>
+    </div>
+
+    <div id="redetailbuy"></div>
+</div>
+
+<div class="navbar-fixed-bottom visible-xs" id="buy">
+     <ul class="list-group">
+         <li class="list-group-item list-float"><a href="" id="detailbuy1">立即购买</a></li>
+         <li class="list-group-item list-float" ><a href=""id="detailcollect1">收藏</a></li>
+         <li class="list-group-item list-float addshopcat"><a href="#"><span class="spaid" id="cookID1"></span>加入购物车</a></li>
+     </ul>
+</div>
+
+
+<div id="redetailbuy1"></div>
+<!-- 代码部分begin -->
+<div class="wrap">
+    <div class="tabs">
+        <a href="#" hidefocus="true" class="active">目录</a>
+        <a href="#" hidefocus="true">评论</a>
+        <a href="#" hidefocus="true">简介</a>
+    </div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" >
+                <div class="content-slide" style="height: 768px;overflow-x: scroll">
+                    <!--tab内容一-->
+                    <div  class="table-responsive" >
+                        <table class="table table-hover" id="detail1">
+                            <tr>
+                                <td class="courseDate"><span class="glyphicon glyphicon-expand" id="detailtime"></span></td>
+                                <td id="detailname"></td>
+                                <td id="detailid"></td>
+                            </tr>
+                        </table>
+                        <div id="detailbox1"style="height: 10%;"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="content-slide" id="mypinglun"  style="height: 768px;overflow-x: scroll" >
+                    <!--tab内容二-->
+
+                    <div id="pinglun" class="container-fluid" style="margin-top: 5px" >
+                       <div id="talk">
+                        <div class="pinglunzhe">
+                            <div class="protailurl" style="border-style: none"><img src="" id="protailurl" style="width: 100%;height: 100%;border-radius: 50%"></div>
+                            <div class="personname" style="border-style: none"><span id="plname">lxmday</span></div>
+                        </div><hr style="clear: both">
+                        <div class="neirong" ><span style="margin-left: 10%" id="pltext" ></span></div>
+                        <div class="pinglunshijian" id="pltime">2016/9/15</div>
+                        <hr style="clear: both">
+                       </div>
+                        <div id="retalk"></div>
+                        <h2 id="nonepl" style="text-align: center">暂无评论！</h2>
+                    </div>
+
+                    <div id='mybox3'style="height: 10%;"> </div>
+                </div>
+
+            </div>
+            <div class="swiper-slide">
+             <div>
+                <div class="content-slide" id="brief"  style="height: 768px;overflow-x: scroll">
+                    <!--tab内容三-->
+                 <p id="brief1">
+                    jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃jQuery从入门到放弃
+                    jQuery从入门到放弃
+                    jQuery从入门到放弃
+                    jQuery从入门到放弃jQuery从入门到放弃
+                    </p>
+                    <div id="rebrief"  style="height: 10%;"></div>
+                </div>
+
+                    <h2 id="nonebrief" style="text-align: center">暂无简介！</h2>
+            </div>
+          </div>
+    </div>
+ </div>
+</div>
+
+<!-- 代码部分end -->
+
+
+<script>
+    var tabsSwiper = new Swiper('.swiper-container',{
+        speed:500,
+        onSlideChangeStart: function(){
+            $(".tabs .active").removeClass('active');
+            $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active');
+        }
+    });
+
+    $(".tabs a").on('touchstart mousedown',function(e){
+        e.preventDefault()
+        $(".tabs .active").removeClass('active');
+        $(this).addClass('active');
+        tabsSwiper.swipeTo($(this).index());
+    });
+
+    $(".tabs a").click(function(e){
+        e.preventDefault();
+    });
+</script>
+</body>
+</html>
+
+<script>
+    (function(){
+        $("#detail_pic").load("bg.html");
+        $("#detail_nav").load("nav.html");
+        var $buttons = $('.addshopcat');
+        console.log($buttons)
+       $(document).ready(function(){
+
+
+        $('.addshopcat').click(function(e){
+            var spid = $(this).find('.spaid').text().trim();
+            console.log(spid,Cookies);
+            if(Cookies.get("ShopCate")!=null){
+                var cookieValue = Cookies.get("ShopCate");
+                console.log(cookieValue)
+                var cookieArr = cookieValue.split(',');
+                for(var j=0;j<cookieArr.length;j++){
+                    if(cookieArr[j] == spid){
+                        spid=null;
+                        break
+                    }
+                }
+                if(spid!=null){
+                    cookieValue +=  ','+spid;}
+                console.log(cookieValue)
+                Cookies.set("ShopCate",cookieValue,{expires:7,path:'/'});
+            } else if (Cookies.get("ShopCate") == null){
+                var addValue=spid;
+                console.log(addValue);
+                Cookies.set("ShopCate",addValue,{expires:7,path:'/'});
+            }
+        });
+       })
+
+    })();
+</script>

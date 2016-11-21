@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="idangerous.swiper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <title>消息</title>
+    <style>
+        body{background-color: gray}
+        .cansel{ width: 60px;height:32px;border-radius: 5px;box-shadow: 0px 0px 3px white;background-color:white;text-align: center;font-size: 16px;
+            position: absolute;top: 1%;right: 2%;line-height: 30px ;cursor: pointer }
+    </style>
+    <script>
+        function goBack(){
+            window.history.go(-2)
+        }
+    </script>
+</head>
+<body>
+<div class="panel panel-default" style="width: 60%;height: 400px;background-color: #b2b2b2;position: relative;margin-top:10%;margin-left: 20%">
+    <div class="panel-heading" style="height: 50px;background-color: #036ec1">
+        <div class="cansel" onclick="goBack()">Back</div>
+    </div>
+    <div class="panel-body">
+        <h1 style="color: white;margin-left: 30%">评论提交成功！</h1>
+    </div>
+</div>
+
+</body>
+</html>

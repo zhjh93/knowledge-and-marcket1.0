@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="js/swiper-3.3.1.jquery.min.js"></script>
+    <!--<script src="idangerous.swiper.min.js"></script>-->
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="static_js.js"></script>
+    <script src="myjs/check.js"></script>
+    <script src="myjs/person_center.js"></script>
+    <style type="text/css">
+        /*.person_centername1:hover>.xuexi_box{display: block}*/
+    </style>
+</head>
+<body>
+
+<div id="nav" class="hidden-xs"></div>
+<div id="person_header" class="container-fluid" style="margin-top:4% ;">
+    <div id="person_info">
+        <div id="protailurl"><img src="images/033.jpg" alt="" style="width:100%;height:100%;border-radius: 50%"/></div>
+        <div id="personname"><span>你好</span><span id="UserName"></span>
+            <a href="my_info.html" style="text-decoration: none;color: red" id="num">消息<span class="badge" id="information"></span></a><a id="renum"></a></div>
+    </div>
+    <p style="position: absolute;bottom: 8%;right:10%;z-index: 55"><a href="#" id="bosscenter">卖家中心</a>
+        <a href="#" id="manage" >管理员</a></p>
+</div>
+
+
+<!-- ----------------------------------菜单部分开始----------------------------------------------------- -->
+
+<div  id="mytabs" class="mytabs">
+    <a href="#person_menu_0" data-toggle="tab"><p class="person_mycourse">我的课程</p></a>
+    <a href="#test" data-toggle="tab" ><p class="person_mycourse">我的收藏</p></a>
+    <a href="#mysale" data-toggle="tab"><p class="person_mycourse" >我的优惠券</p></a>
+   <p class="person_push_course" id="apply_seller"> <a href="#" id="bossapply">卖家申请</a></p>
+</div>
+
+
+<!-----------------------------------------菜单部分结束------------------------------------------------------------->
+<div class="tab-content" id="content-slide"  >
+    <!---------------------------------------我的课程----------------------------------------------------------->
+    <div class="tab-pane active" id="person_menu_0" style="width: 80%;float: left;;">
+        <div class="person_centername1" id="coursename1">
+            <div class="person_centername">
+                <h3 id="coursename2">7天精通JavaScript</h3>
+            </div>
+            <div><img id="myimg" src="videopicture/javascript.jpg" width="100%" style="margin: 0px;padding: 0px"></div>
+            <div style="display: none" class="xuexi_box">
+                <div class="xuexi" ><a id="constudy" href="video.html" style="text-decoration: none">继续学习</a></div>
+                 <div style="position: absolute;bottom: 0%;width: 100%;background-color: rgba(21, 21, 21, 0.66);text-align: right">
+                    <!--<span style="color: white">还没评价噢！</span>-->
+                    <span ><a href="review.html" style="color: red;font-size: 24px" id="goreview">去评价</a></span>
+                </div>
+            </div>
+        </div>
+
+        <div id='mpbox1'> </div>
+        <div id="hid"><h2 style="margin-left:10%;margin-top: 10%">还没有购买过课程噢！</h2></div>
+    </div>
+    <!----------------------------------------课程部分结束-------------------------------------------------------------->
+
+
+    <!----------------------------------------我的收藏-------------------------------------------------------------->
+    <div class="tab-pane" id="test" style="width: 80%;float: left;margin-top: -2%;">
+        <div class="rotatebox" id="person_menu_" style="width: 31%;margin-top:3%;margin-left:1.5%">
+            <div class="rotate" style="width: 100%">
+                <div  class="ro_img" id="collect">
+                    <div class="person_centername"><h2 id="person_centername">JavaScript进阶教程</h2></div>
+                    <img id="myimg2" src="videopicture/javascript.jpg" width="100%">
+                </div>
+                <div class="ro_btn">
+                    <!--<p id="coursename"></p>-->
+                    <p  class="selectname">学费：<span id="courseprice">333</span></p>
+                    <p class="ro_btn1"><a href="buy_page.html"> 立即购买</a></p>
+                    <p class="ro_btn1"><a href="#"> 加入购物车</a></p>
+                    <p class="ro_btn1"><a href="" id="coursedetail"> 课程详情</a></p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div id='mpbox2'> </div>
+        <div id="hid1" style=""><h2 style="margin-left:10%;margin-top: 10%">暂无收藏的课程！快去逛逛吧！</h2></div>
+
+    </div>
+    <!----------------------------------------收藏内容结束-------------------------------------------------------------->
+    <!----------------------------------------优惠券-------------------------------------------------------------->
+
+    <div  class="tab-pane" id="mysale" style="width: 80%;float: left;;">
+        <div class="onsale" id="onsale">30元券满200元可用</div>
+        <div id='mpbox4'></div>
+        <div id="hidden"><h2 style="margin-left: 10%;margin-top: 10%">还没有可用优惠券噢！</h2></div>
+
+    </div>
+    <!----------------------------------------优惠券内容结束-------------------------------------------------------------->
+</div>
+<!--全部内容结束-->
+<!--消息提示-->
+
+<!-- 底部菜单 -->
+<div id="bottom" class="visible-xs"></div>
+<!-- 页脚 -->
+<div style="clear: both"></div>
+<div class="container-fluid" id="get_footer" style="margin-top: 20%">
+</div>
+<script>
+    $("#get_footer").load("footer.html");
+</script>
+<!--<script src="jquery-3.1.0.js"></script>-->
+<!--<script src="bootstrap/js/bootstrap.js"></script>-->
+<script>
+    $(function adv_pic(){
+        $("#nav").load("nav.html");
+        $("#bottom").load("bottom.html");
+    })
+</script>
+</body>
+</html>

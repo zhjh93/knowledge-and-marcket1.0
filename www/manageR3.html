@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>待付款</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/manageR3.js"></script>
+    <style>
+        #ide3{
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<div id="ide3">
+    <div id="card3" style="margin-top: 10%">
+        <table style="margin-left: 5%">
+            <tr><td>课程ID：</td><td id="ide3courseid"></td></tr>
+            <tr><td>课程名称：</td><td id="ide3coursename"></td></tr>
+            <tr><td>上传用户ID：</td><td id="ide3id"></td></tr>
+            <tr><td>共需支付：</td><td id="ide3paymoney"></td></tr>
+            <tr><td>收款账号：</td><td id="ide3paynum"></td></tr>
+            <div style="float:right;margin-right: 10%;margin-top: 1%">
+                <button type="button" class="btn btn-info" id="ide3queren" >确认付款</button><br/>
+            </div>
+        </table>
+        <hr style="border:1px dashed black;">
+    </div>
+    <div id="recard3"></div>
+    <h1 id="nocard3">没有未付款的账单</h1>
+
+</div>
+<script src="jquery-3.1.0.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+</body>
+</html>

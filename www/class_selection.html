@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/select.js"></script>
+    <script src="myjs/check.js"></script>
+    <style >
+    </style>
+</head>
+<body>
+<!--头部-->
+
+<script>
+    $(function adv_pic(){
+        $("#nav").load("nav.html");
+
+    })
+
+</script>
+<div id="nav"></div>
+<!--筛选-->
+<div class="container-fluid " style="margin-top: 10%">
+    <div class="select">
+        <ul class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active" ><a href="class_selection.html" id="moren">默认排序</a></li>
+            <li role="presentation" class="dropdown" >
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    按学费 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="class_selectionhigh.html" id="high">从高到低</a> </li>
+                    <li><a href="class_selectionlow.html" id="low" onclick="orderlow()">从低到高</a> </li>
+                </ul>
+            </li>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    按学时数 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="class_selectionlittle.html" id="little">从少到多</a> </li>
+                    <li><a href="class_selectionmore.html" id="more">从多到少</a> </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!--商品展示-->
+<div id="person_menu_2" class="container">
+    <div class="coursename1" id="coursename1">
+        <div class="course_img" style="position: relative">
+            <img id="selectimg" src="videopicture/javascript.jpg" width="100%" height="100%">
+            <p id="selectname" class="selectname"></p>
+        </div>
+        <div class="select_info_box" id="select_info_box">
+            <p  class="select_info">学费：<span  id="selectprice">555</span></p>
+            <p  class="select_info">课时数：<span id="selecttimes">555</span></p>
+            <p class="select_info select_info1 " ><a style="color: white;text-decoration: none" class="selectcollect" id="">收藏</a></p>
+            <p class="select_info select_info1 " ><a href="detail.html" style="color: white;text-decoration: none"class="detailbtn">详情</a></p>
+        </div>
+
+    </div>
+    <div id="mpbox5"></div>
+    <h1 id="wenzi2" style="margin-left:30%;margin-top: 10%">敬请期待！</h1>
+</div>
+<!--底部导航-->
+<div style="clear: both"></div>
+<div class="container-fluid" id="get_footer" style="margin-top: 20%">
+</div>
+<script>
+    $("#get_footer").load("footer.html");
+</script>
+<script>
+
+    $(function() {
+
+        $('.coursename1').hover(function () {
+            $(this).children(0).next().slideDown();
+        },function(){
+            $(this).children(0).next().slideUp();
+        })
+    })
+</script>
+
+</body>
+</html>
+<script src="static_js.js"></script>

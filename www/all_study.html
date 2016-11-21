@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="idangerous.swiper.min.js"></script>
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/all_study.js"></script>
+
+</head>
+<style>
+</style>
+<body>
+ <h2 class="all_study">大家都在学</h2>
+<div style="margin-right:4%;width: 98% ;">
+    <div id="allstudy">
+    <a id="allstudy1" href="" class="box_shadow">
+        <div class="all_bgimg">
+            <img id="studyimg" src="" width="100%">
+            <div class="all_title">
+                <p id="studyname"></p>
+                <p>在学人数：<span id="studynum"></span></p>
+            </div>
+        </div>
+    </a>
+    </div>
+    <div id="reallstudy"></div>
+
+</div>
+    <div id="bottom" class="visible-xs"></div>
+<script>
+    $(function (){
+        $("#bottom").load("all_bottom.html");
+
+    })
+
+</script>
+</body>
+</html>

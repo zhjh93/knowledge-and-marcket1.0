@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/video.js"></script>
+    <style>
+        body{background-color: #b2b2b2
+        }
+        #eachvideo{width:100%;height: auto;}
+        .top_box{width: 100%;height:10%;background-color: #036ec1;position:fixed;top:0;left: 0;}
+        .top_box p{width:55px;height: 35px;margin-left:70%;color: gray;background-color: #ffffff;
+            border-radius: 5px;text-align: center;line-height: 30px;cursor: pointer;font-weight: bolder}
+    </style>
+</head>
+<body>
+
+<div  class="top_box">
+    <p>Back</p>
+</div>
+<script>
+    $(function(){
+        $('.top_box p').click(function(){
+            window.history.back();
+        })
+    })
+</script>
+<div style="width: 100%;margin-top:5%;color:#b2b2b2 ">我只是占个位置而已，没我页面不好看</div>
+<div id="eachvideo" class="eachvideo">
+    <video width="320" height="240" controls="controls"  style="display: none;margin-top: 1%;margin-left: 30%" class="video_tag" poster="videopicture/h5.jpg">
+    <source id="videoview" src="videopicture/java.jpg" type="video/mp4">
+    你的浏览器不支持播放此视频，请更换浏览器！
+</video>
+    <p id="video" class="video" style=";width: 100%;margin-top: 2%;padding-left: 30%;cursor: pointer"></p>
+</div>
+<!--播放提示-->
+<div style="width: 30%;height: 30%;position: fixed;top: 10%;right: 5%;background-color: #0a77d5;color: white;text-align: center;">
+    <h3>播放提示</h3>
+    <p>若您第一次单击需要播放的课程目录名称！其他课程目录将自动隐藏，您需要再次单击课程名称将当前窗口关闭才能继续查看其他课程！</p>
+    <p style="width: 40%;height: 40px;margin-top: 5%;margin-left: 28%;background-color: #ff2c87;cursor: pointer;border-radius: 5px;line-height: 40px;font-size: 24px" id="Iknow">我知道了！</p>
+</div>
+<div id="reeachvideo"></div>
+</body>
+<script>
+    $(function(){
+        var f=false;
+        $('.video').click(function(){
+            if (f=!f){
+                $(this).prev().css('display','block');
+                $('.video').not(this).hide();
+
+            }
+            else {
+                $(this).prev().css('display','none')
+                $('.video').show();
+            }
+        })
+
+
+    })
+
+
+    $(function(){
+        $('.video').hover(function(){
+            $(this).css('color','red')
+        },function(){
+            $(this).css('color','black')
+        })
+    })
+$(function(){
+    $('#Iknow').click(function(){
+        $(this).parent().fadeOut();
+    })
+})
+</script>
+</html>

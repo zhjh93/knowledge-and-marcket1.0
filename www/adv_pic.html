@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+</head>
+<body>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-top: -8%">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <a href="#"><img src="person_images/3adv.jpg" width="100%"></a>
+            <div class="carousel-caption">
+                ...
+            </div>
+        </div>
+        <div class="item">
+            <a href="#"><img src="person_images/4adv.jpg" width="100%"></a>
+            <div class="carousel-caption">
+
+            </div>
+        </div>
+        <div class="item">
+            <a href="#"><img src="person_images/5adv.jpg" width="100%"></a>
+            <div class="carousel-caption">
+                ...
+            </div>
+        </div>
+        <div class="item">
+            <a href="#"><img src="person_images/6adv.jpg" width="100%"></a>
+            <div class="carousel-caption">
+                ...
+            </div>
+        </div>
+        ...
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<script>
+$('.carousel').carousel()
+$('.carousel').carousel({
+interval: 2000
+})
+$('#myCarousel').on('slide.bs.carousel', function () {
+// do something…
+})
+</script>
+<script src="jquery-3.1.0.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+</body>
+</html>

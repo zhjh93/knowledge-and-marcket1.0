@@ -1,7 +1,7 @@
 /*扩展系统对象功能或者提供新功能
-JSON.safeParse/JSON.sparse;
-*/
-
+ JSON.safeParse/JSON.sparse;
+ */
+var $crypto = require('crypto');
 var _fns = {};
 
 
@@ -83,9 +83,9 @@ function __uuid() {
 };
 
 /*md5加密
-如果str为空，自动生成一个uuid
-digest类型，hex默认,base64
-*/
+ 如果str为空，自动生成一个uuid
+ digest类型，hex默认,base64
+ */
 global.__md5 = __md5;
 
 function __md5(str, dig) {
@@ -96,9 +96,9 @@ function __md5(str, dig) {
 
 
 /*sha1加密
-如果str为空，自动生成一个uuid
-digest类型，hex默认,base64
-*/
+ 如果str为空，自动生成一个uuid
+ digest类型，hex默认,base64
+ */
 global.__sha1 = __sha1;
 
 function __sha1(str, dig) {
@@ -132,44 +132,44 @@ function __newMsg(code, text, data) {
 
 //重要函数------------------------------------
 /*服务端向其他地址发起http请求的promise
-成功执行resolvefn({headers:{...},body:'...'})
-options应包含所有必需参数如hostname，port,method等等,例如
-{
-    hostname: 'rsf.qbox.me',
-    port: 80,
-    path: optpath,
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': '',
-    },
-};
+ 成功执行resolvefn({headers:{...},body:'...'})
+ options应包含所有必需参数如hostname，port,method等等,例如
+ {
+ hostname: 'rsf.qbox.me',
+ port: 80,
+ path: optpath,
+ method: 'POST',
+ headers: {
+ 'Content-Type': 'application/x-www-form-urlencoded',
+ 'Authorization': '',
+ },
+ };
  */
 _fns.httpReqPrms = httpReqPrms;
 
 function httpReqPrms(options, bodydata) {
     var prms = new Promise(function(resolvefn, rejectfn) {
         var req = $http.request(options, (res) => {
-            if (res.statusCode != 200) {
-                rejectfn(new Error('Target server return err:' + res.statusCode));
-            } else {
-                res.setEncoding('utf8');
-                var dat = {
-                    headers: res.headers,
-                    body: '',
-                };
-                res.on('data', (dt) => {
-                    dat.body += dt;
-                });
-                res.on('end', () => {
-                    resolvefn(dat);
-                })
+                if (res.statusCode != 200) {
+            rejectfn(new Error('Target server return err:' + res.statusCode));
+        } else {
+            res.setEncoding('utf8');
+            var dat = {
+                headers: res.headers,
+                body: '',
             };
+            res.on('data', (dt) => {
+                dat.body += dt;
         });
+            res.on('end', () => {
+                resolvefn(dat);
+        })
+        };
+    });
 
         req.on('error', (e) => {
             rejectfn(new Error('Request failed:' + e.message));
-        });
+    });
 
         if (bodydata) {
             req.write(JSON.stringify(bodydata));
@@ -178,37 +178,6 @@ function httpReqPrms(options, bodydata) {
         req.end();
     });
 
-    return prms;
-};
-
-/*向指定目标发送一封邮件
-默认以_xcfg.serMail.addr为发送邮箱
-*/
-var mailTransPort = $mailer.createTransport({
-    host: _xcfg.serMail.host,
-    port: _xcfg.serMail.port,
-    auth: {
-        user: _xcfg.serMail.addr,
-        pass: _xcfg.serMail.pw,
-    },
-});
-
-/*可以使用其它传输器，默认为serMail
- */
-_fns.sendMail = sendMail;
-
-function sendMail(tarmail, tit, cont) {
-    var prms = new Promise(function(resolvefn, rejectfn, transport) {
-        if (!transport) transport = mailTransPort;
-        transport.sendMail({
-            from: 'jscodepie servicegroup<' + _xcfg.serMail.addr + '>',
-            to: tarmail,
-            subject: tit,
-            html: cont
-        }, function(err, res) {
-            (err) ? rejectfn(err) : resolvefn(res);
-        });
-    });
     return prms;
 };
 
@@ -223,7 +192,7 @@ _fns.getUidByCtx = function(ctx) {
 
         //通过cookie从主服务器获取uid
         var ukey = ctx.cookies.get('m_ukey');
-        if (!ukey || !_cfg.regx.ukey.test(ukey)) throw Error('您还没有注册和登陆，不能创建App.');
+        //if (!ukey || !_cfg.regx.ukey.test(ukey)) throw Error('您还没有注册和登陆，不能创建App.');
 
         var path = '/start/api/getUidByUkey';
 
@@ -249,7 +218,46 @@ _fns.getUidByCtx = function(ctx) {
     });
     return co;
 };
+//调用登录接口方法
+_fns.getUidByLogin = function(ctx) {
+    var co = $co(function * () {
 
+        //通过cookie从主服务器获取uid
+        //var ukey = ctx.cookies.get('m_ukey');
+        //if (!ukey || !_cfg.regx.ukey.test(ukey)) throw Error('您还没有注册和登陆，不能创建App.');
+
+        var path = '/start/api/loginByPhone';
+
+        //拿到和验证数据
+        var phone = ctx.query.phone || ctx.request.body.phone;
+        if (!phone ) throw Error('你的姓名格式不合法！');
+
+        var pw = ctx.query.pw || ctx.request.body.pw;
+        if (!pw ) throw Error('你的密码格式不合法！');
+
+        var opt = {
+            hostname: 'm.xmgc360.com',
+            port: 80,
+            path: path,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+        var password =  __md5(pw);
+        var dat = {
+            phone: phone,
+            pw:password
+        };
+
+        var res = yield _fns.httpReqPrms(opt, dat);
+        var msg = JSON.safeParse(res.body);
+        if (msg.code != 1) throw Error('获取用户信息失败，请稍后再试:' + msg.text);
+        console.log(msg);
+        return msg.data.id;
+    });
+    return co;
+};
 /**
  * 讲一个数组转化为对象
  * @param   {array}   arr    需要转换的数组

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="idangerous.swiper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="js/js.cookie-2.1.3.min.js"></script>
+    <script src="js/qiao.js"></script>
+    <script src="myjs/shopping.js"></script>
+    <title>购物车</title>
+</head>
+<body>
+<script>
+    $(function (){
+        $("#nav").load("nav.html");
+    })
+
+</script>
+<div id="nav"></div>
+<div id="shop" style="margin-top: 5%">
+    <div class="container">
+        <div id="shopcat" >
+            <div class="shopcattop" id="allselect" >
+                <div class="catchoose">全选<input name="全部选择" type="checkbox" value="全选" class="selectall"></div>
+                <div class="catname">课程名称</div>
+                <div class="catprice">单价</div>
+                <div class="catdelete"><button class="alldel del" style="margin-top:-16px;">删除</button></div>
+            </div>
+            <div class="goods" id="goods1">
+                <div class="goodschoose"><input name="选择" type="checkbox" class="select"></div>
+                <div class="goodspicture"><img id="goodsimg" src=""></div>
+                <div class="goodsname" id="goodsname"></div>
+                <div class="goodsid" id="goodsid" style="display: none"></div>
+                <div class="goodsprice" id="goodsprice">&yen;</div>
+                <div class="goodsdelete"><button class="del">删除</button></div>
+            </div>
+          <div id="regoods"></div>
+            <h1 id="nogoods">购物车空空的！</h1>
+        </div>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation" style="background-color: #04a2ea">
+        <div class="container">
+            <div id="moneybox" style="color: white">总金额为：<span style="color:white">&yen;</span><span id="money" style="color: white"></span> </div>
+            <button type="button" class="btn btn-default navbar-btn" style="position: absolute;right: 20px;bottom: 5px"><a href="#" id="payfor">结算</a> </button>
+        </div>
+    </nav>
+</div>
+</body>
+
+<script src="myjs/check.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $(function () {
+            $(".del").click(function () {
+                $that = $(this);
+                qiao.bs.confirm("你确定删除此商品？", function () {
+                    var dele=$that.parent().parent()[0].getElementsByClassName("goodsid")
+                    var delt=dele[0].innerText;
+                    var cookieValue = Cookies.get("ShopCate");
+                    var cookieArr = cookieValue.split(',');
+                    for(var j=0;j<cookieArr.length;j++){
+                        if(cookieArr[j] ==delt ){
+                            cookieArr.splice(j,1);
+                            break
+                        }
+                    }
+                    cookieValue=cookieArr.join(',');
+                    Cookies.set("ShopCate",cookieValue,{expires:7,path:'/'});
+                    $that.parent().parent().remove();
+                    summoney()
+                })
+            });
+            $(".alldel").click(function () {
+                qiao.bs.confirm("你确定要删除所有商品吗？", function () {
+                    $(".goods").remove();
+                    Cookies.remove('ShopCate');
+                    summoney()
+                })
+            });
+            $(".selectall").click(function () {
+                var sele = $(".select");
+                sele.prop('checked', $(this).prop('checked'))
+                summoney()
+            });
+            $(".select").click(function () {
+                //当没有选中某个子复选框时，SelectAll取消选中
+                if (!$(".select").checked) {
+                    $(".selectall").prop("checked", false);
+                }
+                var chsub = $("input[type='checkbox'][class='select']").length; //获取select的个数
+                var checkedsub = $("input[type='checkbox'][class='select']:checked").length; //获取选中的select的个数
+                if (checkedsub == chsub) {
+                    $(".selectall").prop("checked", true);
+                }
+                summoney()
+            });
+        });
+    })
+
+    var summoney=function(){
+        var money=document.getElementById("shopcat");
+        var selects=money.getElementsByClassName("select");
+        var good=money.getElementsByClassName("goods");
+        var total=0;
+        for(var i=0;i<selects.length;i++){
+            if(selects[i].checked==true){
+                var go=good[i];
+                var prices=go.getElementsByClassName("goodsprice");
+                var t=parseFloat(prices[0].innerText.substr(1,4));
+                if(t)total+=t;
+            }
+        }
+        document.getElementById("money").innerHTML=total;
+    };
+
+</script>
+</html>

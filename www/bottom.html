@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <style type="text/css">
+    </style>
+    <script language="javascript">
+        $(document).ready(function() {
+
+            /* 	1st example	*/
+
+            /// wrap inner content of each anchor with first layer and append background layer
+            $("#menu1 li a").wrapInner( '<span class="out"></span>' ).append( '<span class="bg"></span>' );
+
+            // loop each anchor and add copy of text content
+            $("#menu1 li a").each(function() {
+                $( '<span class="over">' +  $(this).text() + '</span>' ).appendTo( this );
+            });
+
+            $("#menu1 li a").hover(function() {
+                // this function is fired when the mouse is moved over
+                $(".out",	this).stop().animate({'top':	'40px'},	250); // move down - hide
+                $(".over",	this).stop().animate({'top':	'0px'},		250); // move down - show
+                $(".bg",	this).stop().animate({'top':	'0px'},		120); // move down - show
+
+            }, function() {
+                // this function is fired when the mouse is moved off
+                $(".out",	this).stop().animate({'top':	'0px'},		250); // move up - show
+                $(".over",	this).stop().animate({'top':	'-40px'},	250); // move up - hide
+                $(".bg",	this).stop().animate({'top':	'-40px'},	120); // move up - hide
+            });
+
+
+            /*	2nd example	*/
+
+            $("#menu3 li a").wrapInner( '<span class="out"></span>' );
+
+            $("#menu3 li a").each(function() {
+                $( '<span class="over">' +  $(this).text() + '</span>' ).appendTo( this );
+            });
+
+            $("#menu3 li a").hover(function() {
+                $(".out",	this).stop().animate({'top':	'40px'},	300); // move down - hide
+                $(".over",	this).stop().animate({'top':	'0px'},		300); // move down - show
+
+            }, function() {
+                $(".out",	this).stop().animate({'top':	'0px'},		300); // move up - show
+                $(".over",	this).stop().animate({'top':	'-40px'},	300); // move up - hide
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+<div id="menu3" class="menu container-fluid navbar-fixed-bottom "style="width: 100%;margin-bottom:-5px">
+    <ul>
+        <li style="width: 24%"><a href="index.html" >首　　页</a></li>
+        <li style="width: 24%"><a href="fenlei.html">分类</a></li>
+        <li style="width: 24%"><a href="shopping%20.html">购物车</a></li>
+        <li style="width: 24%"><a href="person_center.html">我的</a></li>
+
+
+
+    </ul>
+    <div class="cls container-fluid"></div>
+</div>
+
+
+</body>
+</html>

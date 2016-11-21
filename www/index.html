@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="personconter.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<script src="//cdn.bootcss.com/angular.js/1.3.20/angular.min.js"></script>-->
+    <script src="static_js.js"></script>
+    <script src="myjs/index.js"></script>
+    <style type="text/css">
+        .time_span{font-size:20px;}
+        #right_adv{width:20%;float: left;margin-left:2%; margin-top:1%;position: relative}
+        #ping_adv_{width: 100%;margin: 0;padding: 0;position: relative;border:solid 1px gray;}
+        .close_adv{width:20%;position: absolute;top: 0;right: 1%;background-color: #ffffff;display: none ;text-align: center;border-radius:2px;cursor: pointer}
+        #change_adv{width:20%;position: absolute;top: 5%;right: 1%;background-color: #ffffff;display: none;text-align: center;border-radius:2px;cursor: pointer}
+       .xun_adv{width: 100%;margin-top: 2%;position: relative;border: solid 1px gray;}
+        #marquee p{height:30px;line-height: 30px;margin:0}
+        .share_p{color: #565656; margin-left: 2%;cursor: pointer;}
+        .call_img{border:solid 2px #ff2c87;border-radius: 5px;}
+    </style>
+</head>
+<body>
+<div id="header_nav" class="hidden-xs" >
+</div>
+<div id="adv_pic" style="margin-top:10%"></div>
+<div id="contents" >
+  <div id="con_left">
+      <!--限时优惠-->
+          <div id="left_dis">
+            <div class="text">
+                <span style="margin-left: 2%">限时优惠</span>
+                <span id="t_d" class="time_span">00天</span>
+                <span id="t_h"  class="time_span">00时</span>
+                <span id="t_m"  class="time_span">00分</span>
+                <span id="t_s"  class="time_span">00秒</span>
+            </div>
+
+
+
+
+
+
+            <div class="list_l">
+                <div class="coursename2" id="indexlimit">
+                    <div class="course_img">
+                        <a href="detail.html" id="limitdetail">
+                            <img src="videopicture/Ps.jpg" width="100%" id="indeximg1">
+                        </a>
+                    </div>
+                    <p id="indexname1"></p>
+                    <p id="indexprice1"></p>
+                </div>
+                <div id="box1"></div>
+
+            </div>
+          </div>
+      <!--精品推荐-->
+      <div id="left_tj">
+          <div class="text">
+              <span>精品推荐</span>
+          </div>
+          <div class="list_l">
+              <div class="coursename2" id="indexwell">
+                  <div class="course_img">
+                      <a href="detail.html" id="gooddetail"> <img src="videopicture/Dom3.jpg" width="100%" height="100%" id="indeximg2"></a>
+                  </div>
+                  <p id="indexname2"></p>
+                  <p id="indexprice2"></p>
+              </div>
+              <div id="box2"></div>
+          </div>
+      </div>
+      <!--即将开课-->
+      <div id="left_kaike">
+          <div class="text">
+              <span>即将开课</span>
+              <span id="t_d2" class="time_span">00天</span>
+              <span id="t_h2"  class="time_span">00时</span>
+              <span class="time_span"></span>
+          </div>
+          <div class="list_l">
+              <div class="coursename2" id="indexopen">
+                  <div class="course_img">
+                      <a href="detail.html" id="opendetail"> <img src="videopicture/express.jpg" width="100%" height="100%" id="indeximg3"></a>
+                  </div>
+                  <p id="indexname3"></p>
+                  <p id="indexprice3"></p>
+              </div>
+
+              <div id="box3"></div>
+          </div>
+      </div>
+  </div>
+    <!--大家都在学-->
+
+  <div id="con_right" class="hidden-xs"></div>
+
+    <!--招聘广告-->
+    <div id="right_adv" >
+        <div id="ping_adv_" >
+            <img src="images/ping_adv2.jpg" width="100%" id="ping_adv_1" >
+            <img src="images/ping_adv3.jpg" width="100%"  style="display: none" id="ping_adv_2">
+            <p id="close_adv1" class="close_adv">关闭</p>
+            <p id="change_adv" >换一个</p>
+        </div>
+        <div  id="xun_adv" class="xun_adv">
+            <img src="images/ping_adv4.jpg" width="100%" height="100%" id="ping_adv_3">
+            <p id="close_adv2" class="close_adv">关闭</p>
+        </div>
+        <div  class="xun_adv" style="background-color: #d1d1d1;display: none" id="share">
+
+            <h3 style="text-align: center;color: white;">案例分享</h3>
+            <p  class="share_p">1.12个经典轮播特效</p>
+            <p  class="share_p">2.超炫的tab切换效果/p>
+            <p  class="share_p">3.koa入门实战</p>
+            <p class="share_p">4.纯css3实现烧烤动画</p>
+            <p  class="share_p">5.超经典的CSS3磁带动画/p>
+            <p class="share_p">6.手把手教你玩转CSS3 3D技术</p>
+            <p class="share_p">7.jquery实现拖拽进度条并显示百分比的特效</p>
+            <p class="share_p">8.JS实现的点击灯泡来点亮或熄灭这盏灯</p>
+            <p class="share_p">9.TweenLite动画引擎JS缓动简单版效果分享</p>
+
+        </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+<script>
+    $(function(){
+        //显示关闭按钮
+        $('#ping_adv_').mouseover(function(){
+            $('#close_adv1').css('display','block');
+            $('#change_adv').css('display','block')
+        })
+        $('#xun_adv').mouseover(function(){
+            $('#close_adv2').css('display','block');
+        })
+       //关闭广告1
+        $('#close_adv1').click(function(){
+          $(this).parent().remove();
+            $('#share').css('display','block')
+        })
+        //关闭广告2
+        $('#close_adv2').click(function(){
+            $(this).parent().remove()
+
+        })
+        //换广告
+        $('#change_adv').click(function(){
+            $('#ping_adv_1').css('display','none');
+            $('#ping_adv_2').css('display','block');
+
+        })
+        //广告入口1
+     $('#ping_adv_1').click(function(){
+         window.open('http://m.xmgc360.com/recruit/web/')
+     })
+        $('#ping_adv_2').click(function(){
+            window.open('http://m.xmgc360.com/recruit/web/')
+        })
+
+
+       //隐藏关闭按钮
+        $('#right_adv').mouseout(function(){
+            $('#close_adv1').css('display','none');
+            $('#close_adv2').css('display','none');
+            $('#change_adv').css('display','none')
+
+        })
+      $('#ping_adv_3').click(function(){
+          window.open('http://www.xmgc360.com/')
+      })
+
+        //案例分享效果
+        $('.share_p').hover(function(){
+            $(this).css('color','red');
+        },function(){
+            $(this).css('color','#565656');
+        })
+      $('.share_p').click(function(){
+          window.open('http://www.internetke.com/effects/css3/')
+      })
+    })
+
+
+
+
+</script>
+
+<script>
+    function GetRTime(){
+        var EndTime= new Date('2016/12/1 22:22');
+        var NowTime = new Date();
+        var t =EndTime.getTime() - NowTime.getTime();
+        var d=0;
+        var h=0;
+        var m=0;
+        if(t>=0){
+            d=Math.floor(t/1000/60/60/24);
+            h=Math.floor(t/1000/60/60%24);
+            m=Math.floor(t/1000/60%60);
+            s=Math.floor(t/1000%60);
+        }
+        document.getElementById("t_d").innerHTML = d + "天";
+        document.getElementById("t_h").innerHTML = h + "时";
+        document.getElementById("t_m").innerHTML = m + "分";
+        document.getElementById("t_s").innerHTML = s + "秒后结束活动";
+        document.getElementById("t_d2").innerHTML = d + "天";
+        document.getElementById("t_h2").innerHTML = h + "小时后上线";
+    }
+    setInterval(GetRTime,0);
+</script>
+
+
+
+<!--返回顶部按钮-->
+<div id="totop"  data-spy="scroll" data-target="#header_nav" data-offset="20">
+    <a href="#header_nav" style="text-decoration: none;color: #ef1592;"> 返回顶部</a></div>
+
+<!--咨询-->
+<div style="width: 60px;height:170px;text-align:center;background-color: #cdcdcd;position: fixed;bottom:2%;right:2%;border:solid 1px gray;cursor: pointer;display: none;" id="callus">
+    <p style="width: 100%;text-align: center">咨询</p>
+    <img src="images/call_us3.jpg"  width="100%"  id="call_us1">
+    <img src="images/call_us2.png" width="100%" style="margin-top: 5%" id="call_us2">
+</div>
+<!--底部菜单-->
+<div id="bottom" class="visible-xs"></div>
+<!--页脚-->
+<div style="clear: both"></div>
+<div class="container-fluid" id="get_footer" style="margin-top: 20%">
+</div>
+</body>
+</html>
+
+<script>
+    $(function adv_pic(){
+        $("#header_nav").load("nav.html");
+        $("#adv_pic").load("adv_pic.html");
+        $("#con_right").load("all_study.html");
+        $("#bottom").load("bottom.html");
+        $("#get_footer").load("footer.html");
+
+    });
+
+//咨询
+    $(function(){
+        var callus=$('#callus')
+        $(window).scroll(function(){
+            if ($(window).scrollTop()>100){
+                $(callus).show(500)
+            }
+            else $(callus).hide(500)
+        })
+     //微信链接
+        $('#call_us1').click(function(){
+            window.location.href='call_us.html';
+        })
+        //QQ链接
+        $('#call_us2').click(function(){
+            window.open(' http://sighttp.qq.com/msgrd?v=1&uin=3528550742');
+        })
+        $('#call_us1,#call_us2').hover(function(){
+            $(this).addClass('call_img');
+        },function(){
+            $(this).removeClass('call_img');
+        })
+    })
+</script>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>审核身份</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/manageR1.js"></script>
+    <style>
+        #ide{
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<div id="ide">
+    <div id="card" style="margin-top: 10%">
+        <table id="tableapply">
+            <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>用户ID：</td><td id="ideid">nihao</td><td id="ideid1" style="display: none">nihao</td></tr>
+            <tr><td colspan="2"></td><td>用户昵称：</td><td id="idename">12</td></tr>
+            <tr><td colspan="2"></td><td>身份证号码：</td><td id="idenum">111111111111111111</td><td><h1 style="color:red;font-size: 20px;" id="tongguo">已经审核！</h1></td></tr>
+            <tr><td colspan="2"></td><td>联系方式：</td><td id="iderelation"></td></tr>
+            <tr><td colspan="2"></td><td>收款账号：</td><td id="idepay"></td></tr>
+
+            <div style="float:right;margin-right: 10%;margin-top: 1%">
+                <button type="button" class="btn btn-info" id="acceptapply">通过申请</button><br/>
+                <br/>
+                <button type="button" class="btn btn-info" id="refuseapply">拒绝申请</button>
+
+            </div>
+        </table>
+        <hr style="border:1px dashed black;">
+    </div>
+    <div id="reide"></div><h1 id="noide">没有未审核申请！</h1>
+</div>
+
+
+<script src="jquery-3.1.0.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+</body>
+</html>

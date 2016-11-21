@@ -57,7 +57,7 @@ _rotr.apis.createApp = function() {
         mu.zadd(usrAppsKey, appId, appName);
 
         var res = yield _ctnu([mu, 'exec']);
-
+        
         //返回数据
         ctx.body = __newMsg(1, 'ok', dat);
         return ctx;

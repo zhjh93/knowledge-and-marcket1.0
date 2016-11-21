@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>视频审核详细</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="jquery-3.1.0.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="myjs/manageR2.js"></script>
+    <script src="myjs/manageR21.js"></script>
+    <style>
+        #ide21{
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<div id="ide21" style="margin-top: 10%">
+    <table id="mytable" style="margin-left: 5%">
+        <tr><td>用户ID：</td><td id="tableid">#</td></tr>
+        <tr><td>用户昵称：</td><td id="tablename">#</td></tr>
+        <tr><td>课程名称：</td><td id="tablecoursename">#</td></tr>
+        <tr><td>课程分类：</td><td id="tablecourseclassify">#</td><td id="tablecourseclassifydetail"></td></tr>
+        <tr><td>课程简介：</td><td colspan="6" id="tablebrief">#</td></tr>
+        <tr><td>课时数：</td><td id="tabletimes"></td></tr>
+        <tr><td>课程定价：</td><td id="tableprice"></td></tr>
+        <tr><td> 课程展示图片：</td><td><img id="tableimg" src="videopicture/Axure.jpg"></td></tr>
+        <tr><td>课程目录：</td><td>
+            <ul id="tabledetail">
+                <li><span>课程名称</span><span id="tabledetailname"></span><br/><span>视频长度</span><span id="tabledetaillong"></span><br/>
+                    <video width="320" height="240" controls="controls">
+                    <!--<source src="/i/movie.ogg" type="video/ogg">-->
+                    <source id="tablevideoview" src="videopicture/java.jpg" type="video/mp4">
+                    你的浏览器不支持播放此视频，请更换浏览器！
+                </video></li>
+            </ul>
+            <ol id="retabledetail"></ol>
+        </td></tr>
+
+    </table>
+    <table id="remytable"></table>
+    <div style="width:80%;margin-left: 25%;">
+        <button type="button" class="btn btn-info" id="passapply">通过审核</button>
+        <button type="button" class="btn btn-info" id="stopapply">拒绝审核</button><br/><br/></div>
+    <div style="width:80%;margin-left: 50%;">
+        <button type="button" class="btn btn-info" id="applyback">返回列表页</button>
+    </div>
+</div>
+<script src="jquery-3.1.0.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+
+</body>
+</html>
